@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- #
+from __future__ import unicode_literals
+
+AUTHOR = 'Alexis Cook'
+SITENAME = 'Alexis Cook'
+GITHUB_URL = 'https://github.com/alexisbcook'
+GOOGLE_ANALYTICS_ID = 'UA-83225772-1'
+
+PATH = 'content'
+
+TIMEZONE = 'America/Mexico_City'
+
+DEFAULT_LANG = 'en'
+
+# Feed generation is usually not desired when developing
+FEED_ALL_ATOM = None
+CATEGORY_FEED_ATOM = None
+TRANSLATION_FEED_ATOM = None
+AUTHOR_FEED_ATOM = None
+AUTHOR_FEED_RSS = None
+
+#GITHUB_URL = 'https://github.com/alexisbcook'
+#TWITTER_URL = 'https://twitter.com/alexis_nunez_b'
+#GOOGLEPLUS_URL = 'https://plus.google.com/105263784761317655298/posts'
+#FACEBOOK_URL = 'https://www.facebook.com/alexis.cook'
+
+# Blogroll
+#LINKS = (('about', 'http://getpelican.com/'),
+#         ('contact', 'http://python.org/'),
+#         ('projects', 'http://jinja.pocoo.org/'),
+#         ('artwork', '#'),)
+
+
+# Social widget
+SOCIAL = (('github', 'https://github.com/alexisbcook'),
+		  ('linkedin', 'https://www.linkedin.com/in/alexis-cook-a6127753'),
+          ('twitter', 'https://twitter.com/alexis_nunez_b'),)
+
+# Uncomment following line if you want document-relative URLs when developing
+#RELATIVE_URLS = True
+THEME = 'pelican-themes/pelican-bootstrap3'
+
+TAG_CLOUD_MAX_ITEMS = 10
+SHOW_ARTICLE_AUTHOR = False
+SHOW_ARTICLE_CATEGORY = False
+SHOW_DATE_MODIFIED = False
+PYGMENTS_STYLE = 'solarizedlight'
+#ABOUT_ME = "Machine Learning Professional"
+#AVATAR = 'images/profile.png'
+#ADDTHIS_TWEET = True
+#TWITTER_USERNAME = 'alexis_nunez_b'
+
+DISPLAY_PAGES_ON_MENU = True
+DISPLAY_CATEGORIES_ON_MENU = False
+DISPLAY_TAGS_ON_SIDEBAR = True
+DISPLAY_CATEGORIES_ON_SIDEBAR = True
+BOOTSTRAP_NAVBAR_INVERSE = True
+
+GITHUB_USER = 'alexisbcook'
+GITHUB_SKIP_FORK = True
+GITHUB_REPO_COUNT = 5
+GITHUB_SHOW_USER_LINK = False
+
+PLUGIN_PATHS = ["plugins"]
+PLUGINS = ["tag_cloud"]

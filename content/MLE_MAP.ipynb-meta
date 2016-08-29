@@ -1,0 +1,6 @@
+Title: MLE, MAP, and Coin Flips
+Date: 2016-08-29 04:20
+Category: Basic ML
+Tags: MLE, MAP
+Author: Alexis Cook
+Summary: Given a dataset, we would like to estimate some unknown quantity, which is manifested as an underlying pattern in the data.
