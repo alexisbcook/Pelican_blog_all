@@ -10,3 +10,4 @@ In addition to machine learning and data science, I also enjoy [drawing](https:/
 
 ![Alexis](/images/profile.png){:height="400px" width="400px"}
 
+testing to see if this makes it over
