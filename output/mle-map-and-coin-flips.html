@@ -1090,7 +1090,7 @@ h6:hover .anchor-link {
 <h1 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h1><p>Assume that any dataset $D = \{x_1, \ldots, x_n\}$ arises as an <a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables">i.i.d.</a> sample from some unknown probability distribution $q$.  That is, each $x_i$ is a realization of a random variable $X_i$, where $X_i \sim q$ and $X_i \perp\!\!\!\perp X_j$ for $i \neq j$.</p>
 <blockquote><p>In the case of the coin-flipping dataset, the outcome of the $i$th coin flip $x_i$ is viewed as a realization of a random variable $X_i$, where $x_i \in \{H, T\}$ for $i \in \{1, \ldots, 1000\}$.  As described below, the unknown distribution $q$ contains all of the information that we need about the probability of the coin landing heads.</p>
 </blockquote>
-<p>Suppose we have enough information to specify a (generally infinite) family of probability distributions that is likely to contain $q$ (or, a close-enough approximation for $q$).  We represent this family as a collection $\{p(\cdot|\theta), \theta \in \Theta\}$, where each value for $\theta$ specifies a different probability distribution.  Put loosely, would like to find the best value of $\theta$, denoted $\hat{\theta}$, that produces the distribution that is "closest" to $q$.  That is, (<em>even more loosely!</em>) we want to find $\hat{\theta}$ such that $p(x_i|\hat{\theta}) \approx q(x_i)$.  Thankfully, we can make the notion of "closeness" more concrete in subsequent sections.  It is important to note that it is <strong><em>impossible</em></strong> to get the true underlying value of $q(x_i)$ from a finite collection of data.  However, we should be able to get a good approximation, as long as the dataset is large enough!</p>
+<p>Suppose we have enough information to specify a (generally infinite) family of probability distributions that is likely to contain $q$ (or, a close-enough approximation for $q$).  We represent this family as a collection $\{p(\cdot|\theta), \theta \in \Theta\}$, where each value for $\theta$ specifies a different probability distribution.  Put loosely, would like to find the best value of $\theta$, denoted $\hat{\theta}$, that produces the distribution that is "closest" to $q$.  That is, (<em>even more loosely!</em>) we want to find $\hat{\theta}$ such that $p(x_i|\hat{\theta}) \approx q(x_i)$.  Thankfully, we can make the notion of "closeness" more concrete in subsequent sections.  It is important to note that it is <em>impossible</em> to get the true underlying value of $q(x_i)$ from a finite collection of data.  However, we should be able to get a good approximation, as long as the dataset is large enough!</p>
 <blockquote><p>Since there are only two possible outcomes for each random variable $X_i$, we must have that $q$ is a <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli</a> distribution.  Thus, the $q$ must be an element in the collection $\{\text{Bernoulli}(\theta), \theta \in [0,1]\}$.  We can write that for all $i \in \{1, \ldots, 1000\}$,
 $$
 p(H|\hat{\theta}) = \hat{\theta} \approx \mathbb{P}(X_i = H) = q(H),
@@ -1172,17 +1172,6 @@ $$
 $$<p>considered as a function of $\theta$, which has an important role in determining $\theta_{MLE}$ <em>... hence the important name (which contributes to the "L" in "MLE")!</em></p>
 <p>Likewise, we saw that taking the log of the likelihood function helped us in our calculations.  In practice, especially in our world of big data, it is important to <em>always</em> work with the log of the likelihood function, in order to avoid <a href="https://en.wikipedia.org/wiki/Arithmetic_underflow">underflow</a> issues.  (We didn't do this immediately, in order to avoid obscuring the main idea behind too much notation.)</p>
 <h1 id="Beyond-Coin-Flips">Beyond Coin Flips<a class="anchor-link" href="#Beyond-Coin-Flips">¶</a></h1><p>[<strong>Coming soon!</strong>]</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [ ]:</div>
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
 </div>
 </div>
 </div>
