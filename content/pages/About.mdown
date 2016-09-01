@@ -6,7 +6,7 @@ I am an expat living in beautiful [Guanajuato](https://en.wikipedia.org/wiki/Gua
 
 Until recently, I was a graduate student in computer science at Brown University.  I have also studied (applied) mathematics for a very long time.  You can read more about my academic and career background through my [LinkedIn](https://www.linkedin.com/in/alexis-cook-a6127753) page.
 
-I have strong interests in machine learning and computer vision.  I intend to use this blog primarily to refresh my memory of topics in these areas.  I will occassionaly post about new topics. 
+I have strong interests in machine learning and computer vision.  I intend to use this blog primarily to refresh my memory of topics in these areas.  I will occasionally post about new topics. 
 
 In my experience, the best way to learn is through adopting an approach that favors _diversity_ - through conversations with as many people as possible, and by comparing multiple sources.  Wikipedia is a lifetime favorite, along with the personal blogs that I trip over through Google searches.  I hope to provide a very small contribution to this literature.
 
