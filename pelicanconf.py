@@ -65,3 +65,6 @@ PLUGIN_PATHS = ['./plugins']
 #           	'liquid_tags.notebook','render_math']
 MARKUP = ('md', 'ipynb')
 PLUGINS = ['tag_cloud', 'ipynb.markup']
+HIDE_SIDEBAR = True
+
+BOOTSTRAP_FLUID = False
