@@ -69,3 +69,5 @@ HIDE_SIDEBAR = True
 BOOTSTRAP_FLUID = False
 DISQUS_SITENAME = "alexisbcook-github-io"
 DISQUSURL = 'https://alexisbcook.github.io/'
+
+STATIC_PATHS = ['images', 'pdfs']
