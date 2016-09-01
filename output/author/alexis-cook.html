@@ -16,16 +16,16 @@
         <meta property="og:site_name" content="Alexis Cook" />
         <meta property="og:type" content="website"/>
         <meta property="og:title" content="Alexis Cook"/>
-        <meta property="og:url" content=""/>
+        <meta property="og:url" content=".."/>
         <meta property="og:description" content="Alexis Cook"/>
 
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="/theme/css/bootstrap.yeti.min.css" type="text/css"/>
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../theme/css/bootstrap.yeti.min.css" type="text/css"/>
+    <link href="../theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="/theme/css/pygments/trac.css" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+    <link href="../theme/css/pygments/trac.css" rel="stylesheet">
+    <link rel="stylesheet" href="../theme/css/style.css" type="text/css"/>
 
 
 
@@ -43,18 +43,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="/" class="navbar-brand">
+            <a href="../" class="navbar-brand">
 Alexis Cook            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="/pages/about-me.html">
+                         <li><a href="../pages/about-me.html">
                              About Me
                           </a></li>
-                         <li><a href="/pages/artwork.html">
+                         <li><a href="../pages/artwork.html">
                              Artwork
                           </a></li>
-                         <li><a href="/pages/contact.html">
+                         <li><a href="../pages/contact.html">
                              Contact
                           </a></li>
             </ul>
@@ -70,7 +70,7 @@ Alexis Cook            </a>
     <div class="row">
         <div class="col-lg-12">
             <article>
-                <h2><a href="/mle-map-and-coin-flips.html">MLE, MAP, and Coin Flips</a></h2>
+                <h2><a href="../mle-map-and-coin-flips.html">MLE, MAP, and Coin Flips</a></h2>
                 <div class="summary">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -79,7 +79,7 @@ Alexis Cook            </a>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="The-Idea">The Idea<a class="anchor-link" href="#The-Idea">¶</a></h1><p>Given a dataset, we would like to estimate some unknown quantity, which is manifested as an underlying pattern in the data.</p>
 <p>For instance, say we are given a dataset containing the outcomes of flipping a coin 1000 times, presented as a sequence of heads and tails ($\{H, H, T, H, T, T, H, ..., H\}$).  We would like to use this sequence to estimate, for all subsequent flips, the probability of landing on heads.  Certainly, if the dataset contained far more heads than tails (say, 995 heads and 5 tails), then it would be fair to assume that the coin was unfair.  But, <em>exactly how unfair</em>
-                    <a class="btn btn-default btn-xs" href="/mle-map-and-coin-flips.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="../mle-map-and-coin-flips.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -99,14 +99,29 @@ Alexis Cook            </a>
       </div>
    </div>
 </footer>
-<script src="/theme/js/jquery.min.js"></script>
+<script src="../theme/js/jquery.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/theme/js/bootstrap.min.js"></script>
+<script src="../theme/js/bootstrap.min.js"></script>
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="/theme/js/respond.min.js"></script>
+<script src="../theme/js/respond.min.js"></script>
 
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'alexisbcook-github-io'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
 
 </body>
 </html>

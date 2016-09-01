@@ -25,8 +25,7 @@ SOCIAL = (('github', 'https://github.com/alexisbcook'),
 		  ('linkedin', 'https://www.linkedin.com/in/alexis-cook-a6127753'),
           ('twitter', 'https://twitter.com/alexis_nunez_b'),)
 
-# Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+RELATIVE_URLS = True
 
 THEME = 'pelican-themes/pelican-bootstrap3'
 
@@ -68,3 +67,5 @@ PLUGINS = ['tag_cloud', 'ipynb.markup']
 HIDE_SIDEBAR = True
 
 BOOTSTRAP_FLUID = False
+DISQUS_SITENAME = "alexisbcook-github-io"
+DISQUSURL = 'https://alexisbcook.github.io/'
