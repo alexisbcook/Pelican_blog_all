@@ -1173,8 +1173,7 @@ $$<p>Recall that $\theta_{MAP}$, in this case, is the mode of the distribution a
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interactive</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 
 <span class="k">def</span> <span class="nf">prior_and_posterior_plot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
@@ -1193,8 +1192,7 @@ $$<p>Recall that $\theta_{MAP}$, in this case, is the mode of the distribution a
     <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">r"Posterior distribution $P(\theta|D)$ for $\alpha$ = </span><span class="si">%r</span><span class="s2">, $\beta$ = </span><span class="si">%r</span><span class="s2">; $\theta_</span><span class="si">{MAP}</span><span class="s2">$ = </span><span class="si">%r</span><span class="s2">"</span> <span class="o">%</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">max_x_post</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="n">v</span> <span class="o">=</span> <span class="n">interactive</span><span class="p">(</span><span class="n">prior_and_posterior_plot</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">interact</span><span class="p">(</span><span class="n">prior_and_posterior_plot</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1507,6 +1505,11 @@ hyRJasKiQpIkNWFRIUmSmrCokCRJTVhUSJKkJiwqJElSExYVkiSpCYsKSZLUxHeOHlADLgND4QAA
 AABJRU5ErkJggg==
 ">
 </img></div>
+</div>
+<div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre><function __main__.prior_and_posterior_plot></pre>
+</div>
 </div>
 </div>
 </div>
