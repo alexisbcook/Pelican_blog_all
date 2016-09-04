@@ -1,3 +1,5 @@
 Title: Artwork
 
-Coming soon!
+![kitty cat pop art]({filename}/images/kitty.jpg){:height="300px" width="300px"}
+
+### More coming soon!
