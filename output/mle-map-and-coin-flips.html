@@ -1116,13 +1116,13 @@ and so $\hat{\theta}$ represents our estimate for the true probability of obtain
 $$
 \theta_{MAP} := \arg\max_{\theta} \mathbb{P}(\theta|D)
 $$<blockquote><p>Say we are trying to determine the feasibility of $\hat{\theta} = .99$.  This is more likely if the dataset is mostly heads, and less likely (but still possible!) if the dataset is mostly tails.</p>
-<p>Here, it makes sense to think of $\mathbb{P}(\theta|D)$ as a single probability mass function over $\theta \in [0,1]$, which we are trying to maximize.</p>
+<p>Here, it makes sense to think of $\mathbb{P}(\theta|D)$ as a single probability density function over $\theta \in [0,1]$, which we are trying to maximize.</p>
 </blockquote>
 <p>Now, towards a slight reframing of mindset (which will prove useful), consider that each possible value of $\hat{\theta}$ induces a probability distribution on the set of all (hypothetical) datasets.  Perhaps it makes sense to evaluate each of these distributions at our realized dataset and keep the value of $\hat{\theta}$ corresponding to the distribution that evaluates our dataset as having the highest probability.  This idea corresponds to what is known as <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation"><strong>maximum likelihood estimation (MLE)</strong></a>, which produces an estimate $\theta_{MLE}$ for $\hat{\theta}$.</p>
 $$
 \theta_{MLE} := \arg\max_\theta \mathbb{P}(D|\theta)
 $$<blockquote><p>Each possible value of $\hat{\theta} \in [0,1]$ induces a probability distribution on the set of all $2^{1000}$ possible datasets (collection of potential outcomes from throwing the coin 1000 times), with no value of $\hat{\theta}$ producing a probability distribution that is uniform over the set of all possible datasets.</p>
-<p>Here, it makes sense to think of $\{\mathbb{P}(\cdot|\theta): \theta\in\Theta\}$ as an uncountably infinite (with cardinality equal to $[0,1]$) collection of probability distributions over the set of all $2^{1000}$ possible coin-flip datasets.  Then $\{\mathbb{P}(D|\theta): \theta\in\Theta\}$ is a countably infinite collection of real values, and we seek the value(s) indexing the maximum/maxima.</p>
+<p>Here, it makes sense to think of $\{\mathbb{P}(\cdot|\theta): \theta\in[0,1]\}$ as an uncountably infinite (with cardinality equal to $[0,1]$) collection of probability distributions over the set of all $2^{1000}$ possible coin-flip datasets.  Then $\{\mathbb{P}(D|\theta): \theta\in[0,1]\}$ is a countably infinite collection of real values, and we seek the value(s) indexing the maximum/maxima.</p>
 </blockquote>
 </div>
 </div>
@@ -1137,8 +1137,9 @@ $$
 \mathbb{P}(\theta|D) = \frac{\mathbb{P}(D|\theta)\mathbb{P}(\theta)}{\mathbb{P}(D)} = \frac{\mathbb{P}(D|\theta)\mathbb{P}(\theta)}{\int_{\Theta} \mathbb{P}(D|\theta)\mathbb{P}(\theta) d\theta}.
 $$<p>How do we represent the probability $\mathbb{P}(D|\theta)$ of the dataset $D$, as a function of $\theta$?  Certainly, the order in which the heads and tails arrived is irrelevant, and we need only keep track of the number of heads and tails.  Thus, the dataset should be seen as following a Binomial distribution with</p>
 $$
-\mathbb{P}(D|\theta) = Binomial(n,\theta)
-$$<p>Taking note of the term $\mathbb{P}(\theta)$, we see that MAP estimation necessitates viewing $\theta$ as a random variable, for which we need to specify an <em>a priori</em> probability distribution, known as the <strong>prior distribution</strong> for $\theta$.</p>
+\mathbb{P}(D|\theta) = {n \choose h_n} \theta^{h_n}(1-\theta)^{t_n},
+$$<p>where $h_n$ is the number of heads in the dataset, and $t_n$ is the number of tails.</p>
+<p>Taking note of the term $\mathbb{P}(\theta)$, we see that MAP estimation necessitates viewing $\theta$ as a random variable, for which we need to specify an <em>a priori</em> probability distribution, known as the <strong>prior distribution</strong> for $\theta$.</p>
 <p>Say we don't have too much information to prioritize some regions of $\Theta$ over others, and so we choose the prior distribution to be uniform.  In this case,</p>
 $$
 \theta_{MAP} = \arg\max_{\theta} \mathbb{P}(\theta|D) = \arg\max_\theta \frac{\mathbb{P}(D|\theta)\mathbb{P}(\theta)}{\mathbb{P}(D)} = \arg\max_\theta \mathbb{P}(D|\theta) = \theta_{MLE},
