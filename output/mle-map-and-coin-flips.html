@@ -13,13 +13,13 @@
 
         <meta name="author" content="Alexis Cook" />
         <meta name="keywords" content="MLE,MAP" />
-        <meta name="description" content="The Idea¶Given a dataset, we would like to estimate some unknown quantity, which is manifested as an underlying pattern in the data. For instance, say we are given a dataset containing the outcomes of flipping a coin 1000 times, presented as a sequence of heads and tails ($\{H, H, T, H, T, T, H, ..., H\}$). We would like to use this sequence to estimate, for all subsequent flips, the probability of landing on heads. Certainly, if the dataset contained far more heads than tails (say, 995 heads and 5 tails), then it would be fair to assume that the coin was unfair. But, exactly how unfair" />
+        <meta name="description" content="Given a dataset, we would like to estimate some unknown quantity, which is manifested as an underlying pattern in the data. For instance, say we are given a dataset containing the outcomes of flipping a coin 1000 times, presented as a sequence of heads and tails ($\{H, H, T, H, T, T, H, ..., H\}$). We would like to use this sequence to estimate, for all subsequent flips, the probability of landing on heads. Certainly, if the dataset contained far more heads than tails (say, 995 heads and 5 tails), then it would be fair to assume that the coin was unfair. But, exactly how unfair" />
 
         <meta property="og:site_name" content="Alexis Cook" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="MLE, MAP, and Coin Flips"/>
         <meta property="og:url" content="./mle-map-and-coin-flips.html"/>
-        <meta property="og:description" content="The Idea¶Given a dataset, we would like to estimate some unknown quantity, which is manifested as an underlying pattern in the data. For instance, say we are given a dataset containing the outcomes of flipping a coin 1000 times, presented as a sequence of heads and tails ($\{H, H, T, H, T, T, H, ..., H\}$). We would like to use this sequence to estimate, for all subsequent flips, the probability of landing on heads. Certainly, if the dataset contained far more heads than tails (say, 995 heads and 5 tails), then it would be fair to assume that the coin was unfair. But, exactly how unfair"/>
+        <meta property="og:description" content="Given a dataset, we would like to estimate some unknown quantity, which is manifested as an underlying pattern in the data. For instance, say we are given a dataset containing the outcomes of flipping a coin 1000 times, presented as a sequence of heads and tails ($\{H, H, T, H, T, T, H, ..., H\}$). We would like to use this sequence to estimate, for all subsequent flips, the probability of landing on heads. Certainly, if the dataset contained far more heads than tails (say, 995 heads and 5 tails), then it would be fair to assume that the coin was unfair. But, exactly how unfair"/>
         <meta property="article:published_time" content="2016-08-29" />
             <meta property="article:section" content="Basic ML" />
             <meta property="article:tag" content="MLE" />
@@ -1087,7 +1087,7 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-Idea">The Idea<a class="anchor-link" href="#The-Idea">¶</a></h1><p>Given a dataset, we would like to estimate some unknown quantity, which is manifested as an underlying pattern in the data.</p>
+<p>Given a dataset, we would like to estimate some unknown quantity, which is manifested as an underlying pattern in the data.</p>
 <p>For instance, say we are given a dataset containing the outcomes of flipping a coin 1000 times, presented as a sequence of heads and tails ($\{H, H, T, H, T, T, H, ..., H\}$).  We would like to use this sequence to estimate, for all subsequent flips, the probability of landing on heads.  Certainly, if the dataset contained far more heads than tails (say, 995 heads and 5 tails), then it would be fair to assume that the coin was unfair.  But, <em>exactly how unfair</em> is the coin?  What is our best estimate for the subsequent chance of obtaining heads ($99.5\%$? $90\%$?)?  If we are <a href="http://www.smithsonianmag.com/science-nature/gamblers-take-note-the-odds-in-a-coin-flip-arent-quite-5050-145465423/?no-ist">betting money</a>, we should also know how much should we trust our prediction!  If an honest friend told us the coin was fair (or, had a $50\%$ chance of landing heads) before we saw the dataset, then how safe is it to believe, after viewing the dataset, that the coin is fair (and the dataset just represents a bad run)?  Maybe it's safer, in this case, to think that our friend had good intentions, but the coin was slightly damaged without his knowledge, and the true chance of heads is more like $70\%$?</p>
 <p>Thankfully, there exists a mathematical framework to help with these kinds of questions.</p>
 <p>We provide a general discussion below and keep the development of the coin flip example confined to the indented boxes.</p>
@@ -1155,9 +1155,9 @@ $$
 \frac{995}{\theta_{MLE}} - 5\frac{1}{1-\theta_{MLE}} = 0.
 $$<p>Solving for $\theta_{MLE}$ yields $\theta_{MLE} = .995$.  This answer makes a lot of sense!  It corresponds to the proportion of heads in the sample.</p>
 <p>We now calculate the MAP estimate $\theta_{MAP}$, which we'll recall, requires us to specify a prior distribution for the probability of heads $\theta$.</p>
-<p>But say instead that our prior belief was that the probability of the coin landing heads was instead $\mathbb{P}(\theta) \sim Beta(\alpha, \beta)$, where here we have chosen the <a href="https://en.wikipedia.org/wiki/Conjugate_prior">conjugate prior</a> of the binomial distribution and left $\alpha, \beta > 0$ undetermined to permit some analysis.  For brevity, we omit the calculations here, but it <a href="https://www.cs.cmu.edu/~10701/lecture/technote2_betabinomial.pdf">can be shown</a> that in this case,</p>
+<p>But say instead that our prior belief was that the probability of the coin landing heads was instead $\mathbb{P}(\theta) = Beta(\alpha, \beta)$, where here we have chosen the <a href="https://en.wikipedia.org/wiki/Conjugate_prior">conjugate prior</a> of the binomial distribution and left $\alpha, \beta > 0$ undetermined to permit some analysis.  For brevity, we omit the calculations here, but it <a href="https://www.cs.cmu.edu/~10701/lecture/technote2_betabinomial.pdf">can be shown</a> that in this case,</p>
 $$
-\mathbb{P}(\theta|D) \sim Beta(995 + \alpha,5 + \beta).
+\mathbb{P}(\theta|D) = Beta(995 + \alpha,5 + \beta).
 $$<p>Recall that $\theta_{MAP}$, in this case, is the mode of the above distribution.  That is, it is the value of $\theta$ at which the probability distribution $\mathbb{P}(\theta|D)$, known as the <a href="https://en.wikipedia.org/wiki/Posterior_probability"><strong>posterior distribution</strong></a> for $\theta$, has its maximum value.</p>
 <p>We now set up code to plot the prior $\mathbb{P}(\theta)$  and posterior $\mathbb{P}(\theta|D)$ distributions for the probability of heads for different values of $\alpha$, $\beta$.</p>
 </blockquote>
