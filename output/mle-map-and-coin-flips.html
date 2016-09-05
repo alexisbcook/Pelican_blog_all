@@ -1135,11 +1135,10 @@ $$<blockquote><p>Each possible value of $\hat{\theta} \in [0,1]$ induces a proba
 <h1 id="MAP-vs.-MLE">MAP vs. MLE<a class="anchor-link" href="#MAP-vs.-MLE">¶</a></h1><p>It is not clear how to calculate $\mathbb{P}(\theta|D)$ without the use of Bayes' Rule.  Thus, we will need to calculate</p>
 $$
 \mathbb{P}(\theta|D) = \frac{\mathbb{P}(D|\theta)\mathbb{P}(\theta)}{\mathbb{P}(D)} = \frac{\mathbb{P}(D|\theta)\mathbb{P}(\theta)}{\int_{\Theta} \mathbb{P}(D|\theta)\mathbb{P}(\theta) d\theta}.
-$$<p>Note that since the sample is i.i.d., we can write
+$$<p>How do we represent the probability $\mathbb{P}(D|\theta)$ of the dataset $D$, as a function of $\theta$?  Certainly, the order in which the heads and tails arrived is irrelevant, and we need only keep track of the number of heads and tails.  Thus, the dataset should be seen as following a Binomial distribution with</p>
 $$
-\mathbb{P}(D|\theta) = \mathbb{P}(X_1 = x_1, \ldots, X_n = x_n|\theta) = \prod_{i=1}^n p(x_i|\theta).
-$$</p>
-<p>Taking note of the term $\mathbb{P}(\theta)$, we see that MAP estimation necessitates viewing $\theta$ as a random variable, for which we need to specify an <em>a priori</em> probability distribution, known as the <strong>prior distribution</strong> for $\theta$.</p>
+\mathbb{P}(D|\theta) = Binomial(n,\theta)
+$$<p>Taking note of the term $\mathbb{P}(\theta)$, we see that MAP estimation necessitates viewing $\theta$ as a random variable, for which we need to specify an <em>a priori</em> probability distribution, known as the <strong>prior distribution</strong> for $\theta$.</p>
 <p>Say we don't have too much information to prioritize some regions of $\Theta$ over others, and so we choose the prior distribution to be uniform.  In this case,</p>
 $$
 \theta_{MAP} = \arg\max_{\theta} \mathbb{P}(\theta|D) = \arg\max_\theta \frac{\mathbb{P}(D|\theta)\mathbb{P}(\theta)}{\mathbb{P}(D)} = \arg\max_\theta \mathbb{P}(D|\theta) = \theta_{MLE},
