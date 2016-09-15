@@ -13,13 +13,13 @@
 
         <meta name="author" content="Alexis Cook" />
         <meta name="keywords" content="XGBoost,Ensembling,Kaggle" />
-        <meta name="description" content="This week, I did not prepare a blog post on ML topics. Instead, I&#39;ve been working towards a solution towards the &#34;Bosch Production Line Performance&#34; Kaggle competition. My first step was to figure out how to load (into Python) the data, which was huge (&gt;1 million data points, each with &gt;1000 features). I tried many approaches, but found that loading the csv file into an SFrame was the best approach" />
+        <meta name="description" content="This week, I did not prepare a blog post on ML topics. Instead, I&#39;ve been working towards a solution towards the &#34;Bosch Production Line Performance&#34; Kaggle competition. My first step was to figure out how to load (into Python) the data, which was huge (&gt;1 million data points, each with &gt;1000 features). I tried many approaches and initially thought that loading the csv file into an SFrame was the best approach" />
 
         <meta property="og:site_name" content="Alexis Cook" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Resources for Learning How Kagglers Win"/>
         <meta property="og:url" content="./resources-for-learning-how-kagglers-win.html"/>
-        <meta property="og:description" content="This week, I did not prepare a blog post on ML topics. Instead, I&#39;ve been working towards a solution towards the &#34;Bosch Production Line Performance&#34; Kaggle competition. My first step was to figure out how to load (into Python) the data, which was huge (&gt;1 million data points, each with &gt;1000 features). I tried many approaches, but found that loading the csv file into an SFrame was the best approach"/>
+        <meta property="og:description" content="This week, I did not prepare a blog post on ML topics. Instead, I&#39;ve been working towards a solution towards the &#34;Bosch Production Line Performance&#34; Kaggle competition. My first step was to figure out how to load (into Python) the data, which was huge (&gt;1 million data points, each with &gt;1000 features). I tried many approaches and initially thought that loading the csv file into an SFrame was the best approach"/>
         <meta property="article:published_time" content="2016-09-12" />
             <meta property="article:section" content="Data Science" />
             <meta property="article:tag" content="XGBoost" />
@@ -1099,7 +1099,7 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>My first step was to figure out how to load (into Python) the data, which was huge (>1 million data points, each with >1000 features).  I tried many approaches, but found that loading the csv file into an SFrame was the <a href="https://turi.com/products/create/docs/generated/graphlab.SFrame.read_csv.html#graphlab.SFrame.read_csv">best approach</a>.  The <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">read_csv</a> command in pandas was too slow; as was working with HDF5 files through the <a href="https://www.getdatajoy.com/learn/Read_and_Write_HDF5_from_Python">h5py</a> module.  When I found out that I could extract csv data from zip files without unzipping and storing a huge dataset on my computer, I was excited and hopeful; however, the <a href="https://docs.python.org/3/library/zipfile.html">zipfile</a> module turned out to be too slow for my purposes.</p>
+<p>My first step was to figure out how to load (into Python) the data, which was huge (>1 million data points, each with >1000 features).  I tried many approaches and initially thought that loading the csv file into an SFrame was the <a href="https://turi.com/products/create/docs/generated/graphlab.SFrame.read_csv.html#graphlab.SFrame.read_csv">best approach</a>, as the time to load was quite fast; however, later processing turned out to be slow (for instance, extracting and processing a small subset of the SFrame took 10+ min).  When I found out that I could extract csv data from zip files without unzipping and storing a huge dataset on my computer, I was excited and hopeful.  However, the <a href="https://docs.python.org/3/library/zipfile.html">zipfile</a> module turned out to be too slow for my purposes; as was working with HDF5 files through the <a href="https://www.getdatajoy.com/learn/Read_and_Write_HDF5_from_Python">h5py</a> module.  The <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">read_csv</a> command in pandas ended up being the best option (especially when the time involved in processing, exploration, and inference was taken into account).</p>
 </div>
 </div>
 </div>
@@ -1110,11 +1110,13 @@ h6:hover .anchor-link {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Conceptualizing-the-Model(s)">Conceptualizing the Model(s)<a class="anchor-link" href="#Conceptualizing-the-Model(s)">¶</a></h1><p>Many Kaggle competitions are won through an ensembling approach.  Thus, I've been reading more about this technique that is used by many data scientists:</p>
 <ul>
-<li><a href="http://mlwave.com/kaggle-ensembling-guide/">Kaggle Ensembling Guide</a><ul>
-<li>contains a link to this <a href="http://arxiv.org/pdf/0911.0460.pdf">awesome paper</a></li>
+<li><p><a href="http://mlwave.com/kaggle-ensembling-guide/">Kaggle Ensembling Guide</a></p>
+<ul>
+<li>contains a link to this <a href="http://arxiv.org/pdf/0911.0460.pdf">accessible paper</a></li>
 </ul>
 </li>
-<li><a href="http://nycdatascience.com/featured-talk-1-kaggle-data-scientist-owen-zhang/">Talk on Ensembling and Gradient Boosted Trees</a></li>
+<li><p><a href="http://nycdatascience.com/featured-talk-1-kaggle-data-scientist-owen-zhang/">Talk on Ensembling and Gradient Boosted Trees</a></p>
+</li>
 </ul>
 <p>I have also been reading about gradient boosted trees:</p>
 <ul>
@@ -1130,6 +1132,17 @@ h6:hover .anchor-link {
 <li><a href="https://www.coursera.org/learn/ml-classification">Machine Learning: Classification</a></li>
 </ul>
 <p>For now, I thought I would share my sources and what I've been up to; in future weeks, I hope to have more to discuss!</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
 </div>
 </div>
 </div>
