@@ -3,4 +3,5 @@ Date: 2016-09-05 04:20
 Category: Basic ML
 Tags: Basic ML
 Author: Alexis Cook
-Summary: intuitive introduction dirichlet distribution visualization
+
+{% notebook DirichletDistribution.ipynb %}

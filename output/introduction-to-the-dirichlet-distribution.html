@@ -13,13 +13,13 @@
 
         <meta name="author" content="Alexis Cook" />
         <meta name="keywords" content="Basic ML" />
-        <meta name="description" content="Say you are given a theoretical (and potentially unfair) $k$-sided die, which you roll $n$ times. For simplicity, let $k = 3$ and $n = 30$, though our discussion works for all integers $k &gt; 0$, $n &gt; 0$. For instance, say that the first ten entries of the dataset of outcomes that you produce is $\{1, 3, 2, 2, 1, 3, 2, 3, 1, 2\}$. How can we use the full dataset to produce an educated guess for the probability of rolling each side of the die?" />
+        <meta name="description" content="/*! * * IPython notebook * */ /* CSS font colors for translated ANSI colors. */ .ansibold { font-weight: bold; } /* use dark versions for foreground, to improve visibility */ .ansiblack { color: black; } .ansired { color: darkred; } .ansigreen { color: darkgreen; } .ansiyellow { color: #c4a000; } .ansiblue { color: darkblue; } .ansipurple { color: darkviolet; } .ansicyan { color: steelblue; } .ansigray { color: gray; } /* and light for background, for the ..." />
 
         <meta property="og:site_name" content="Alexis Cook" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Introduction to the Dirichlet Distribution"/>
         <meta property="og:url" content="./introduction-to-the-dirichlet-distribution.html"/>
-        <meta property="og:description" content="Say you are given a theoretical (and potentially unfair) $k$-sided die, which you roll $n$ times. For simplicity, let $k = 3$ and $n = 30$, though our discussion works for all integers $k &gt; 0$, $n &gt; 0$. For instance, say that the first ten entries of the dataset of outcomes that you produce is $\{1, 3, 2, 2, 1, 3, 2, 3, 1, 2\}$. How can we use the full dataset to produce an educated guess for the probability of rolling each side of the die?"/>
+        <meta property="og:description" content="/*! * * IPython notebook * */ /* CSS font colors for translated ANSI colors. */ .ansibold { font-weight: bold; } /* use dark versions for foreground, to improve visibility */ .ansiblack { color: black; } .ansired { color: darkred; } .ansigreen { color: darkgreen; } .ansiyellow { color: #c4a000; } .ansiblue { color: darkblue; } .ansipurple { color: darkviolet; } .ansicyan { color: steelblue; } .ansigray { color: gray; } /* and light for background, for the ..."/>
         <meta property="article:published_time" content="2016-09-05" />
             <meta property="article:section" content="Basic ML" />
             <meta property="article:tag" content="Basic ML" />
@@ -1087,7 +1087,7 @@ h6:hover .anchor-link {
 <p>Say you are given a theoretical (and potentially unfair) $k$-sided die, which you roll $n$ times.  For simplicity, let $k = 3$ and $n = 30$, though our discussion works for all integers $k > 0$, $n > 0$.</p>
 <p>For instance, say that the first ten entries of the dataset of outcomes that you produce is $\{1, 3, 2, 2, 1, 3, 2, 3, 1, 2\}$.  How can we use the full dataset to produce an educated guess for the probability of rolling each side of the die?</p>
 <p>We saw in a <a href="https://alexisbcook.github.io/mle-map-and-coin-flips.html">previous post</a> that one approach was to view the dataset as an i.i.d. sample from a probability distribution, which was parametrized by an unknown variable.  We developed a framework that helped us to use the data to provide an estimate for this parameter.  We determine the appropriate probability distribution in the next section.</p>
-<h1 id="A-Mathematical-Framework">A Mathematical Framework<a class="anchor-link" href="#A-Mathematical-Framework">¶</a></h1><p>Towards developing an appropriate mathematical model, let $X$ denote a discrete random variable that takes on one of $k$ values $\{1, \ldots, k\}$.  In the case of our example, the event $\{X = i\}$ represents rolling the die once and obtaining the $i$th side.  Let $\vec{p} = (p_1, \ldots, p_k)$ denote the vector whose $i$th entry encodes the probability mass on the $i$th outcome, so</p>
+<h1 id="A-Mathematical-Framework">A Mathematical Framework<a class="anchor-link" href="#A-Mathematical-Framework">&#182;</a></h1><p>Towards developing an appropriate mathematical model, let $X$ denote a discrete random variable that takes on one of $k$ values $\{1, \ldots, k\}$.  In the case of our example, the event $\{X = i\}$ represents rolling the die once and obtaining the $i$th side.  Let $\vec{p} = (p_1, \ldots, p_k)$ denote the vector whose $i$th entry encodes the probability mass on the $i$th outcome, so</p>
 $$
 \mathbb{P}(X = i | \vec{p}) = \prod_{j=1}^k p_j^{\delta_j(i)}.
 $$<p>Here, $\delta_j$ is the indicator function such that</p>
@@ -1113,6 +1113,7 @@ $$<p>So, we let $\vec{N} = (N_1, \ldots, N_k)$ denote the random count vector ob
 $$
 \mathbb{P}(\vec{N} = (n_1, \ldots, n_k) | \vec{p}) = {n\choose n_1\ldots n_k} \prod_{j=1}^k  p_j^{n_j}.
 $$<p>We have now arrived at the probability mass function corresponding to the familiar multinomial distribution, and we write $\vec{N} \sim Multinomial(n,\vec{p})$.  Now, our goal is to find the value of $\vec{p}$ that best explains the data.</p>
+
 </div>
 </div>
 </div>
@@ -1121,7 +1122,7 @@ $$<p>We have now arrived at the probability mass function corresponding to the f
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-Probability-Simplex">The Probability Simplex<a class="anchor-link" href="#The-Probability-Simplex">¶</a></h1><p>Say you're given a three-sided die, which you have rolled 30 times.  Say the corresponding count vector is given by $(n_1, \ldots, n_3) = (5, 10, 15)$, so we have rolled a "1" precisely five times, have produced "2" ten times, and have rolled a "3" fifteen times.  Using this information, you would like to provide an estimate for the true probabilities of rolling each side.</p>
+<h1 id="The-Probability-Simplex">The Probability Simplex<a class="anchor-link" href="#The-Probability-Simplex">&#182;</a></h1><p>Say you're given a three-sided die, which you have rolled 30 times.  Say the corresponding count vector is given by $(n_1, \ldots, n_3) = (5, 10, 15)$, so we have rolled a "1" precisely five times, have produced "2" ten times, and have rolled a "3" fifteen times.  Using this information, you would like to provide an estimate for the true probabilities of rolling each side.</p>
 <p>Denote your estimate for the probability of rolling the $i$th side by $\hat{p}_i$.  Intuition perhaps tells us that one potential estimate is given by</p>
 $$
 \hat{p}_i = \frac{n_i}{n_1 + n_2 + n_3}.
@@ -1137,14 +1138,15 @@ $$
 $$
 </blockquote>
 <p>Why <em>2-dimensional</em> (and not 3)?  Well, once we specify $p_1$ and $p_2$, $p_3$ is uniquely determined, since we must have $p_1 + p_2 + p_3 = 1$.  Thus, the space of all probability vectors for 3 outcomes is a 2-dimensional object.  A more visual explanation is obtained by noting that the space of all points in 3-dimensional ($p_1$ corresponds to "$x$" dimension, $p_2$ to "$y$", $p_3$ to "$z$"...) space corresponding to the equation $p_1 + p_2 + p_3 = 1$ is a plane (which is a 2-dimensional object).  Further restricting $0 < p_1, p_2, p_3 \leq 1$ yields an equilateral triangle.  This triangle is plotted below.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [1]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">import</span> <span class="n">Axes3D</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1156,18 +1158,18 @@ $$
 <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
 
 <span class="c1"># cut off values where z is negative</span>
-<span class="n">cut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">z</span> <span class="o">></span> <span class="mi">0</span><span class="p">);</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">cut</span><span class="p">];</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">cut</span><span class="p">];</span> <span class="n">zc</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="n">cut</span><span class="p">]</span>
+<span class="n">cut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">cut</span><span class="p">];</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">cut</span><span class="p">];</span> <span class="n">zc</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="n">cut</span><span class="p">]</span>
 
 <span class="c1"># set seaborn style</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">"white"</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
 
 <span class="c1"># plot the surface</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">17</span><span class="p">))</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">'3d'</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot_trisurf</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">zc</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'powderblue'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">17</span><span class="p">))</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_trisurf</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">zc</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;powderblue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">r'$p_1$'</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">r'$p_2$'</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">r'$p_3$'</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">r&#39;$p_1$&#39;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">r&#39;$p_2$&#39;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">r&#39;$p_3$&#39;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="c1"># get rid of the panes</span>
@@ -1190,22 +1192,28 @@ $$
 
 <span class="c1"># plot and annotate points where plane hits axes</span>
 <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span> <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">650</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"darkorchid"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+.</span><span class="mi">05</span><span class="p">,</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (1,0,0)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> 
-        <span class="n">color</span><span class="o">=</span><span class="s1">'darkorchid'</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+.</span><span class="mi">05</span><span class="p">,</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (0,1,0)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> 
-        <span class="n">color</span><span class="o">=</span><span class="s1">'darkorchid'</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+.</span><span class="mi">05</span><span class="p">,</span><span class="n">z</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> 
-        <span class="n">color</span><span class="o">=</span><span class="s1">'darkorchid'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">650</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;darkorchid&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+.</span><span class="mi">05</span><span class="p">,</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (1,0,0)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> 
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorchid&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+.</span><span class="mi">05</span><span class="p">,</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (0,1,0)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> 
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorchid&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+.</span><span class="mi">05</span><span class="p">,</span><span class="n">z</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> 
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorchid&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUkAAAPDCAYAAACO54q9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3XmUXnd95/n373eftaokWZIt2/KGvLIZjIGQhLAHSAbi
@@ -6841,11 +6849,15 @@ AAAAwNIISQEAAAAAAABYGiEpAAAAAAAAAEsjJAUAAAAAAABgaYSkAAAAAAAAACyNkBQAAAAAAACA
 pRGSAgAAAAAAALA0QlIAAAAAAAAAlkZICgAAAAAAAMDSCEkBAAAAAAAAWBohKQAAAAAAAABLIyQF
 AAAAAAAAYGmEpAAAAAAAAAAsjZAUAAAAAAAAgKURkgIAAAAAAACwtP8HLZ81UWLejboAAAAASUVO
 RK5CYII=
-">
-</img></div>
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -6854,6 +6866,7 @@ RK5CYII=
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>But now, how should we go about specifying a probability distribution on this triangle ($\Delta_{2}$)?</p>
 <p>In the next section, we introduce the Dirichlet distribution (of order $k$).  It is a probability distribution supported on $\Delta_{k-1}$.  Recall that each element in $\Delta_{k-1}$ is a probability mass function which parametrizes a multinomial distribution (on the count vector corresponding to $k$ mutually exclusive events).  Thus, the Dirichlet distribution can be viewed as a probability distribution on the space of multinomial distributions.  In other words, the Dirichlet distribution can be used to model randomness in a multinomial distribution, and it will prove a useful tool to express uncertainty in a guess for the multinomial distribution that underlies our data.</p>
+
 </div>
 </div>
 </div>
@@ -6862,18 +6875,19 @@ RK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-Dirichlet-Distribution">The Dirichlet Distribution<a class="anchor-link" href="#The-Dirichlet-Distribution">¶</a></h1><p>Let $\vec{p} = (p_1, \ldots, p_k) \in \Delta_{k-1}$ be a <em>random</em> probability mass function.  Let $\vec{\alpha} = (\alpha_1, \ldots, \alpha_k)$ be a vector with $\alpha_i > 0$ for all $i \in \{1, \ldots, k\}$.  Then $\vec{p}$ is said to follow a <strong>Dirichlet distribution</strong> of order $k$ with parameter vector $\vec{\alpha}$ if it has probability density function given by</p>
+<h1 id="The-Dirichlet-Distribution">The Dirichlet Distribution<a class="anchor-link" href="#The-Dirichlet-Distribution">&#182;</a></h1><p>Let $\vec{p} = (p_1, \ldots, p_k) \in \Delta_{k-1}$ be a <em>random</em> probability mass function.  Let $\vec{\alpha} = (\alpha_1, \ldots, \alpha_k)$ be a vector with $\alpha_i > 0$ for all $i \in \{1, \ldots, k\}$.  Then $\vec{p}$ is said to follow a <strong>Dirichlet distribution</strong> of order $k$ with parameter vector $\vec{\alpha}$ if it has probability density function given by</p>
 $$
 \mathbb{P}(\vec{p}|\vec{\alpha}) = \frac{\Gamma(\sum_{i=1}^k \alpha_i)}{\prod_{i=1}^k\Gamma(\alpha_i)}\prod_{i=1}^k p_i^{\alpha_i -1} 
 $$<p>on the open simplex $\Delta_{k-1}$ and zero elsewhere.  We write $\vec{p}\sim Dir(\vec{\alpha})$.  In order to see how the pdf changes with different values of $\alpha$, let's stick with $k=3$ and graph contours on $\Delta_{2}$ corresponding to different values of $\vec{\alpha} = (\alpha_1, \alpha_2, \alpha_3)$.  We primarily use code from another <a href="https://gist.github.com/tboggs/8778945">author</a> and only make slight modifications here.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [2]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.tri</span> <span class="k">as</span> <span class="nn">tri</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">reduce</span>
 
@@ -6883,40 +6897,40 @@ $$<p>on the open simplex $\Delta_{k-1}$ and zero elsewhere.  We write $\vec{p}\s
               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
 
 <span class="k">def</span> <span class="nf">xy2bc</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.e-3</span><span class="p">):</span>
-    <span class="sd">'''Converts 2D Cartesian coordinates to barycentric.</span>
+    <span class="sd">&#39;&#39;&#39;Converts 2D Cartesian coordinates to barycentric.</span>
 <span class="sd">    Arguments:</span>
 <span class="sd">        `xy`: A length-2 sequence containing the x and y value.</span>
-<span class="sd">    '''</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="p">[(</span><span class="n">_corners</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">_midpoints</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xy</span> <span class="o">-</span> <span class="n">_midpoints</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mf">0.75</span> \
          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">tol</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">tol</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">Dirichlet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
-        <span class="sd">'''Creates Dirichlet distribution with parameter `alpha`.'''</span>
+        <span class="sd">&#39;&#39;&#39;Creates Dirichlet distribution with parameter `alpha`.&#39;&#39;&#39;</span>
         <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">gamma</span>
         <span class="kn">from</span> <span class="nn">operator</span> <span class="k">import</span> <span class="n">mul</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_coef</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">))</span> <span class="o">/</span> \
                      <span class="n">reduce</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="p">[</span><span class="n">gamma</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">])</span>
     <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sd">'''Returns pdf value for `x`.'''</span>
+        <span class="sd">&#39;&#39;&#39;Returns pdf value for `x`.&#39;&#39;&#39;</span>
         <span class="kn">from</span> <span class="nn">operator</span> <span class="k">import</span> <span class="n">mul</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coef</span> <span class="o">*</span> <span class="n">reduce</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="p">[</span><span class="n">xx</span> <span class="o">**</span> <span class="p">(</span><span class="n">aa</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                                          <span class="k">for</span> <span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">aa</span><span class="p">)</span><span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">)])</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-        <span class="sd">'''Generates a random sample of size `N`.'''</span>
+        <span class="sd">&#39;&#39;&#39;Generates a random sample of size `N`.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">dirichlet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">draw_pdf_contours</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nlevels</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">subdiv</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">'''Draws pdf contours over an equilateral triangle (2-simplex).</span>
+    <span class="sd">&#39;&#39;&#39;Draws pdf contours over an equilateral triangle (2-simplex).</span>
 <span class="sd">    Arguments:</span>
 <span class="sd">        `dist`: A distribution instance with a `pdf` method.</span>
 <span class="sd">        `border` (bool): If True, the simplex border is drawn.</span>
 <span class="sd">        `nlevels` (int): Number of contours to draw.</span>
 <span class="sd">        `subdiv` (int): Number of recursive mesh subdivisions to create.</span>
 <span class="sd">        kwargs: Keyword args passed on to `plt.triplot`.</span>
-<span class="sd">    '''</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">ticker</span><span class="p">,</span> <span class="n">cm</span>
     <span class="kn">import</span> <span class="nn">math</span>
 
@@ -6925,48 +6939,48 @@ $$<p>on the open simplex $\Delta_{k-1}$ and zero elsewhere.  We write $\vec{p}\s
     <span class="n">pvals</span> <span class="o">=</span> <span class="p">[</span><span class="n">dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xy2bc</span><span class="p">(</span><span class="n">xy</span><span class="p">))</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">trimesh</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">y</span><span class="p">)]</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">trimesh</span><span class="p">,</span> <span class="n">pvals</span><span class="p">,</span> <span class="n">nlevels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="o">-.</span><span class="mi">01</span><span class="p">,</span> <span class="mf">0.75</span><span class="o">**</span><span class="mf">0.5</span><span class="o">+.</span><span class="mi">1</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="o">-.</span><span class="mi">01</span><span class="p">,</span> <span class="mf">0.75</span><span class="o">**</span><span class="mf">0.5</span><span class="o">+.</span><span class="mi">1</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">border</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">_triangle</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">_corners</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span><span class="n">_corners</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="o">-.</span><span class="mi">22</span><span class="p">,</span> <span class="mi">0</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="o">+.</span><span class="mi">01</span><span class="p">,</span> <span class="mi">0</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (0,1,0)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="mf">0.75</span><span class="o">**</span><span class="mf">0.5</span><span class="o">-.</span><span class="mi">01</span><span class="p">,</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">_corners</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span><span class="n">_corners</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="o">-.</span><span class="mi">22</span><span class="p">,</span> <span class="mi">0</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="o">+.</span><span class="mi">01</span><span class="p">,</span> <span class="mi">0</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (0,1,0)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="mf">0.75</span><span class="o">**</span><span class="mf">0.5</span><span class="o">-.</span><span class="mi">01</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">plot_points</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">barycentric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">'''Plots a set of points in the simplex.</span>
+    <span class="sd">&#39;&#39;&#39;Plots a set of points in the simplex.</span>
 <span class="sd">    Arguments:</span>
 <span class="sd">        `X` (ndarray): A 2xN array (if in Cartesian coords) or 3xN array</span>
 <span class="sd">                       (if in barycentric coords) of points to plot.</span>
 <span class="sd">        `barycentric` (bool): Indicates if `X` is in barycentric coords.</span>
 <span class="sd">        `border` (bool): If True, the simplex border is drawn.</span>
 <span class="sd">        kwargs: Keyword args passed on to `plt.plot`.</span>
-<span class="sd">    '''</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">barycentric</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_corners</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">'k.'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k.&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="o">-.</span><span class="mi">01</span><span class="p">,</span> <span class="mf">0.75</span><span class="o">**</span><span class="mf">0.5</span><span class="o">+.</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">border</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">_triangle</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">_corners</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span><span class="n">_corners</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="o">-.</span><span class="mi">22</span><span class="p">,</span> <span class="mi">0</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="o">+.</span><span class="mi">01</span><span class="p">,</span> <span class="mi">0</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (0,1,0)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="mf">0.75</span><span class="o">**</span><span class="mf">0.5</span><span class="o">-.</span><span class="mi">01</span><span class="p">,</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r'$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$'</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">_corners</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span><span class="n">_corners</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="o">-.</span><span class="mi">22</span><span class="p">,</span> <span class="mi">0</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="o">+.</span><span class="mi">01</span><span class="p">,</span> <span class="mi">0</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (0,1,0)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="o">+.</span><span class="mi">04</span><span class="p">,</span> <span class="mf">0.75</span><span class="o">**</span><span class="mf">0.5</span><span class="o">-.</span><span class="mi">01</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">r&#39;$\vec</span><span class="si">{p}</span><span class="s1"> = (0,0,1)$&#39;</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">plot_contours</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
     <span class="n">dist</span> <span class="o">=</span> <span class="n">Dirichlet</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">draw_pdf_contours</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">mode</span> <span class="o">=</span> <span class="p">((</span><span class="n">alpha</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_corners</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">mode</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">'b'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">mode</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_corners</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mean</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">'k'</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="s1">r'$\vec{\alpha}$ = (</span><span class="si">%.3f</span><span class="s1">, </span><span class="si">%.3f</span><span class="s1">, </span><span class="si">%.3f</span><span class="s1">)'</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mean</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">r&#39;$\vec{\alpha}$ = (</span><span class="si">%.3f</span><span class="s1">, </span><span class="si">%.3f</span><span class="s1">, </span><span class="si">%.3f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
     
 <span class="k">def</span> <span class="nf">plot_sample</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
@@ -6974,10 +6988,10 @@ $$<p>on the open simplex $\Delta_{k-1}$ and zero elsewhere.  We write $\vec{p}\s
     <span class="n">plot_points</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">))</span>
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">mode</span> <span class="o">=</span> <span class="p">((</span><span class="n">alpha</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_corners</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">mode</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">'b'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">mode</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_corners</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mean</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">'r'</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="s1">r'$\vec{\alpha}$ = (</span><span class="si">%.3f</span><span class="s1">, </span><span class="si">%.3f</span><span class="s1">, </span><span class="si">%.3f</span><span class="s1">)'</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mean</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">r&#39;$\vec{\alpha}$ = (</span><span class="si">%.3f</span><span class="s1">, </span><span class="si">%.3f</span><span class="s1">, </span><span class="si">%.3f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
     
 <span class="k">def</span> <span class="nf">plot_contours_and_sample</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
@@ -6988,9 +7002,11 @@ $$<p>on the open simplex $\Delta_{k-1}$ and zero elsewhere.  We write $\vec{p}\s
     <span class="n">plot_sample</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -6998,22 +7014,29 @@ $$<p>on the open simplex $\Delta_{k-1}$ and zero elsewhere.  We write $\vec{p}\s
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We begin by setting $\vec{\alpha} = (1, 1, 1)$, which yields the uniform distribution on $\Delta_2$.  Below, the left figure is a contour plot of the corresponding probability density function, which appears as one color (as each point is equally probable).  The black dot at the center of the simplex is the mean of the distribution.  The right figure is a set of 5000 sampled points from the distribution; the red dot is again the mean of the distribution.  As expected, the points appear to be a uniform sample from the simplex.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [3]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_contours_and_sample</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA7kAAAFHCAYAAABkoIuAAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3XmcVNWd9/FvdbOLgCCC4IaogIBrXNsdd1HIjNHRdo+Y
@@ -7489,11 +7512,15 @@ yCUiIiIiIqLAYJBLREREREREgcEgl4iIiIiIiAKDQS4REREREREFBoNcIiIiIiIiCgwGuURERERE
 RBQYDHKJiIiIiIgoMBjkEhERERERUWAwyCUiIiIiIqLAYJBLREREREREgcEgl4iIiIiIiAKDQS4R
 EREREREFBoNcIiIiIiIiCgwGuURERERERBQYDHKJiIiIiIgoMBjkEhERERERUWAwyCUiIiIiIqLA
 YJBLREREREREgfE/qYFuFAknxwEAAAAASUVORK5CYII=
-">
-</img></div>
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -7502,22 +7529,29 @@ YJBLREREREREgfE/qYFuFAknxwEAAAAASUVORK5CYII=
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next, we visualize the Dirichlet distribution corresponding to $\vec{\alpha} = (3, 3, 3)$.  In all contour plots, purple corresponds to less probable regions, and red corresponds to areas with higher probability density.  This is reflected in the corresponding plot of sampled points, as most points appear to lie in the inner regions of the simplex.</p>
 <p>This Dirichlet distribution $Dir(3,3,3)$ is an appropriate choice of prior for the die roll probabilities if we are pretty sure that the die is fair, but not completely certain, but we have no bias for one side over any other.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [4]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_contours_and_sample</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA7kAAAFHCAYAAABkoIuAAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzsvXm0HGWd//+uve9NQgIBCWEnLAlJYAiCQGTfVJYw83Xc
@@ -8433,11 +8467,15 @@ lxBCCCGEEEJIYqDIJYQQQgghhBCSGChyCSGEEEIIIYQkBopcQgghhBBCCCGJgSKXEEIIIYQQQkhi
 oMglhBBCCCGEEJIYKHIJIYQQQgghhCQGilxCCCGEEEIIIYmBIpcQQgghhBBCSGKgyCWEEEIIIYQQ
 khgocgkhhBBCCCGEJAaKXEIIIYQQQgghiYEilxBCCCGEEEJIYqDIJYQQQgghhBCSGChyCSGEEEII
 IYQkBopcQgghhBBCCCGJgSKXEEIIIYQQQkhi+H89+Q5OcdpvdwAAAABJRU5ErkJggg==
-">
-</img></div>
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -8446,23 +8484,30 @@ IYQkBopcQgghhBBCCCGJgSKXEEIIIYQQQkhi+H89+Q5OcdpvdwAAAABJRU5ErkJggg==
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next, we show $Dir(\vec{\alpha})$ for $\vec{\alpha} = (.9, .9, .9)$ and $\vec{\alpha} = (.4, .4, .4)$.  In both cases, we have to look closely at the contour plot to see (easiest for $\vec{\alpha} = (.9, .9, .9)$), but now most of the probability mass has been shoved to the corners.  This is also reflected in the plot of sampled points (easiest to see for $\vec{\alpha} = (.4, .4, .4)$).</p>
 <p>These distributions represent an appropriate choice of prior if we are pretty sure that die is unfair, but do not know which side(s) should be favored; each side is equally likely to be the favored side.  Here, the distribution corresponding to $\vec{\alpha} = (.4, .4, .4)$ expresses relatively more certainty (than $\vec{\alpha} = (.9, .9, .9)$) that the die is not fair.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [5]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_contours_and_sample</span><span class="p">([</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">])</span>
 <span class="n">plot_contours_and_sample</span><span class="p">([</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA7kAAAFHCAYAAABkoIuAAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3Xd4XOWdNv77nKmakWS54YYx3Ta2KSYmgCH0sjT7zcum
@@ -9234,10 +9279,15 @@ QRAEQRAEQRBNA4lcgiAIgiAIgiAIomkgkUsQBEEQBEEQBEE0DSRyCYIgCIIgCIIgiKaBRC5BEARB
 EARBEATRNJDIJQiCIAiCIAiCIJoGErkEQRAEQRAEQRBE00AilyAIgiAIgiAIgmgaSOQSBEEQBEEQ
 BEEQTQOJXIIgCIIgCIIgCKJpIJFLEARBEARBEARBNA0kcgmCIAiCIAiCIIimgUQuQRAEQRAEQRAE
 0TSQyCUIgiAIgiAIgiCaBhK5BEEQBEEQBEEQRNPw/wGx8/IPOTWTXQAAAABJRU5ErkJggg==
-">
-</img></div>
+"
+>
 </div>
+
+</div>
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA7kAAAFHCAYAAABkoIuAAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3Xl8VNXdx/HvJCEJMUgAqQLihhtiXSutpta6W7Vin7b6
@@ -9747,11 +9797,15 @@ hBBCCCGEEEKyBopcQgghhBBCCCFZA0UuIYQQQgghhJCsgSKXEEIIIYQQQkjWQJFLCCGEEEIIISRr
 oMglhBBCCCGEEJI1UOQSQgghhBBCCMkaKHIJIYQQQgghhGQNFLmEEEIIIYQQQrIGilxCCCGEEEII
 IVkDRS4hhBBCCCGEkKyBIpcQQgghhBBCSNZAkUsIIYQQQgghJGugyCWEEEIIIYQQkjX8P6DO8zpq
 YWl3AAAAAElFTkSuQmCC
-">
-</img></div>
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -9762,22 +9816,29 @@ YWl3AAAAAElFTkSuQmCC
 <p>All of the Dirichlet distributions we have visualized so far are examples of <strong>symmetric Dirichlet distributions</strong>, where every entry in $\vec{\alpha}$ has the same value.  In this case, $\vec{m} = (1/3, 1/3, 1/3)$.  If $\alpha_0 > 3$, $\vec{m}$ corresponds to the point in the simplex with the highest probability density (the mode of the distribution); else if $\alpha_0 < 3$, it is the least probable pmf.  Recall $\alpha_0 = 3$ yielded the uniform distribution.</p>
 <p>All symmetric Dirichlet distributions have the property that the mean and the mode are equivalent points in the simplex.  However, this is not the case, in general, for Dirichlet distributions.  Henceforth, the mode of the distribution is plotted in blue.</p>
 <p>In order to produce prior distributions that distinguish between outcomes, we must choose values for $\vec{\alpha}$ with unequal entries.  For instance, say we have no reason to favor outcome 1 over outcome 2, but believe outcome 3 is twice as probable as the others.  Below, we pick an appropriate prior distribution for if we believe most likely pmf to parametrize our multinomial distribution is $\vec{m} = (\frac{1}{4}, \frac{1}{4}, \frac{1}{2})$, but want to allow some wiggle room.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [6]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_contours_and_sample</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA7kAAAFHCAYAAABkoIuAAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3XucHHWZL/5PVXfd+jbXQEi4ByEhQRZcQIgsIAEVwbDn
@@ -10685,11 +10746,15 @@ IiIiIooNBrlEREREREQUGwxyiYiIiIiIKDYY5BIREREREVFsMMglIiIiIiKi2GCQS0RERERERLHB
 IJeIiIiIiIhig0EuERERERERxQaDXCIiIiIiIooNBrlEREREREQUGwxyiYiIiIiIKDYY5BIRERER
 EVFsMMglIiIiIiKi2GCQS0RERERERLHBIJeIiIiIiIhig0EuERERERERxQaDXCIiIiIiIooNBrlE
 REREREQUGwxyiYiIiIiIKDb+H9ODwbiSYygaAAAAAElFTkSuQmCC
-">
-</img></div>
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -10697,22 +10762,29 @@ REREREQUGwxyiYiIiIiIKDb+H9ODwbiSYygaAAAAAElFTkSuQmCC
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The distribution below provides less wiggle room than the one above, and guesses that the most likely probability mass function in the simplex is $\vec{m} = (\frac{1}{7}, \frac{2}{7}, \frac{4}{7})$.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [7]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_contours_and_sample</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA7kAAAFHCAYAAABkoIuAAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3Xt8VPWdP/7XOXOfZJJJQoCAoogEYgAr1AtMNVij1htx
@@ -11234,11 +11306,15 @@ l4iIiIiIiNIGQy4RERERERGlDYZcIiIiIiIiShsMuURERERERJQ2GHKJiIiIiIgobTDkEhERERER
 UdpgyCUiIiIiIqK0wZBLREREREREaYMhl4iIiIiIiNIGQy4RERERERGlDYZcIiIiIiIiShsMuURE
 RERERJQ2GHKJiIiIiIgobTDkEhERERERUdpgyCUiIiIiIqK08f8BX2FcTeTKdzIAAAAASUVORK5C
 YII=
-">
-</img></div>
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -11246,6 +11322,7 @@ YII=
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In general, we see that to minimize wiggle room (that is: to produce a probability distribution on the simplex that is more sharply peaked at the mode), we send $\alpha_0 \to \infty$.  It is harder to describe what happens when $\alpha_0 \to 0$, besides the fact that we favor probability mass functions in the simplex that put uneven mass on the set of outcomes.</p>
+
 </div>
 </div>
 </div>
@@ -11254,7 +11331,7 @@ YII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Wrapping-up-the-Example">Wrapping up the Example<a class="anchor-link" href="#Wrapping-up-the-Example">¶</a></h1><p>Towards constructing a MAP estimate $\vec{p}_{MAP}$ for the die roll probabilities, say that our prior distribution is</p>
+<h1 id="Wrapping-up-the-Example">Wrapping up the Example<a class="anchor-link" href="#Wrapping-up-the-Example">&#182;</a></h1><p>Towards constructing a MAP estimate $\vec{p}_{MAP}$ for the die roll probabilities, say that our prior distribution is</p>
 $$
 \mathbb{P}(\vec{p}|\vec{\alpha}) = Dir(\vec{\alpha}) = Dir(\alpha_1, \alpha_2, \ldots, \alpha_k).
 $$<p>For brevity, we omit the calculations here, but it can be shown that in this case, the posterior distribution for $\vec{p}$ is given by</p>
@@ -11262,22 +11339,29 @@ $$
 \mathbb{P}(\vec{p}|D) = Dir(\alpha_1 + n_1, \alpha_2 + n_2, \ldots, \alpha_k + n_k),
 $$<p>where we recall that $n_i$, $i \in \{1, \ldots, k\}$, is the number of times that side $i$ appears in the dataset $D$.</p>
 <p>Let's try $\vec{\alpha} = (10, 5, 15)$.  The corresponding prior distribution on $\vec{p}$ is visualized below.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [8]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_contours_and_sample</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA7kAAAFHCAYAAABkoIuAAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3XmYXGWdN/zvOaf2rSubCQl7oJOQBQEBocUINItszfO+
@@ -11916,11 +12000,15 @@ GAy5RERERERE1DEYcomIiIiIiKhjMOQSERERERFRx2DIJSIiIiIioo7BkEtEREREREQdgyGXiIiI
 iIiIOgZDLhEREREREXUMhlwiIiIiIiLqGAy5RERERERE1DEYcomIiIiIiKhjMOQSERERERFRx2DI
 JSIiIiIioo7BkEtEREREREQdgyGXiIiIiIiIOgZDLhEREREREXUMhlwiIiIiIiLqGAy5RERERERE
 1DEYcomIiIiIiKhj/D9HFn2NHsl5FgAAAABJRU5ErkJggg==
-">
-</img></div>
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -11929,22 +12017,29 @@ JSIiIiIioo7BkEtEREREREQdgyGXiIiIiIiIOgZDLhEREREREXUMhlwiIiIiIiLqGAy5RERERERE
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The most likely probability mass function under this prior is $\vec{m}=(1/3, 1/6, 1/2)$, and we are relatively certain of our beliefs.</p>
 <p>After viewing the data, the (posterior) belief for the die roll probability can be visualized as</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [9]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_contours_and_sample</span><span class="p">([</span><span class="mi">10</span><span class="o">+</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="o">+</span><span class="mi">15</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA7kAAAFHCAYAAABkoIuAAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3Xl8FHWeP/5XVfWZpJNOAgMBxQMIxACKLCpmNB7xGEHD
@@ -12503,11 +12598,15 @@ InIMhlwiIiIiIiJyDIZcIiIiIiIicgyGXCIiIiIiInIMhlwiIiIiIiJyDIZcIiIiIiIicgyGXCIi
 IiIiInIMhlwiIiIiIiJyDIZcIiIiIiIicgyGXCIiIiIiInIMhlwiIiIiIiJyDIZcIiIiIiIicgyG
 XCIiIiIiInIMhlwiIiIiIiJyDIZcIiIiIiIicgyGXCIiIiIiInIMhlwiIiIiIiJyDIZcIiIiIiIi
 coz/D/Ql/wxyMLAHAAAAAElFTkSuQmCC
-">
-</img></div>
+"
+>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -12522,6 +12621,7 @@ coz/D/Ql/wxyMLAHAAAAAElFTkSuQmCC
 </ul>
 <p>In the case of our example, the amended dataset would correspond to $n_1' = 15$, $n_2' = 15$, $n_3' = 30$.</p>
 <p>In future blog posts, we will talk about sampling from this distribution, before moving onto the Dirichlet process (an infinite-dimensional generalization of the Dirichlet distribution).</p>
+
 </div>
 </div>
 </div>
@@ -12552,7 +12652,6 @@ coz/D/Ql/wxyMLAHAAAAAElFTkSuQmCC
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-
             </div>
             <!-- /.entry-content -->
     <hr/>

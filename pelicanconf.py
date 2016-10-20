@@ -62,8 +62,16 @@ PLUGIN_PATHS = ['./plugins']
 #PLUGINS = ['tag_cloud', 'liquid_tags.img', 'liquid_tags.video',
 #			'liquid_tags.youtube', 'liquid_tags.include_code',
 #           	'liquid_tags.notebook','render_math']
-MARKUP = ('md', 'ipynb')
-PLUGINS = ['tag_cloud', 'ipynb.markup']
+
+
+#MARKUP = ('md', 'ipynb')
+#PLUGINS = ['tag_cloud', 'ipynb.markup']
+
+MARKUP = ('md')
+PLUGIN_PATH = './plugins'
+PLUGINS = ['ipynb.liquid']
+NOTEBOOK_DIR = 'notebooks'
+
 HIDE_SIDEBAR = True
 
 BOOTSTRAP_FLUID = False

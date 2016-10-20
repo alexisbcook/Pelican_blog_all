@@ -3,4 +3,5 @@ Date: 2016-08-29 04:20
 Category: Basic ML
 Tags: MLE, MAP, Basic ML
 Author: Alexis Cook
-Summary: intuitive visualization maximum likelihood maximum a posteriori
+
+{% notebook MLE_MAP.ipynb %}
