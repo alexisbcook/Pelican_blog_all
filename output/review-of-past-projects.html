@@ -11944,7 +11944,7 @@ jQuery(document).ready(function($) {
 
 
 
-<link rel="canonical" href="http://alexisbcook.github.io/review-of-past-projects.html">
+<link rel="canonical" href="./review-of-past-projects.html">
 
         <meta name="author" content="Alexis Cook" />
         <meta name="keywords" content="Past Projects" />
@@ -11953,7 +11953,7 @@ jQuery(document).ready(function($) {
         <meta property="og:site_name" content="Alexis Cook" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Review of Past Projects"/>
-        <meta property="og:url" content="http://alexisbcook.github.io/review-of-past-projects.html"/>
+        <meta property="og:url" content="./review-of-past-projects.html"/>
         <meta property="og:description" content="In this post, I will outline some past research projects. Some of these projects appear on my CV, which can be accessed here. Connectome Project¶Final Project for CSCI 2420: Probabilistic Graphical Models (with Ivana Petrovic and Guangyao Zhou)¶Neuron-to-neuron communication operates electrochemically, and neuronal signals are well-known to generally ..."/>
         <meta property="article:published_time" content="2016-12-13" />
             <meta property="article:section" content="Past Projects" />
@@ -11962,19 +11962,15 @@ jQuery(document).ready(function($) {
 
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="http://alexisbcook.github.io/theme/css/bootstrap.yeti.min.css" type="text/css"/>
-    <link href="http://alexisbcook.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="./theme/css/bootstrap.yeti.min.css" type="text/css"/>
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="http://alexisbcook.github.io/theme/css/pygments/trac.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://alexisbcook.github.io/theme/css/style.css" type="text/css"/>
-
-        <link href="http://alexisbcook.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Alexis Cook ATOM Feed"/>
+    <link href="./theme/css/pygments/trac.css" rel="stylesheet">
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css"/>
 
 
 
-        <link href="http://alexisbcook.github.io/feeds/past-projects.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Alexis Cook Past Projects ATOM Feed"/>
+
 
 </head>
 <body>
@@ -11988,25 +11984,22 @@ jQuery(document).ready(function($) {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="http://alexisbcook.github.io/" class="navbar-brand">
+            <a href="./" class="navbar-brand">
 Alexis Cook            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                    <li><a href="/Artwork.html">Artwork</a></li>
-                    <li><a href="/CV.html">CV</a></li>
-                    <li><a href="/Contact.html">Contact</a></li>
-                         <li><a href="http://alexisbcook.github.io/pages/artwork.html">
+                         <li><a href="./pages/about-me.html">
+                             About Me
+                          </a></li>
+                         <li><a href="./pages/artwork.html">
                              Artwork
                           </a></li>
-                         <li><a href="http://alexisbcook.github.io/pages/contact.html">
+                         <li><a href="./pages/contact.html">
                              Contact
                           </a></li>
-                         <li><a href="http://alexisbcook.github.io/pages/cv.html">
+                         <li><a href="./pages/cv.html">
                              CV
-                          </a></li>
-                         <li><a href="http://alexisbcook.github.io/pages/welcome.html">
-                             Welcome!
                           </a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -12024,7 +12017,7 @@ Alexis Cook            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="http://alexisbcook.github.io/review-of-past-projects.html"
+                    <a href="./review-of-past-projects.html"
                        rel="bookmark"
                        title="Permalink to Review of Past Projects">
                         Review of Past Projects
@@ -12045,7 +12038,7 @@ Alexis Cook            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="http://alexisbcook.github.io/tag/past-projects.html">Past Projects</a>
+	<a href="./tag/past-projects.html">Past Projects</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
@@ -12056,7 +12049,7 @@ Alexis Cook            </a>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this post, I will outline some past research projects.</p>
-<p>Some of these projects appear on my CV, which can be accessed <a href="http://alexisbcook.github.io/pdfs/CV.pdf">here</a>.</p>
+<p>Some of these projects appear on my CV, which can be accessed <a href="./pdfs/CV.pdf">here</a>.</p>
 
 </div>
 </div>
@@ -12071,7 +12064,7 @@ Alexis Cook            </a>
 <p>We made use of a nonlinear state space model, where the observed random variables at time $t
 \Delta t$ are the corresponding fluorescence levels of the $N$
 neurons.  The corresponding hidden random variables are the number of spikes for each neuron in the time interval $[ ( t - 1) \Delta t, t \Delta t]$, along with the calcium concentration in each neuron at time $t \Delta t$.</p>
-<p>We constructed a matrix which encodes the connectivity pattern between neurons; this is a hidden variable in our biologically-motivated, highly-detailed model (<em>... which we do not describe in full here</em>).  The connectivity matrix is built into the model through the assumption that a neuron is more likely to spike at time $t\Delta t$ if many of its pre-synaptic neurons fired at time $(t-1)\Delta t$.  Since this is a parameter estimation problem with incomplete observations, we used the expectation-maximization (EM) algorithm to solve for all unknown quantities.  We wrote the code entirely in Matlab.  Our final report can be found <a href="http://alexisbcook.github.io/pdfs/2420_Final_Report.pdf">here</a>.</p>
+<p>We constructed a matrix which encodes the connectivity pattern between neurons; this is a hidden variable in our biologically-motivated, highly-detailed model (<em>... which we do not describe in full here</em>).  The connectivity matrix is built into the model through the assumption that a neuron is more likely to spike at time $t\Delta t$ if many of its pre-synaptic neurons fired at time $(t-1)\Delta t$.  Since this is a parameter estimation problem with incomplete observations, we used the expectation-maximization (EM) algorithm to solve for all unknown quantities.  We wrote the code entirely in Matlab.  Our final report can be found <a href="./pdfs/2420_Final_Report.pdf">here</a>.</p>
 
 </div>
 </div>
@@ -12126,7 +12119,7 @@ y<em>t = A</em>{z<em>t}y</em>{t-1} + e_t(z_t)
 <p>At each time $t$, an agent acting in line with an MDP finds herself in some (observed) state $s_t \in S$.  She then takes some action $a_t \in A$ and transitions to a new (observed) state $s_{t+1}$, which is a draw from a categorical distribution with probabilities specified in $T$.  At the same time, she receives an immediate reward $r_t$, which is specified in $R$.  The agent has full <em>a priori</em> knowledge of the states ($S$) and actions ($A$), but must learn $T$ and $R$ through experience.  As knowledge of the environment is gained, the agent is able to make better decisions towards her goal of maximizing discounted reward, defined as $\sum_{t=0}^\infty \gamma^t r_t$.</p>
 <p>A <strong>Partially Observable Markov Decision Process (POMDP)</strong> is a generalization of an MDP, wherein the agent cannot directly observe states.  In this case, the agent has <em>a priori</em> knowledge of the number of states, but only receives a noisy estimate of which state she is in at any given time.  In this case, the agent must learn to infer the states that she has visited.</p>
 <p>An <strong>Infinite Partially Observable Markov Decision Process (iPOMDP)</strong> is a generalization of a POMDP, wherein the agent does not know the total number of states in the environment.  In this case, the agent must deduce the size of the set of world states.  It is worth noting that a nonparametric approach will be necessary, to permit the number of world states to potentially grow with time.</p>
-<p>The set of unknowns of an agent acting in accordance with an iPOMDP makes this problem much more difficult to solve than the traditional MDP.  We re-implemented the results in one research paper for our final project.  Our final report can be found <a href="http://alexisbcook.github.io/pdfs/2951_Final_Report.pdf">here</a>.</p>
+<p>The set of unknowns of an agent acting in accordance with an iPOMDP makes this problem much more difficult to solve than the traditional MDP.  We re-implemented the results in one research paper for our final project.  Our final report can be found <a href="./pdfs/2951_Final_Report.pdf">here</a>.</p>
 
 </div>
 </div>
@@ -12139,7 +12132,7 @@ y<em>t = A</em>{z<em>t}y</em>{t-1} + e_t(z_t)
 <h2 id="Clique-Detection-Beneath-the-Noise-Floor">Clique Detection Beneath the Noise Floor<a class="anchor-link" href="#Clique-Detection-Beneath-the-Noise-Floor">&#182;</a></h2><h3 id="Research-Project-at-MIT-Lincoln-Laboratory-(with-Ben-Miller)">Research Project at MIT Lincoln Laboratory (with Ben Miller)<a class="anchor-link" href="#Research-Project-at-MIT-Lincoln-Laboratory-(with-Ben-Miller)">&#182;</a></h3><p>Real-world graphs are naturally inhomogeneous and exhibit nonuniform edge densities within local substructures.  In this setting, it is often possible to break graphs into communities, or sets of vertices with a high number of within-group connections and fewer links between communities.  The problem of community detection in networks has become increasingly prevalent in recent years and has important applications to ﬁelds such as computer science, biology, and sociology. While community detection often considers partitioning a graph into multiple communities, a variant of the problem considers detection of a small subgraph with higher connectivity than the remainder of the graph, a special case of which is the planted clique problem.</p>
 <p>Recall that a clique is a set of vertices such that every two vertices are connected by an edge.  In the standard $(k, p, n)$ planted clique problem, one is given an Erdos-Renyi graph $G(n, p)$ with an embedded clique of size $k$, and the objective is to determine the hidden locations of the clique vertices. Formally, given the graph $G = (V, E)$, where $V$ is the set of vertices and $E$ is the set of edges (connections), with $|V | = n$, the desired outcome is the subset of vertices $V^* \subset V$, $|V^*| = k$ that belong to the clique.</p>
 <p>In our procedure, instead of working directly with the edge set $E$, we will analyze the modularity matrix $B$ corresponding to our graph, which proves a useful representation of the graph’s topology.  It has been shown previously that thresholding the principal eigenvector of $B$ can yield the locations of the clique vertices.  However, this technique (and all PCA-based methods) for clique detection has a well-defined breakdown point, realized when the size of the clique is too small, relative to the density of the graph.</p>
-<p>In this project at the MIT Lincoln Laboratory, we showed that DSPCA, a Matlab toolbox for sparse PCA, reliably pushes past the clique detection threshold for PCA.  Our final report can be found <a href="http://alexisbcook.github.io/pdfs/MITLL_Paper.pdf">here</a>.</p>
+<p>In this project at the MIT Lincoln Laboratory, we showed that DSPCA, a Matlab toolbox for sparse PCA, reliably pushes past the clique detection threshold for PCA.  Our final report can be found <a href="./pdfs/MITLL_Paper.pdf">here</a>.</p>
 
 </div>
 </div>
@@ -12153,7 +12146,7 @@ y<em>t = A</em>{z<em>t}y</em>{t-1} + e_t(z_t)
 <p>In order to improve outcomes for HN cancers, a substantial amount of research is now focusing on the molecular biology of the tumors in an attempt to selectively target pathways involved in carcinogenesis.  Mounting evidence has demonstrated that the primarily intracellular, pro-survival proteins Bcl-2 and Bcl-xL, which are upregulated in a variety of tumor types, including HN, constitute unique and important therapeutic targets for cancer.</p>
 <p>Researchers recently designed a new class of potent and specific, small-molecule dual inhibitors of Bcl-2 and Bcl-xL. Preliminary evidence suggests that BM-1197 is their most promising lead. It has been shown to be highly effective on HN cancer cells.  In order to exploit the therapeutic potential of BM-1197, and to predict optimal doses and dose scheduling, it is essential to combine biological experimentation, mathematical modeling, and numerical simulation to understand the molecular basis of their synergistic action.</p>
 <p>We developed a simple, yet useful multilevel modeling framework to understand the mechanisms underlying the anti-tumor effect of therapeutic inhibition of Bcl-2 and Bcl-xL alone and in combination with cisplatin.</p>
-<p>Specifically, we created a biologically-informed model composed of a system of ordinary differential equations.  The model captures cellular and intracellular dynamics, and we fit the model to experimental data through the use of ODE solvers in Matlab.  Our final paper can be found <a href="http://alexisbcook.github.io/pdfs/Cancer_Paper.pdf">here</a>.</p>
+<p>Specifically, we created a biologically-informed model composed of a system of ordinary differential equations.  The model captures cellular and intracellular dynamics, and we fit the model to experimental data through the use of ODE solvers in Matlab.  Our final paper can be found <a href="./pdfs/Cancer_Paper.pdf">here</a>.</p>
 
 </div>
 </div>
@@ -12170,7 +12163,7 @@ y<em>t = A</em>{z<em>t}y</em>{t-1} + e_t(z_t)
             var disqus_shortname = 'alexisbcook-github-io'; // required: replace example with your forum shortname
 
                     var disqus_identifier = 'review-of-past-projects';
-                var disqus_url = 'http://alexisbcook.github.io/review-of-past-projects.html';
+                var disqus_url = './review-of-past-projects.html';
 
             var disqus_config = function () {
                 this.language = "en";
@@ -12198,7 +12191,7 @@ y<em>t = A</em>{z<em>t}y</em>{t-1} + e_t(z_t)
             <aside>
 <div id="aboutme">
         <p>
-            <img width="100%" class="img-thumbnail" src="http://alexisbcook.github.io//images/avatar.jpg"/>
+            <img width="100%" class="img-thumbnail" src=".//images/avatar.jpg"/>
         </p>
 </div>
 <section class="well well-sm">
@@ -12214,17 +12207,17 @@ y<em>t = A</em>{z<em>t}y</em>{t-1} + e_t(z_t)
             <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
                 <ul class="list-group" id="recentposts">
                     <li class="list-group-item">
-                        <a href="http://alexisbcook.github.io/review-of-past-projects.html">
+                        <a href="./review-of-past-projects.html">
                             Review of Past Projects
                         </a>
                     </li>
                     <li class="list-group-item">
-                        <a href="http://alexisbcook.github.io/introduction-to-the-dirichlet-distribution.html">
+                        <a href="./introduction-to-the-dirichlet-distribution.html">
                             Introduction to the Dirichlet Distribution
                         </a>
                     </li>
                     <li class="list-group-item">
-                        <a href="http://alexisbcook.github.io/mle-map-and-coin-flips.html">
+                        <a href="./mle-map-and-coin-flips.html">
                             MLE, MAP, and Coin Flips
                         </a>
                     </li>
@@ -12251,13 +12244,13 @@ y<em>t = A</em>{z<em>t}y</em>{t-1} + e_t(z_t)
       </div>
    </div>
 </footer>
-<script src="http://alexisbcook.github.io/theme/js/jquery.min.js"></script>
+<script src="./theme/js/jquery.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="http://alexisbcook.github.io/theme/js/bootstrap.min.js"></script>
+<script src="./theme/js/bootstrap.min.js"></script>
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="http://alexisbcook.github.io/theme/js/respond.min.js"></script>
+<script src="./theme/js/respond.min.js"></script>
 
     <!-- Disqus -->
     <script type="text/javascript">
@@ -12274,23 +12267,6 @@ y<em>t = A</em>{z<em>t}y</em>{t-1} + e_t(z_t)
         }());
     </script>
     <!-- End Disqus Code -->
-    <!-- Google Analytics -->
-    <script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-83225772-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-    <!-- End Google Analytics Code -->
 
 </body>
 </html>

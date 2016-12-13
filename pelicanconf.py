@@ -59,11 +59,7 @@ RELATIVE_URLS = True
 # format top menu bar
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = False
-MENUITEMS = [
-	('Artwork', '/Artwork.html'),
-	('CV', '/CV.html'),
-	('Contact', '/Contact.html'),
-]
+
 
 
 # format sidebar
