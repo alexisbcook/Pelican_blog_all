@@ -56,21 +56,11 @@ DISPLAY_ARTICLE_INFO_ON_INDEX = False
 #BANNER = '/content/images/banner.png'
 #BANNER_SUBTITLE = 'not sure what this does either'
 
-
-NOTEBOOK_DIR = 'content/notebooks'
 PLUGIN_PATHS = ['./plugins']
-#PLUGINS = ['tag_cloud', 'liquid_tags.img', 'liquid_tags.video',
-#			'liquid_tags.youtube', 'liquid_tags.include_code',
-#           	'liquid_tags.notebook','render_math']
-
-
-#MARKUP = ('md', 'ipynb')
-#PLUGINS = ['tag_cloud', 'ipynb.markup']
-
 MARKUP = ('md')
-PLUGIN_PATH = './plugins'
-PLUGINS = ['ipynb.liquid']
+PLUGINS = ['liquid_tags.notebook']
 NOTEBOOK_DIR = 'notebooks'
+EXTRA_HEADER = open('_nb_header.html').read().decode('utf-8')
 
 HIDE_SIDEBAR = True
 

@@ -176,7 +176,7 @@ figure.floatcenter, .align-center {
     background-position: top center;
     background-attachment: scroll;
     background-size: cover;
-    background-color: #000000;
+    background-color: #C4C4C4;
     margin: 0 0 20px;
     padding: 70px 0; /*controls padding around inner text*/
     position: relative;
@@ -193,7 +193,7 @@ figure.floatcenter, .align-center {
 }
 
 #banner h1 {
-    color: #000000;
+    color: #fff;
     font-family: "HelveticaNeue-CondensedBold","Helvetica Neue CE 600 Condensed","Helvetica Neue LT Condensed","Helvetica Neue 600 Condensed","HelveticaNeue-BoldCondensed","Helvetica Neue BoldCondensed","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 60px;
     font-stretch: condensed;
@@ -238,39 +238,4 @@ figure.floatcenter, .align-center {
 
 .gap-left {
   margin-left: 10px;
-}
-
-/* tag cloud */
-ul.tagcloud {
-  list-style: none;
-    padding: 0;
-}
-
-ul.tagcloud li {
-    display: inline-block;
-}
-
-li.tag-1 {
-    font-size: 150%;
-}
-
-li.tag-2 {
-    font-size: 130%;
-}
-
-li.tag-3 {
-    font-size: 110%;
-}
-
-li.tag-4 {
-    font-size: 90%;
-}
-
-li.tag-5 {
-    font-size: 80%;
-}
-
-ul.tagcloud .list-group-item <span>.badge {
-    background-color: grey;
-    color: white;
 }
