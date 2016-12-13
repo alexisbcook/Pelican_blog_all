@@ -1,3 +1,0 @@
-# alexisbcook.github.io
-
-hey :)

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexis Cook</title><link href="http://alexisbcook.github.io/" rel="alternate"></link><link href="http://alexisbcook.github.io/feeds/past-projects.atom.xml" rel="self"></link><id>http://alexisbcook.github.io/</id><updated>2016-12-13T04:20:00-06:00</updated><entry><title>Review of Past Projects</title><link href="http://alexisbcook.github.io/review-of-past-projects.html" rel="alternate"></link><published>2016-12-13T04:20:00-06:00</published><updated>2016-12-13T04:20:00-06:00</updated><author><name>Alexis Cook</name></author><id>tag:alexisbcook.github.io,2016-12-13:review-of-past-projects.html</id><summary type="html">&lt;p&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;In this post, I will outline some past research projects.&lt;/p&gt;
+&lt;p&gt;Some of these projects appear on my CV, which can be accessed &lt;a href="http://alexisbcook.github.io/pdfs/CV.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Connectome-Project"&gt;Connectome Project&lt;a class="anchor-link" href="#Connectome-Project"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id="Final-Project-for-CSCI-2420:-Probabilistic-Graphical-Models-(with-Ivana-Petrovic-and-Guangyao-Zhou)"&gt;&lt;em&gt;Final Project for CSCI 2420: Probabilistic Graphical Models&lt;/em&gt; (with Ivana Petrovic and Guangyao Zhou)&lt;a class="anchor-link" href="#Final-Project-for-CSCI-2420:-Probabilistic-Graphical-Models-(with-Ivana-Petrovic-and-Guangyao-Zhou)"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Neuron-to-neuron communication operates electrochemically, and neuronal signals are well-known to generally be followed by cellular influx of calcium ions into the associated pre-synaptic cell. Calcium-sensitive fluorescent indicators are often used in experimental settings to simultaneously monitor the activity of tens of thousands of neighboring neurons.&lt;/p&gt;
+&lt;p&gt;The downloaded &lt;a href="http://www.kaggle.com/c/connectomics"&gt;data&lt;/a&gt; includes time series of neural activity visualized with fluorescent indicators in a neuronal culture of $N = 100$ neurons, collected over a time period lasting one hour, at a sampling rate of $(\Delta t)^{−1} = 50$ Hz.  Based on this data, our goal was to infer directed connections between neurons in the network.&lt;/p&gt;
+&lt;p&gt;We made use of a nonlinear state space model, where the observed random variables at time $t
+\Delta t$ are the corresponding fluorescence levels of the $N$
+neurons.  The corresponding hidden random variables are the number of spikes for each neuron in the time interval $[ ( t - 1) \Delta t, t \Delta t]$, along with the calcium concentration in each neuron at time $t \Delta t$.&lt;/p&gt;
+&lt;p&gt;We constructed a matrix which encodes the connectivity pattern between neurons; this is a hidden variable in our biologically-motivated, highly-detailed model (&lt;em&gt;... which we do not describe in full here&lt;/em&gt;).  The connectivity matrix is built into the model through the assumption that a neuron is more likely to spike at time $t\Delta t$ if many of its pre-synaptic neurons fired at time $(t-1)\Delta t$.  Since this is a parameter estimation problem with incomplete observations, we used the expectation-maximization (EM) algorithm to solve for all unknown quantities.  We wrote the code entirely in Matlab.  Our final report can be found &lt;a href="http://alexisbcook.github.io/pdfs/2420_Final_Report.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Patterns-in-Sign-Language"&gt;Patterns in Sign Language&lt;a class="anchor-link" href="#Patterns-in-Sign-Language"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id="Final-Project-for-CLPS-1520:-Computer-Vision"&gt;&lt;em&gt;Final Project for CLPS 1520: Computer Vision&lt;/em&gt;&lt;a class="anchor-link" href="#Final-Project-for-CLPS-1520:-Computer-Vision"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Recall that a &lt;strong&gt;hidden Markov model (HMM)&lt;/strong&gt; with observations $\{y_t\}_{t=1}^T$, latent states $\{z_t\}_{t=1}^T$, state-specific transition distributions $\{\pi_k\}_{k=1}^K$, emission distribution $F$, and emission parameters $\{\theta_k\}_{k=1}^K$ follows the following dynamics:
+\begin{align}
+z&lt;em&gt;t | z&lt;/em&gt;{t-1} \sim \pi&lt;em&gt;{z&lt;/em&gt;{t-1}}\
+y_t | z&lt;em&gt;t \sim F(\theta&lt;/em&gt;{z_t})
+\end{align}&lt;/p&gt;
+&lt;p&gt;An &lt;strong&gt;autoregressive hidden Markov model (ARHMM)&lt;/strong&gt;, in contrast, removes the modeling assumption that the observations are conditionally independent, given the latent state sequence.  For a school project, I persued the order-1 process, with lag matrices given by $\{A_k\}_{k=1}^K$, which evolved according to the following dynamics:
+\begin{align&lt;em&gt;}
+z&lt;em&gt;t | z&lt;/em&gt;{t-1} \sim \pi&lt;em&gt;{z&lt;/em&gt;{t-1}}\
+y&lt;em&gt;t = A&lt;/em&gt;{z&lt;em&gt;t}y&lt;/em&gt;{t-1} + e_t(z_t)
+\end{align&lt;/em&gt;}&lt;/p&gt;
+&lt;p&gt;where $e_t(z_t) \sim \mathcal{N}(0, \Sigma_{z_t})$.  In this model, we see that each potential latent state specifies a linear dynamical system along which the observed data is permitted to evolve.&lt;/p&gt;
+&lt;p&gt;For the final project in my course on computer vision, I fit an ARHMM on RGB-D recordings of sign language in order to see if it was possible to reliably detect motion patterns.  My idea was that this project could inspire new techniques for sign language translation, with detected latent states corresponding to higher-level vocabularies.  The code that I used to complete this project was written in Python by a colleague at Brown and can be found &lt;a href="https://bitbucket.org/michaelchughes/bnpy-dev/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Action-Planning-in-iPOMDP-Framework"&gt;Action Planning in iPOMDP Framework&lt;a class="anchor-link" href="#Action-Planning-in-iPOMDP-Framework"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id="Final-Project-for-CSCI-2951-P:-title-(with-Gabe-Hope-and-Geng-Ji)"&gt;Final Project for CSCI 2951-P: title (with Gabe Hope and Geng Ji)&lt;a class="anchor-link" href="#Final-Project-for-CSCI-2951-P:-title-(with-Gabe-Hope-and-Geng-Ji)"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Consider a robot that is trying to learn to play a simple computer game.  When it is his turn, the robot has a finite number of potential moves.  Once executed, the chosen move either increases or decreases the points in the game.  Say the robot has the goal of maximizing his score, and he has access to his point tally at all times.  We now introduce the mathematical framework that can be used to assist the robot in devising an optimal strategy to maximize his score.&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;Markov Decision Process (MDP)&lt;/strong&gt; is a mathematical framework for modeling decision making.  It is formalized as a tuple $\{S, A, T, R, \gamma\}$, where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$S$ is a finite set of world states. &lt;ul&gt;
+&lt;li&gt;&lt;em&gt;In the example above, this corresponds to a set of possible situations in the game for which the robot would have to decide his next move.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;$A$ is a finite set of actions.&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;In the example above, this corresponds to the set of possible moves that the player could take.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;$T$ defines for all states $s,s' \in S$, actions $a \in A$, and times $t$, the probability that action $a$ in state $s$ at time $t$ results in state $s'$ at time $t+1$.&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;In the example above, this corresponds to defining how the game screen is likely to change in response to different potential moves.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;$R$ defines for all states $s\in S$ and actions $a \in A$, the reward obtained by using action $a$ in state $s$.  We note that it is also possible to introduce some stochasticity here, where $R$ defines (for each $s \in S$, $a \in A$) a probability distribution on potential rewards. &lt;ul&gt;
+&lt;li&gt;&lt;em&gt;In the example above, this corresponds to defining how different moves increase or decrease your score.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;$\gamma \in [0,1]$ is the discount factor, which controls the relative importance between current and future rewards.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;At each time $t$, an agent acting in line with an MDP finds herself in some (observed) state $s_t \in S$.  She then takes some action $a_t \in A$ and transitions to a new (observed) state $s_{t+1}$, which is a draw from a categorical distribution with probabilities specified in $T$.  At the same time, she receives an immediate reward $r_t$, which is specified in $R$.  The agent has full &lt;em&gt;a priori&lt;/em&gt; knowledge of the states ($S$) and actions ($A$), but must learn $T$ and $R$ through experience.  As knowledge of the environment is gained, the agent is able to make better decisions towards her goal of maximizing discounted reward, defined as $\sum_{t=0}^\infty \gamma^t r_t$.&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;Partially Observable Markov Decision Process (POMDP)&lt;/strong&gt; is a generalization of an MDP, wherein the agent cannot directly observe states.  In this case, the agent has &lt;em&gt;a priori&lt;/em&gt; knowledge of the number of states, but only receives a noisy estimate of which state she is in at any given time.  In this case, the agent must learn to infer the states that she has visited.&lt;/p&gt;
+&lt;p&gt;An &lt;strong&gt;Infinite Partially Observable Markov Decision Process (iPOMDP)&lt;/strong&gt; is a generalization of a POMDP, wherein the agent does not know the total number of states in the environment.  In this case, the agent must deduce the size of the set of world states.  It is worth noting that a nonparametric approach will be necessary, to permit the number of world states to potentially grow with time.&lt;/p&gt;
+&lt;p&gt;The set of unknowns of an agent acting in accordance with an iPOMDP makes this problem much more difficult to solve than the traditional MDP.  We re-implemented the results in one research paper for our final project.  Our final report can be found &lt;a href="http://alexisbcook.github.io/pdfs/2951_Final_Report.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Clique-Detection-Beneath-the-Noise-Floor"&gt;Clique Detection Beneath the Noise Floor&lt;a class="anchor-link" href="#Clique-Detection-Beneath-the-Noise-Floor"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id="Research-Project-at-MIT-Lincoln-Laboratory-(with-Ben-Miller)"&gt;Research Project at MIT Lincoln Laboratory (with Ben Miller)&lt;a class="anchor-link" href="#Research-Project-at-MIT-Lincoln-Laboratory-(with-Ben-Miller)"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Real-world graphs are naturally inhomogeneous and exhibit nonuniform edge densities within local substructures.  In this setting, it is often possible to break graphs into communities, or sets of vertices with a high number of within-group connections and fewer links between communities.  The problem of community detection in networks has become increasingly prevalent in recent years and has important applications to ﬁelds such as computer science, biology, and sociology. While community detection often considers partitioning a graph into multiple communities, a variant of the problem considers detection of a small subgraph with higher connectivity than the remainder of the graph, a special case of which is the planted clique problem.&lt;/p&gt;
+&lt;p&gt;Recall that a clique is a set of vertices such that every two vertices are connected by an edge.  In the standard $(k, p, n)$ planted clique problem, one is given an Erdos-Renyi graph $G(n, p)$ with an embedded clique of size $k$, and the objective is to determine the hidden locations of the clique vertices. Formally, given the graph $G = (V, E)$, where $V$ is the set of vertices and $E$ is the set of edges (connections), with $|V | = n$, the desired outcome is the subset of vertices $V^* \subset V$, $|V^*| = k$ that belong to the clique.&lt;/p&gt;
+&lt;p&gt;In our procedure, instead of working directly with the edge set $E$, we will analyze the modularity matrix $B$ corresponding to our graph, which proves a useful representation of the graph’s topology.  It has been shown previously that thresholding the principal eigenvector of $B$ can yield the locations of the clique vertices.  However, this technique (and all PCA-based methods) for clique detection has a well-defined breakdown point, realized when the size of the clique is too small, relative to the density of the graph.&lt;/p&gt;
+&lt;p&gt;In this project at the MIT Lincoln Laboratory, we showed that DSPCA, a Matlab toolbox for sparse PCA, reliably pushes past the clique detection threshold for PCA.  Our final report can be found &lt;a href="http://alexisbcook.github.io/pdfs/MITLL_Paper.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="A-Multiscale-Model-of-Synergism-in-Cancer-Therapy"&gt;A Multiscale Model of Synergism in Cancer Therapy&lt;a class="anchor-link" href="#A-Multiscale-Model-of-Synergism-in-Cancer-Therapy"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id="Research-Project-at-the-University-of-Michigan-Ann-Arbor-(with-Trachette-Jackson)"&gt;Research Project at the University of Michigan-Ann Arbor (with Trachette Jackson)&lt;a class="anchor-link" href="#Research-Project-at-the-University-of-Michigan-Ann-Arbor-(with-Trachette-Jackson)"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Since their approval for the treatment of cancer in the 1970s, platinum-based chemotherapeutic agents have been an essential part of the standard of care for lung, ovarian, colorectal, testicular, bladder and head and neck cancers. Cisplatin is the most commonly used platinum chemotherapeutic agent, but its efficacy is often compromised because of the substantial risk for severe toxicities.  For head and neck (HN) tumors, the sixth most common malignancy in the world, state-of-the-art treatment with anti-mitotic, platinum-based drugs, including cisplatin, still results in a 5-year disease-specific survival of approximately 60%.&lt;/p&gt;
+&lt;p&gt;In order to improve outcomes for HN cancers, a substantial amount of research is now focusing on the molecular biology of the tumors in an attempt to selectively target pathways involved in carcinogenesis.  Mounting evidence has demonstrated that the primarily intracellular, pro-survival proteins Bcl-2 and Bcl-xL, which are upregulated in a variety of tumor types, including HN, constitute unique and important therapeutic targets for cancer.&lt;/p&gt;
+&lt;p&gt;Researchers recently designed a new class of potent and specific, small-molecule dual inhibitors of Bcl-2 and Bcl-xL. Preliminary evidence suggests that BM-1197 is their most promising lead. It has been shown to be highly effective on HN cancer cells.  In order to exploit the therapeutic potential of BM-1197, and to predict optimal doses and dose scheduling, it is essential to combine biological experimentation, mathematical modeling, and numerical simulation to understand the molecular basis of their synergistic action.&lt;/p&gt;
+&lt;p&gt;We developed a simple, yet useful multilevel modeling framework to understand the mechanisms underlying the anti-tumor effect of therapeutic inhibition of Bcl-2 and Bcl-xL alone and in combination with cisplatin.&lt;/p&gt;
+&lt;p&gt;Specifically, we created a biologically-informed model composed of a system of ordinary differential equations.  The model captures cellular and intracellular dynamics, and we fit the model to experimental data through the use of ODE solvers in Matlab.  Our final paper can be found &lt;a href="http://alexisbcook.github.io/pdfs/Cancer_Paper.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/p&gt;</summary><category term="Past Projects"></category></entry></feed>

@@ -1,6 +1,6 @@
 [submodule "output"]
 	path = output
-	url = git@github.com:alexisbcook/alexisbcook.github.io.git
+	url = https://github.com/alexisbcook/alexisbcook.github.io.git
 [submodule "output/alexisbcook.github.io"]
 	path = output/alexisbcook.github.io
 	url = https://github.com/alexisbcook/alexisbcook.github.io.git
