@@ -1,4 +1,5 @@
-Title: Resume
+Title: CV
 Date: 2012-12-01 10:02
+save_as: CV.html
 
 [Click here!]({filename}/pdfs/CV.pdf)
