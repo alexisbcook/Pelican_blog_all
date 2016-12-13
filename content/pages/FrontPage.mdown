@@ -1,6 +1,5 @@
 Title: Welcome!
 Date: 1960-12-13
-save_as: index.html
 
 My name is Alexis.
 
