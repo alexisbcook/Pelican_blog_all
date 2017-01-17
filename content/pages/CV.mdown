@@ -1,4 +1,0 @@
-Title: CV
-Date: 2012-12-01 10:02
-
-[Click here!]({filename}/pdfs/CV.pdf)
