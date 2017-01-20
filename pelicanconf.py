@@ -25,7 +25,8 @@ SOCIAL = (('github', 'https://github.com/alexisbcook'),
           ('twitter', 'https://twitter.com/alexis_b_cook'),)
 
 # Theme is pelican-bootstrap3
-THEME = 'pelican-themes/pelican-bootstrap3'
+#THEME = 'pelican-themes/pelican-bootstrap3'
+THEME = 'theme'
 PYGMENTS_STYLE = 'trac'
 # like trac > borland > zenburn
 BOOTSTRAP_THEME = 'yeti'
@@ -70,6 +71,23 @@ BOOTSTRAP_FLUID = False
 # images and pdfs exported to output
 STATIC_PATHS = ['images', 'pdfs']
 
+
+# daniel rodriguez theme
+PAGE_DIRS = ['pages']
+ARTICLE_DIRS = ['articles']
+ARTICLE_URL = 'blog/{date:%Y}/{date:%m}/{date:%d}/{slug}/'
+ARTICLE_SAVE_AS = 'blog/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
+ABOUT_PAGE = '/pages/about-me.html'
+GITHUB_USERNAME = 'alexisbcook'
+TWITTER_USERNAME = 'alexis_b_cook'
+SHOW_ARCHIVES = True
+PAGE_SAVE_AS = '{category}/{slug}.html'
+PAGE_URL = PAGE_SAVE_AS
+IPYNB_EXTEND_STOP_SUMMARY_TAGS = [('h2', None), ('ol', None), ('ul', None)]
+MD_EXTENSIONS = ['codehilite(css_class=codehilite)', 'extra']
+DEFAULT_DATE_FORMAT = '%B %d, %Y'
+SUMMARY_MAX_LENGTH = 150
+DEFAULT_PAGINATION = 10
 
 # Disqus
 DISQUS_SITENAME = "alexisbcook-github-io"
