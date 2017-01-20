@@ -1,0 +1,274 @@
+#import nltk.data                         # sentence splitting
+#import logging                           # output messages for word2vec embedding step
+#import seaborn as sns                    # pretty plots
+#from sklearn.manifold import TSNE        # reducing embeddings to 2-D
+#import matplotlib.pyplot as plt, mpld3   # plots
+
+class Logistic_Regression_Classifier(object):
+
+    def __init__(self, train, test, train_labels, test_labels, stepsize = 0.2, epochs = 100, batch_size = 100):
+        # we store the input variables
+        self.train = train                     # numpy array
+        self.test = test                       # numpy array
+        self.train_labels = train_labels       # numpy array
+        self.test_labels = test_labels         # numpy array
+        self.stepsize = stepsize
+        self.epochs = epochs
+        self.batch_size = batch_size
+        self.num_features = self.train.shape[1]
+        self.num_classes = len(np.unique(labels))
+
+    def get_onehot_labels(self):
+        # convert labels into integer-valued labels
+        self.train_integer_labels = preprocessing.LabelEncoder().fit_transform(self.train_labels).reshape(-1,1)
+        self.test_integer_labels = preprocessing.LabelEncoder().fit_transform(self.test_labels).reshape(-1,1)
+        # Convert integer-valued labels to one-hot format
+        enc = preprocessing.OneHotEncoder()
+        enc.fit(self.train_integer_labels)
+        self.onehot_train = enc.transform(self.train_integer_labels).toarray()
+        enc.fit(self.test_integer_labels)
+        self.onehot_test = enc.transform(self.test_integer_labels).toarray()
+
+    def define_placeholders(self):
+        # define input
+        self.x = tf.placeholder(tf.float32, shape = [None, self.num_features])
+        # define labels
+        self.y_ = tf.placeholder(tf.float32, shape = [None, self.num_classes])
+
+    def define_model(self):
+        # weights
+        self.W = tf.Variable(tf.truncated_normal([self.num_features, self.num_classes], stddev = 1./math.sqrt(self.num_features)))
+        # bias
+        self.b = tf.Variable(tf.zeros([self.num_classes]))
+        # convert input into output
+        self.y = tf.matmul(self.x, self.W) + self.b
+
+    def initialize_session(self):
+        # initialize the session
+        self.sess = tf.Session()
+        init = tf.initialize_all_variables()
+        self.sess.run(init)
+
+    def define_loss_and_accuracy(self):
+        # define loss function
+        self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.y, self.y_))
+        # define accuracy
+        correct_prediction = tf.equal(tf.argmax(self.y, 1), tf.argmax(self.y_, 1))
+        self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+
+    def define_training_step(self):
+        # define update step
+        self.train_step = tf.train.GradientDescentOptimizer(self.stepsize).minimize(self.loss)
+
+    def data_iterator(self):
+        # get a new batch
+        indices = np.random.permutation(self.train.shape[0])
+        self.train_batch = self.train[indices[:self.batch_size]]
+        self.onehot_train_batch = self.onehot_train[indices[:self.batch_size]]
+
+    def train_the_model(self):
+        # train the model
+        for i in tqdm(range(self.epochs), ascii=True):
+            self.data_iterator()
+            self.train_step.run(session = self.sess, feed_dict = {self.x: self.train_batch.reshape([-1, self.num_features]), self.y_: self.onehot_train_batch})
+        A = self.accuracy.eval(session = self.sess, feed_dict = {self.x: self.train.reshape([-1, self.num_features]), self.y_: self.onehot_train})
+        self.train_acc = A
+        # and now the test set
+        A = self.accuracy.eval(session = self.sess, feed_dict = {self.x: self.test.reshape([-1, self.num_features]), self.y_: self.onehot_test})
+        self.test_acc = A
+        # also evaluate the loss
+        L = self.loss.eval(session = self.sess, feed_dict = {self.x: self.train.reshape([-1, self.num_features]), self.y_: self.onehot_train})
+        self.train_loss = L
+        y_predictions = tf.argmax(self.y, 1).eval(session = self.sess, feed_dict = {self.x: self.test.reshape([-1, self.num_features]), self.y_: self.onehot_test})
+        y_true = tf.argmax(self.y_, 1).eval(session = self.sess, feed_dict={self.y_: self.onehot_test})
+        self.cnf_matrix = confusion_matrix(y_true, y_predictions)
+        self.classes = self.target_df[self.target_col].unique()
+        self.sess.close()
+
+    def execute(self):
+        self.get_onehot_labels()
+        self.define_placeholders()
+        self.define_model()
+        self.initialize_session()
+        self.define_loss_and_accuracy()
+        self.define_training_step()
+        self.train_the_model()
+
+'''
+def get_labeled_sentences(df):
+    sentences = []
+    for idx in tqdm(df.index):
+        sentences.append(models.doc2vec.LabeledSentence(words=review_to_wordlist(df.ix[idx, 'review']), tags=df.ix[idx,'file']))
+    return sentences
+
+train_pos_sentences = get_labeled_sentences(train_pos)
+train_neg_sentences = get_labeled_sentences(train_neg)
+test_pos_sentences = get_labeled_sentences(test_pos)
+test_neg_sentences = get_labeled_sentences(test_neg)
+unsup_sentences = get_labeled_sentences(unsup)
+
+sentences = train_pos_sentences + train_neg_sentences + test_pos_sentences + test_neg_sentences + unsup_sentences
+'''
+
+'''
+def add_wordlist(df):
+    # add wordlist column to Pandas dataframe
+    wordlists = []
+    for idx in tqdm(df.index):
+        wordlists.append(review_to_wordlist(df.ix[idx, 'review']))
+    df = df.join(pd.DataFrame({'wordlists': wordlists}))
+    return df
+
+train_pos = add_wordlist(train_pos)
+train_neg = add_wordlist(train_neg)
+test_pos = add_wordlist(test_pos)
+test_neg = add_wordlist(test_neg)
+unsup = add_wordlist(unsup)
+
+def get_sentences(df):
+    sentences = []
+    for idx in tqdm(df.index):
+        sentences.append(models.doc2vec.LabeledSentence(words=df.ix[idx,'wordlists'], tags=df.ix[idx,'file']))
+    return sentences
+'''
+
+def review_to_lists_of_lists( review, tokenizer ):
+    # 
+    # Function to turn each review into a list of sentences, 
+    # where each sentence is a list of words
+    #
+    # 1. Process punctuation, excessive periods, missing spaces 
+    review = clean_str(review)
+    #
+    # 2. Remove HTML tags 
+    review = BeautifulSoup(review, "lxml").get_text()
+    #
+    # 3. Use the NLTK tokenizer to split the review into list of sentences
+    #   (getting rid of extra spaces at front/back)
+    raw_sentences = tokenizer.tokenize(review.strip())
+    #
+    # 4. Loop over each sentence to get list of list of lowercase words
+    sentences = []
+    for raw_sentence in raw_sentences:
+        # Convert to lowercase and split into list of words
+        raw_sentence = raw_sentence.lower().split()
+        # If a sentence is not long enough, skip it
+        if len(raw_sentence) > 1:
+            # add list of words to returned object
+            sentences.append( raw_sentence )
+    #
+    # Return the list of sentences (each sentence is a list of words,
+    # so this returns a list of lists
+    return sentences
+
+def corpus_to_list(df, tokenizer):
+    # Turns dataframe of reviews into a list of sentences,
+    # where each sentence is a list of words
+    # and sentences are derived from *all reviews* in dataframe df
+    sentences = []
+    for idx in tqdm(df.index):
+        to_append = review_to_lists_of_lists(df.ix[idx, 'review'], tokenizer)
+        sentences += to_append
+    return sentences
+
+train_pos_sentences = corpus_to_list(train_pos, tokenizer)
+train_neg_sentences = corpus_to_list(train_neg, tokenizer)
+test_pos_sentences = corpus_to_list(test_pos, tokenizer)
+test_neg_sentences = corpus_to_list(test_neg, tokenizer)
+unsup_sentences = corpus_to_list(unsup, tokenizer)
+
+def extreme_sentences(sentences):
+    # prints shortest and longest sentence in a list (sentences)
+    (tmp, longest_sentence) = max(enumerate(sentences), key = lambda sentences: len(sentences[1]))   
+    (tmp, shortest_sentence) = min(enumerate(sentences), key = lambda sentences: len(sentences[1]))
+    print("The longest sentence has %s words." % len(longest_sentence))
+    print("The shortest sentence has %s words." % len(shortest_sentence))
+    print(longest_sentence)
+    print("Shortest sentence:", shortest_sentence, '\n')
+    
+all_sentences = ['train_pos_sentences', 'train_neg_sentences', 'test_pos_sentences', 'test_neg_sentences', 'unsup_sentences']
+for i in all_sentences:
+    print("Extreme sentence statistics for " + i + ":")
+    extreme_sentences(eval(i))
+    
+# obtain list of sentence lengths
+sentences = train_pos_sentences + train_neg_sentences + test_pos_sentences + test_neg_sentences + unsup_sentences
+sentence_lengths = [len(elem) for elem in sentences]
+sentence_lengths.sort()
+
+# get total number of sentences
+print("Total number of sentences:", len(sentence_lengths))
+# get number of sentences of length 2
+print("Sentences of length 0:", sum([i==2 for i in sentence_lengths]))
+# get number of sentences of size greater than 200
+print("Sentences of length >200:", sum([i>200 for i in sentence_lengths]), 
+      "(", 100*sum([i>200 for i in sentence_lengths])/len(sentence_lengths), "%, ",
+      "<=200:", sum([i<=200 for i in sentence_lengths]), ")\n")
+# get number of sentences of size greater than 100
+print("Sentences of length >100:", sum([i>100 for i in sentence_lengths]),
+      "(", 100*sum([i>100 for i in sentence_lengths])/len(sentence_lengths), "%, ",
+      "<=100:", sum([i<=100 for i in sentence_lengths]), ")\n")
+# get number of sentences of size greater than 60
+print("Sentences of length >60:", sum([i>60 for i in sentence_lengths]), 
+      "(", 100*sum([i>60 for i in sentence_lengths])/len(sentence_lengths), "%, ",
+      "<=60:", sum([i<=60 for i in sentence_lengths]), ")\n")
+
+# make plots
+plt.figure(figsize=(10,2.5))
+
+# make histogram of sentence lengths for sentences <=200 
+plt.subplot(131)
+plt.hist(sentence_lengths, bins=np.linspace(0, 200, 21))
+plt.title("Histogram <= 200")
+
+# make histogram of sentence lengths for sentences <=100 
+plt.subplot(132)
+plt.hist(sentence_lengths, bins=np.linspace(0, 100, 11))
+plt.title("Histogram <= 100")
+
+# make histogram of sentence lengths for sentences <=60
+plt.subplot(133)
+plt.hist(sentence_lengths, bins=np.linspace(0, 60, 11))
+plt.title("Histogram <= 60")
+
+# adjust spacing between subplots to minimize the overlaps
+plt.tight_layout()
+plt.show()
+
+# Uncomment the below line to visualize progress
+# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+
+# Set values for various parameters
+num_features = 300    # Word vector dimensionality                      
+min_word_count = 40   # Minimum word count                        
+num_workers = 4       # Number of threads to run in parallel
+context = 10          # Context window size                                                                                    
+downsampling = 1e-3   # Downsample setting for frequent words
+
+# Initialize and train the model 
+model = word2vec.Word2Vec(sentences, workers=num_workers, \
+            size=num_features, min_count = min_word_count, \
+            window = context, sample = downsampling)
+
+# If you don't plan to train the model any further, calling 
+# init_sims will make the model much more memory-efficient.
+model.init_sims(replace=True)
+
+model.most_similar("awesome")
+
+model.most_similar("awful")
+
+upper_limit = 300
+
+vocabulary = list(model.vocab.keys())[:upper_limit]
+emb_tuple = tuple([model[v] for v in vocabulary])
+X = np.vstack(emb_tuple)
+tsne_model = TSNE(n_components=2, random_state=0)
+np.set_printoptions(suppress=True)
+X_new = tsne_model.fit_transform(X) 
+
+plt.figure(figsize=(10,10))
+plt.scatter(X_new[:, 0], X_new[:, 1], s=3)
+for label, x, y in zip(vocabulary, X_new[:, 0], X_new[:, 1]):
+    plt.text(x, y, label, {'color': 'k', 'fontsize': 5})
+mpld3.enable_notebook()
