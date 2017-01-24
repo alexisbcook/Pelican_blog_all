@@ -9,9 +9,10 @@
         <title>Introduction to the Dirichlet Distribution | Alexis Cook</title>
 
         <link rel="alternate" type="application/atom+xml" title="Alexis Cook blog atom feed" href="/feeds/all.atom.xml" />
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="theme/css/font-awesome.min.css" rel="stylesheet">
         <style>.codehilite .hll { background-color: #404040 }
 .codehilite .c { color: #999999; font-style: italic } /* Comment */
 .codehilite .err { color: #a61717; background-color: #e3d2d2 } /* Error */
@@ -81,7 +82,164 @@
 .codehilite .vg { color: #40ffff } /* Name.Variable.Global */
 .codehilite .vi { color: #40ffff } /* Name.Variable.Instance */
 .codehilite .il { color: #3677a9 } /* Literal.Number.Integer.Long */</style>
-        <style>body{margin:0;padding:0;font:15px 'Source Sans Pro',sans-serif;line-height:1.6em;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}a{color:#007ee5;text-decoration:none}a:hover{color:#007ee5;text-decoration:none}header.main-header{background:none repeat scroll 0% 0% #2A66C0;margin-bottom:0px}header.main-header a{color:#fff}header.main-header .container{max-width:1000px}header.main-header .container nav a:hover{background-color:#2A66C0}article{margin:0}article header{margin-bottom:20px;padding-bottom:20px}article header h1{margin-bottom:2px;font-weight:700;color:#000}article header time{color:#9E9E9E;font-size:0.85em;float:right}article header time.left{color:#9E9E9E;font-size:0.85em;float:left}article p{font-size:16px;margin-bottom:20px;line-height:1.6em}article p.note{background:#f5f5f5;border:1px solid #ddd;padding:0.533em 0.733em}article p.update{background-color:#FEEFB3;border:1px solid #e6e68a;padding:0.533em 0.733em}article p.alert{background-color:#ffe2e2;border:1px solid #ffb2b2;padding:0.533em 0.733em}article ul,article ol{margin-top:0px;margin-bottom:25px}article li{font-size:16px;line-height:1.6em}article a:hover{text-decoration:underline}article blockquote{border-left:2px solid #c7c7cc;color:#666;margin:30px 0;padding:0 0 0 25px}article img{max-width:100%}article code{color:#333;background-color:#EEE;border-radius:0;font-size:13px}article .codehilite pre{border-radius:0;background-color:#202020;color:#d0d0d0}article .codehilite pre code{border:none}article .codehilite pre.bash{background-color:#000;color:#FFF}article .meta{font-size:11px}article .meta a:hover{text-decoration:none}article .meta div{margin-bottom:20px;display:block}article .meta a.tag{margin:0 10px 10px 0;padding:1px 12px;display:inline-block;font-size:12px;color:rgba(0,0,0,0.6);background:rgba(0,0,0,0.05)}article .meta a.tag:hover{background:rgba(0,0,0,0.15)}article .meta a.read_more,article .meta a.comments_btn{font-size:14px;font-weight:800;padding:10px 20px;color:#007EE5;background:#FFF;border:1px solid #007EE5}article .meta a.read_more:hover,article .meta a.comments_btn:hover{color:#FFF;background:#007EE5}.index{max-width:700px}.index article header h2{font-size:36px;margin-bottom:2px;font-weight:700}.index article header h2 a{color:#000}.index article header h2 a:hover{color:#007ee5;text-decoration:none}.index .separator{padding:40px 0 0 0;margin:0 0 40px 0;height:10px;border-bottom:solid 1px #CCC}.index .pagination{display:block;margin-bottom:100px}.index .pagination .left{text-align:right}.index .pagination .right{text-align:left}.index .pagination a{display:inline-block;border:2px solid #007EE5;margin:0 5px;padding:8px 20px;font-weight:bold;color:#007EE5}.index .pagination a:hover{color:#FFF;background:#007EE5}.post{max-width:700px}.post h2:before{content:"# ";font-weight:bold;color:#DDD}.post h3:before{content:"## ";font-weight:bold;color:#DDD}.post h4:before{content:"### ";font-weight:bold;color:#DDD}.post article .meta{margin:50px 0 100px}.list{max-width:700px}.list ul.double-list{margin:0 auto 60px;padding:0;list-style-type:none}.list ul.double-list li{padding:5px 0}.list ul.double-list li h2{font-size:1em;display:inline;font-weight:normal}.list ul.double-list li span{font-family:sans-serif;text-transform:uppercase;text-align:right;float:right;padding-top:3px;font-size:12px;color:#999}.full-width-content{padding-top:10px;padding-left:0px;padding-right:0px;margin-left:-20px;margin-right:-20px}.col-xs-1,.col-sm-1,.col-md-1,.col-lg-1,.col-xs-2,.col-sm-2,.col-md-2,.col-lg-2,.col-xs-3,.col-sm-3,.col-md-3,.col-lg-3,.col-xs-4,.col-sm-4,.col-md-4,.col-lg-4,.col-xs-5,.col-sm-5,.col-md-5,.col-lg-5,.col-xs-6,.col-sm-6,.col-md-6,.col-lg-6,.col-xs-7,.col-sm-7,.col-md-7,.col-lg-7,.col-xs-8,.col-sm-8,.col-md-8,.col-lg-8,.col-xs-9,.col-sm-9,.col-md-9,.col-lg-9,.col-xs-10,.col-sm-10,.col-md-10,.col-lg-10,.col-xs-11,.col-sm-11,.col-md-11,.col-lg-11,.col-xs-12,.col-sm-12,.col-md-12,.col-lg-12{padding-right:0px;padding-left:0px}</style>
+        <style>body {
+	margin:0;
+	padding:0;
+	font-family: 'Roboto', sans-serif;
+	line-height:1.6em;
+	color:#222;
+	text-rendering:optimizeLegibility;
+	-webkit-font-smoothing:antialiased;
+}
+
+a {
+	color:#355C7D;
+	text-decoration:none;
+}
+
+a:hover {
+	color:#C06C84;
+	text-decoration:none;
+}
+
+header.main-header {
+	background:none repeat scroll 0% 0% #355C7D;
+	margin-bottom:0px;
+}
+
+header.main-header a {color:#fff}
+
+header.main-header .container{max-width:1000px}
+
+header.main-header .container 
+
+nav a:hover{background-color:#6C5B7B}
+
+article{margin:0}
+
+article header{margin-bottom:20px;padding-bottom:20px}
+
+article header h1{margin-bottom:2px;font-weight:700;color:#000}
+
+article header time{color:#9E9E9E;font-size:0.85em;float:right}
+
+article header time.left{color:#9E9E9E;font-size:0.85em;float:left}
+
+article p{font-size:16px;margin-bottom:20px;line-height:1.6em}
+
+article p.note{background:#f5f5f5;border:1px solid #ddd;padding:0.533em 0.733em}
+
+article p.update{background-color:#FEEFB3;border:1px solid #e6e68a;padding:0.533em 0.733em}
+
+article p.alert{background-color:#ffe2e2;border:1px solid #ffb2b2;padding:0.533em 0.733em}
+
+article ul,article ol{margin-top:0px;margin-bottom:25px}
+
+article li{font-size:16px;line-height:1.6em}
+
+article a:hover{text-decoration:none}
+
+article blockquote{border-left:2px solid #c7c7cc;color:#666;margin:30px 0;padding:0 0 0 25px}
+
+article img{max-width:100%}
+
+article code{color:#333;background-color:#EEE;border-radius:0;font-size:13px}
+
+article .codehilite pre{border-radius:0;background-color:#202020;color:#d0d0d0}
+
+article .codehilite pre code{border:none}
+
+article .codehilite pre.bash{background-color:#000;color:#FFF}
+
+article .meta{font-size:11px}
+
+article .meta a:hover{text-decoration:none}
+
+article .meta div{margin-bottom:20px;display:block}
+
+article .meta a.tag{margin:0 10px 10px 0;padding:1px 12px;display:inline-block;font-size:12px;color:rgba(0,0,0,0.6);background:rgba(0,0,0,0.05)}
+
+article .meta a.tag:hover{background:rgba(0,0,0,0.15)}
+
+article .meta a.read_more,article .meta a.comments_btn{font-size:14px;font-weight:800;padding:10px 20px;color:#007EE5;background:#FFF;border:1px solid #007EE5}
+
+article .meta a.read_more:hover,article .meta a.comments_btn:hover{color:#FFF;background:#007EE5}
+
+.index{max-width:700px}
+
+.index article header h2{font-size:36px;margin-bottom:2px;font-weight:700}.index article header h2 a{color:#000}
+
+.index article header h2 a:hover{color:#C06C84;text-decoration:none}
+
+.index .separator{padding:40px 0 0 0;margin:0 0 40px 0;height:10px;border-bottom:solid 1px #6C5B7B}
+
+.index .pagination{display:block;margin-bottom:100px}
+
+.index .pagination .left{text-align:right}
+
+.index .pagination .right{text-align:left}
+
+.index .pagination a{display:inline-block;border:2px solid #007EE5;margin:0 5px;padding:8px 20px;font-weight:bold;color:#007EE5}
+
+.index .pagination a:hover{color:#FFF;background:#007EE5}
+
+.post{max-width:700px}.post h2:before{content:"# ";font-weight:bold;color:#DDD}
+
+.post h3:before{content:"## ";font-weight:bold;color:#DDD}
+
+.post h4:before{content:"### ";font-weight:bold;color:#DDD}
+
+.post article .meta{margin:50px 0 100px}
+
+.list{max-width:700px}
+
+.list ul.double-list{margin:0 auto 60px;padding:0;list-style-type:none}
+
+.list ul.double-list li{padding:5px 0}
+
+.list ul.double-list li h2{font-size:1em;display:inline;font-weight:normal}
+
+.list ul.double-list li span{
+	font-family: 'Roboto', sans-serif;
+	text-transform:uppercase;
+	text-align:right;
+	float:right;
+	padding-top:3px;
+	font-size:12px;
+	color:#999;
+}
+
+.full-width-content{padding-top:10px;padding-left:0px;padding-right:0px;margin-left:-20px;margin-right:-20px}
+
+.col-xs-1,.col-sm-1,.col-md-1,.col-lg-1,.col-xs-2,.col-sm-2,.col-md-2,.col-lg-2,.col-xs-3,.col-sm-3,.col-md-3,.col-lg-3,.col-xs-4,.col-sm-4,.col-md-4,.col-lg-4,.col-xs-5,.col-sm-5,.col-md-5,.col-lg-5,.col-xs-6,.col-sm-6,.col-md-6,.col-lg-6,.col-xs-7,.col-sm-7,.col-md-7,.col-lg-7,.col-xs-8,.col-sm-8,.col-md-8,.col-lg-8,.col-xs-9,.col-sm-9,.col-md-9,.col-lg-9,.col-xs-10,.col-sm-10,.col-md-10,.col-lg-10,.col-xs-11,.col-sm-11,.col-md-11,.col-lg-11,.col-xs-12,.col-sm-12,.col-md-12,.col-lg-12{padding-right:0px;padding-left:0px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
 
     </head>
 
@@ -93,6 +251,33 @@
                 </div>
                 <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
                     <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a class="icon" href="https://github.com/alexisbcook" title="Github">
+                                    <i class="fa fa-github"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="icon" href="https://twitter.com/alexis_b_cook" title="Twitter">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="icon" href="https://www.linkedin.com/in/alexis-cook-a6127753" title="Linkedin">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="icon" href="https://www.instagram.com/alexis.b.cook" title="Instagram">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="icon" href="https://angel.co/alexis_cook" title="Angellist">
+                                    <i class="fa fa-angellist"></i>
+                                </a>
+                            </li>
+                            <li><a href="/pages/about-me.html" title="About">About</a></li>
+                            <li><a href="/archives.html" title="Archive">Archive</a></li>
                     </ul>
                 </nav>
             </div>
@@ -103,7 +288,7 @@
     <article>
         <header>
             <h1>Introduction to the Dirichlet Distribution</h1>
-            <time datetime="article.date.isoformat()" pubdate>Mon 05 September 2016</time>
+            <time datetime="article.date.isoformat()" pubdate>September 05, 2016</time>
         </header>
 
         <div class="article_content">
@@ -12560,6 +12745,21 @@ coz/D/Ql/wxyMLAHAAAAAElFTkSuQmCC
                     <a href="./tag/basic-ml.html" class="tag">Basic ML</a>
             </div>
         </div>
+
+        <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                var disqus_shortname = 'alexisbcook-github-io'; // required: replace example with your forum shortname
+
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            
     </article>
 </div>
 
@@ -12612,6 +12812,20 @@ pre code {
     background-color: inherit;
 }</style>
 
+
+
         </div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-83225772-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
     </body>
 </html>

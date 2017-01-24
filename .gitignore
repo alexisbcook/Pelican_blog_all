@@ -1,10 +1,3 @@
 content/notebooks/models/*
 pelican-themes/*
 theme/templates/font-awesome/*
-content/notebooks/imdb_100
-content/notebooks/imdb_100.syn0.npy
-content/notebooks/imdb_100.syn1neg.npy
-content/notebooks/imdb_200
-content/notebooks/imdb_200.syn0.npy
-content/notebooks/imdb_200.syn1neg.npy
-content/notebooks/imdb_200.docvecs.doctag_syn0.npy

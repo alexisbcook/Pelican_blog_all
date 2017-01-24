@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = 'Alexis Cook'
 SITENAME = 'Alexis Cook'
 GITHUB_URL = 'https://github.com/alexisbcook'
-GOOGLE_ANALYTICS_ID = 'UA-83225772-1'
+GOOGLE_ANALYTICS_CODE = 'UA-83225772-1'
 
 PATH = 'content'
 TIMEZONE = 'America/Mexico_City'
@@ -40,7 +40,7 @@ RELATIVE_URLS = True
 # for ipython notebooks
 MARKUP = ('md', 'ipynb')
 PLUGIN_PATHS = './plugins'
-PLUGINS = ['ipynb.markup']
+PLUGINS = ['ipynb.markup', 'pelican_fontawesome']
 
 # format individual articles
 SHOW_ARTICLE_AUTHOR = False
@@ -75,19 +75,26 @@ STATIC_PATHS = ['images', 'pdfs']
 # daniel rodriguez theme
 PAGE_DIRS = ['pages']
 ARTICLE_DIRS = ['articles']
-ARTICLE_URL = 'blog/{date:%Y}/{date:%m}/{date:%d}/{slug}/'
-ARTICLE_SAVE_AS = 'blog/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
 ABOUT_PAGE = '/pages/about-me.html'
-GITHUB_USERNAME = 'alexisbcook'
-TWITTER_USERNAME = 'alexis_b_cook'
+#GITHUB_USERNAME = 'alexisbcook'
+#TWITTER_USERNAME = 'alexis_b_cook'
 SHOW_ARCHIVES = True
-PAGE_SAVE_AS = '{category}/{slug}.html'
-PAGE_URL = PAGE_SAVE_AS
+#PAGE_SAVE_AS = '{category}/{slug}.html'
+#PAGE_URL = PAGE_SAVE_AS
 IPYNB_EXTEND_STOP_SUMMARY_TAGS = [('h2', None), ('ol', None), ('ul', None)]
 MD_EXTENSIONS = ['codehilite(css_class=codehilite)', 'extra']
 DEFAULT_DATE_FORMAT = '%B %d, %Y'
 SUMMARY_MAX_LENGTH = 150
 DEFAULT_PAGINATION = 10
+
+NAVIGATION = [
+    # You probably want to fill these in so they point to your user pages
+    {'site': 'github', 'user': 'alexisbcook', 'url': 'https://github.com/alexisbcook'},
+    {'site': 'twitter', 'user': 'alexis_b_cook', 'url': 'https://twitter.com/alexis_b_cook'},
+    {'site': 'linkedin', 'user': 'alexis-cook', 'url': 'https://www.linkedin.com/in/alexis-cook-a6127753'},
+    {'site': 'instagram', 'user': 'alexis.b.cook', 'url': 'https://www.instagram.com/alexis.b.cook'},
+    {'site': 'angellist', 'user': 'alexis_cook', 'url': 'https://angel.co/alexis_cook'},
+]
 
 # Disqus
 DISQUS_SITENAME = "alexisbcook-github-io"
