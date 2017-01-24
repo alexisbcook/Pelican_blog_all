@@ -1432,26 +1432,6 @@ Using TensorFlow backend.
     <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">r'\"'</span><span class="p">,</span> <span class="s1">' " '</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
     <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">r'\/'</span><span class="p">,</span> <span class="s1">' / '</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">string</span>
-
-<span class="k">def</span> <span class="nf">review_to_wordlist</span><span class="p">(</span> <span class="n">review</span> <span class="p">):</span>
-    <span class="c1">#</span>
-    <span class="c1"># Function to turn each review into a list of sentences, </span>
-    <span class="c1"># where each sentence is a list of words</span>
-    <span class="c1">#</span>
-    <span class="c1"># 1. Process punctuation, excessive periods, missing spaces </span>
-    <span class="n">review</span> <span class="o">=</span> <span class="n">clean_str</span><span class="p">(</span><span class="n">review</span><span class="p">)</span>
-    <span class="c1">#</span>
-    <span class="c1"># 2. Remove HTML tags </span>
-    <span class="n">review</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="s2">"lxml"</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
-    <span class="c1">#</span>
-    <span class="c1"># 3. remove white spaces</span>
-    <span class="n">review</span> <span class="o">=</span> <span class="n">review</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="c1">#</span>
-    <span class="c1"># 4. return lowercase collection of words</span>
-    <span class="n">wordlist</span> <span class="o">=</span> <span class="n">review</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-    <span class="c1">#</span>
-    <span class="c1"># Return the list of words</span>
-    <span class="k">return</span> <span class="n">wordlist</span>
 </pre></div>
 </div>
 </div>
@@ -1471,27 +1451,90 @@ Using TensorFlow backend.
 <div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">LabeledLineReview</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dflist</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span> <span class="o">=</span> <span class="n">dflist</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Doc2VecUtility</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">review_to_wordlist</span><span class="p">(</span> <span class="n">review</span> <span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># Function to turn each review into a list of sentences, </span>
+        <span class="c1"># where each sentence is a list of words</span>
+        <span class="c1">#</span>
+        <span class="c1"># 1. Process punctuation, excessive periods, missing spaces </span>
+        <span class="n">review</span> <span class="o">=</span> <span class="n">clean_str</span><span class="p">(</span><span class="n">review</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># 2. Remove HTML tags </span>
+        <span class="n">review</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="s2">"lxml"</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+        <span class="c1">#</span>
+        <span class="c1"># 3. remove white spaces</span>
+        <span class="n">review</span> <span class="o">=</span> <span class="n">review</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="c1">#</span>
+        <span class="c1"># 4. return lowercase collection of words</span>
+        <span class="n">wordlist</span> <span class="o">=</span> <span class="n">review</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="c1">#</span>
+        <span class="c1"># Return the list of words</span>
+        <span class="k">return</span> <span class="n">wordlist</span>
+
+    <span class="k">class</span> <span class="nc">LabeledLineReview</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dflist</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span> <span class="o">=</span> <span class="n">dflist</span>
+
+        <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">models</span><span class="o">.</span><span class="n">doc2vec</span><span class="o">.</span><span class="n">LabeledSentence</span><span class="p">(</span><span class="n">review_to_wordlist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'review'</span><span class="p">]),</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'file'</span><span class="p">]])</span>
+
+        <span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">doc2vec</span><span class="o">.</span><span class="n">LabeledSentence</span><span class="p">(</span><span class="n">review_to_wordlist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'review'</span><span class="p">]),</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'file'</span><span class="p">]]))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span>
+
+        <span class="k">def</span> <span class="nf">reviews_perm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reviews</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span>
     
-    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">models</span><span class="o">.</span><span class="n">doc2vec</span><span class="o">.</span><span class="n">LabeledSentence</span><span class="p">(</span><span class="n">review_to_wordlist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'review'</span><span class="p">]),</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'file'</span><span class="p">]])</span>
-    
-    <span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">doc2vec</span><span class="o">.</span><span class="n">LabeledSentence</span><span class="p">(</span><span class="n">review_to_wordlist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'review'</span><span class="p">]),</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'file'</span><span class="p">]]))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span>
-    
-    <span class="k">def</span> <span class="nf">reviews_perm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reviews</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span>
-    
-<span class="n">reviews</span> <span class="o">=</span> <span class="n">LabeledLineReview</span><span class="p">([</span><span class="n">train_pos</span><span class="p">,</span> <span class="n">train_neg</span><span class="p">,</span> <span class="n">test_pos</span><span class="p">,</span> <span class="n">test_neg</span><span class="p">,</span> <span class="n">unsup</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># train the model and save it to a file</span>
+        <span class="n">reviews</span> <span class="o">=</span> <span class="n">LabeledLineReview</span><span class="p">([</span><span class="n">train_pos</span><span class="p">,</span> <span class="n">train_neg</span><span class="p">,</span> <span class="n">test_pos</span><span class="p">,</span> <span class="n">test_neg</span><span class="p">,</span> <span class="n">unsup</span><span class="p">])</span>
+             
+        <span class="n">num_features</span> <span class="o">=</span> <span class="mi">100</span>    <span class="c1"># Word vector dimensionality                      </span>
+        <span class="n">min_word_count</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Minimum word count                        </span>
+        <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">8</span>       <span class="c1"># Number of threads to run in parallel</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="mi">10</span>          <span class="c1"># Context window size                                                                                    </span>
+        <span class="n">downsampling</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span>   <span class="c1"># Downsample setting for frequent words</span>
+
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Doc2Vec</span><span class="p">(</span><span class="n">workers</span> <span class="o">=</span> <span class="n">num_workers</span><span class="p">,</span> \
+                               <span class="n">size</span> <span class="o">=</span> <span class="n">num_features</span><span class="p">,</span> <span class="n">min_count</span> <span class="o">=</span> <span class="n">min_word_count</span><span class="p">,</span> \
+                               <span class="n">window</span> <span class="o">=</span> <span class="n">context</span><span class="p">,</span> <span class="n">sample</span> <span class="o">=</span> <span class="n">downsampling</span><span class="p">,</span> <span class="n">negative</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">build_vocab</span><span class="p">(</span><span class="n">reviews</span><span class="o">.</span><span class="n">to_array</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">reviews</span><span class="o">.</span><span class="n">reviews_perm</span><span class="p">())</span>
+
+        <span class="n">model</span><span class="o">.</span><span class="n">init_sims</span><span class="p">(</span><span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"models/imdb_100"</span><span class="p">)</span>
+                
+    <span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># if the model is not already saved, train the model</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">'models/imdb_100'</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Doc2Vec</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"models/imdb_100"</span><span class="p">)</span>
+        
+        <span class="c1"># obtain train data embeddings and labels</span>
+        <span class="n">train_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">25000</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+        <span class="n">train_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">train_pos</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">train_neg</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_tags</span><span class="p">):</span>
+            <span class="n">train_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">docvecs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+        <span class="n">train_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12500</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">12500</span><span class="p">))</span>
+
+        <span class="c1"># obtain test data embeddings and labels</span>
+        <span class="n">test_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">25000</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+        <span class="n">test_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_pos</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_neg</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_tags</span><span class="p">):</span>
+            <span class="n">test_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">docvecs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+        <span class="n">test_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12500</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">12500</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="n">train_array</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_array</span><span class="p">,</span> <span class="n">test_labels</span>
 </pre></div>
 </div>
 </div>
@@ -1502,16 +1545,7 @@ Using TensorFlow backend.
 <div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Doc2Vec</span><span class="p">(</span><span class="n">min_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">negative</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">build_vocab</span><span class="p">(</span><span class="n">reviews</span><span class="o">.</span><span class="n">to_array</span><span class="p">())</span>
-
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">reviews</span><span class="o">.</span><span class="n">reviews_perm</span><span class="p">())</span>
-    
-<span class="n">model</span><span class="o">.</span><span class="n">init_sims</span><span class="p">(</span><span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"models/imdb_100"</span><span class="p">)</span>
-
-<span class="c1"># to load: model = models.Doc2Vec.load("models/imdb_100")</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">d2v_train</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">d2v_test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">]</span> <span class="o">=</span> <span class="n">Doc2VecUtility</span><span class="p">()</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1522,39 +1556,16 @@ Using TensorFlow backend.
 <div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain train data embeddings and labels</span>
-<span class="n">train_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">25000</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="n">train_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">train_pos</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">train_neg</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">idx</span> <span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_tags</span><span class="p">):</span>
-    <span class="n">train_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">docvecs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
-<span class="n">train_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12500</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">12500</span><span class="p">))</span>
-
-<span class="c1"># obtain test data embeddings and labels</span>
-<span class="n">test_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">25000</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="n">test_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_pos</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_neg</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">idx</span> <span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_tags</span><span class="p">):</span>
-    <span class="n">test_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">docvecs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
-<span class="n">test_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12500</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">12500</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [7]:</div>
-<div class="inner_cell">
-<div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
-<span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_array</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
-<span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_array</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">d2v_train</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">d2v_test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>0.8992</pre>
 </div>
@@ -1573,7 +1584,7 @@ Using TensorFlow backend.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [8]:</div>
+<div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now, we try a multilayer perceptron (with one hidden layer) in Keras !</span>
@@ -1585,8 +1596,8 @@ Using TensorFlow backend.
               <span class="n">optimizer</span><span class="o">=</span><span class="s1">'rmsprop'</span><span class="p">,</span>
               <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'accuracy'</span><span class="p">])</span>
 
-<span class="n">keras_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_array</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">nb_epoch</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">loss</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">keras_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_array</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">keras_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">d2v_train</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">nb_epoch</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">loss</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">keras_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d2v_test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1597,47 +1608,47 @@ Using TensorFlow backend.
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Epoch 1/20
-25000/25000 [==============================] - 2s - loss: 0.2899 - acc: 0.8818     
+25000/25000 [==============================] - 2s - loss: 0.2909 - acc: 0.8825     
 Epoch 2/20
-25000/25000 [==============================] - 2s - loss: 0.2645 - acc: 0.8906     
+25000/25000 [==============================] - 2s - loss: 0.2640 - acc: 0.8916     
 Epoch 3/20
-25000/25000 [==============================] - 2s - loss: 0.2588 - acc: 0.8925     
+25000/25000 [==============================] - 2s - loss: 0.2583 - acc: 0.8935     
 Epoch 4/20
-25000/25000 [==============================] - 2s - loss: 0.2523 - acc: 0.8966     
+25000/25000 [==============================] - 2s - loss: 0.2534 - acc: 0.8970     
 Epoch 5/20
-25000/25000 [==============================] - 2s - loss: 0.2489 - acc: 0.8988     
+25000/25000 [==============================] - 2s - loss: 0.2476 - acc: 0.8995     
 Epoch 6/20
-25000/25000 [==============================] - 2s - loss: 0.2454 - acc: 0.9011     
+25000/25000 [==============================] - 2s - loss: 0.2446 - acc: 0.9028     
 Epoch 7/20
-25000/25000 [==============================] - 2s - loss: 0.2402 - acc: 0.9058     
+25000/25000 [==============================] - 2s - loss: 0.2394 - acc: 0.9044     
 Epoch 8/20
-25000/25000 [==============================] - 2s - loss: 0.2340 - acc: 0.9086     
+25000/25000 [==============================] - 2s - loss: 0.2356 - acc: 0.9082     
 Epoch 9/20
-25000/25000 [==============================] - 2s - loss: 0.2320 - acc: 0.9098     
+25000/25000 [==============================] - 2s - loss: 0.2319 - acc: 0.9099     
 Epoch 10/20
-25000/25000 [==============================] - 2s - loss: 0.2270 - acc: 0.9122     
+25000/25000 [==============================] - 2s - loss: 0.2278 - acc: 0.9141     
 Epoch 11/20
-25000/25000 [==============================] - 2s - loss: 0.2245 - acc: 0.9146     
+25000/25000 [==============================] - 2s - loss: 0.2229 - acc: 0.9135     
 Epoch 12/20
-25000/25000 [==============================] - 2s - loss: 0.2208 - acc: 0.9161     
+25000/25000 [==============================] - 2s - loss: 0.2201 - acc: 0.9171     
 Epoch 13/20
-25000/25000 [==============================] - 2s - loss: 0.2159 - acc: 0.9178     
+25000/25000 [==============================] - 2s - loss: 0.2161 - acc: 0.9194     
 Epoch 14/20
-25000/25000 [==============================] - 2s - loss: 0.2140 - acc: 0.9203     
+25000/25000 [==============================] - 2s - loss: 0.2116 - acc: 0.9195     
 Epoch 15/20
-25000/25000 [==============================] - 2s - loss: 0.2105 - acc: 0.9208     
+25000/25000 [==============================] - 2s - loss: 0.2107 - acc: 0.9221     
 Epoch 16/20
-25000/25000 [==============================] - 2s - loss: 0.2074 - acc: 0.9233     
+25000/25000 [==============================] - 2s - loss: 0.2069 - acc: 0.9237     
 Epoch 17/20
-25000/25000 [==============================] - 2s - loss: 0.2051 - acc: 0.9253     
+25000/25000 [==============================] - 2s - loss: 0.2044 - acc: 0.9258     
 Epoch 18/20
-25000/25000 [==============================] - 3s - loss: 0.2029 - acc: 0.9243     
+25000/25000 [==============================] - 2s - loss: 0.2007 - acc: 0.9266     
 Epoch 19/20
-25000/25000 [==============================] - 3s - loss: 0.2009 - acc: 0.9274     
+25000/25000 [==============================] - 2s - loss: 0.1968 - acc: 0.9271     
 Epoch 20/20
-25000/25000 [==============================] - 3s - loss: 0.1973 - acc: 0.9276     
+25000/25000 [==============================] - 2s - loss: 0.1981 - acc: 0.9276     
 
- 0.90444
+ 0.90468
 </pre>
 </div>
 </div>
@@ -1649,12 +1660,85 @@ Epoch 20/20
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Hmm, it's a slight improvement, but we haven't done much better.  To improve, we should try some combination of:</p>
+<p>Hmm, it's a slight improvement, but we haven't done much better.  To improve, our intuition tells us we should try some combination of:</p>
 <ul>
-<li>better string cleaning</li>
-<li>testing other parameters for Doc2Vec embedding step</li>
-<li>constructing deeper neural networks</li>
+<li>better string cleaning,</li>
+<li>testing other parameters for Doc2Vec embedding step, and</li>
+<li>constructing deeper neural networks.</li>
 </ul>
+<p>However, it seems that Kaggle competitiors were not able to make this work -- that is, we won't be able to do much better with the current plan.  Thus, we will try something else, informed by the techniques <a href="https://www.kaggle.com/c/word2vec-nlp-tutorial/forums/t/14966/post-competition-solutions">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">review_to_lists_of_lists</span><span class="p">(</span> <span class="n">review</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="p">):</span>
+    <span class="c1"># </span>
+    <span class="c1"># Function to turn each review into a list of sentences, </span>
+    <span class="c1"># where each sentence is a list of words</span>
+    <span class="c1">#</span>
+    <span class="c1"># 1. Process punctuation, excessive periods, missing spaces </span>
+    <span class="n">review</span> <span class="o">=</span> <span class="n">clean_str</span><span class="p">(</span><span class="n">review</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="c1"># 2. Remove HTML tags </span>
+    <span class="n">review</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="s2">"lxml"</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+    <span class="c1">#</span>
+    <span class="c1"># 3. Use the NLTK tokenizer to split the review into list of sentences</span>
+    <span class="c1">#   (getting rid of extra spaces at front/back)</span>
+    <span class="n">raw_sentences</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">review</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="c1">#</span>
+    <span class="c1"># 4. Loop over each sentence to get list of list of lowercase words</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">raw_sentence</span> <span class="ow">in</span> <span class="n">raw_sentences</span><span class="p">:</span>
+        <span class="c1"># Convert to lowercase and split into list of words</span>
+        <span class="n">raw_sentence</span> <span class="o">=</span> <span class="n">raw_sentence</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="c1"># If a sentence is not long enough, skip it</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_sentence</span><span class="p">)</span> <span class="o">></span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># add list of words to returned object</span>
+            <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">raw_sentence</span> <span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Return the list of sentences (each sentence is a list of words,</span>
+    <span class="c1"># so this returns a list of lists</span>
+    <span class="k">return</span> <span class="n">sentences</span>
+
+<span class="k">def</span> <span class="nf">corpus_to_list</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">):</span>
+    <span class="c1"># Turns dataframe of reviews into a list of sentences,</span>
+    <span class="c1"># where each sentence is a list of words</span>
+    <span class="c1"># and sentences are derived from *all reviews* in dataframe df</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+        <span class="n">to_append</span> <span class="o">=</span> <span class="n">review_to_lists_of_lists</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'review'</span><span class="p">],</span> <span class="n">tokenizer</span><span class="p">)</span>
+        <span class="n">sentences</span> <span class="o">+=</span> <span class="n">to_append</span>
+    <span class="k">return</span> <span class="n">sentences</span>
+
+<span class="n">train_pos_sentences</span> <span class="o">=</span> <span class="n">corpus_to_list</span><span class="p">(</span><span class="n">train_pos</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">train_neg_sentences</span> <span class="o">=</span> <span class="n">corpus_to_list</span><span class="p">(</span><span class="n">train_neg</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">test_pos_sentences</span> <span class="o">=</span> <span class="n">corpus_to_list</span><span class="p">(</span><span class="n">test_pos</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">test_neg_sentences</span> <span class="o">=</span> <span class="n">corpus_to_list</span><span class="p">(</span><span class="n">test_neg</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">unsup_sentences</span> <span class="o">=</span> <span class="n">corpus_to_list</span><span class="p">(</span><span class="n">unsup</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+
+<span class="n">sentences</span> <span class="o">=</span> <span class="n">train_pos_sentences</span> <span class="o">+</span> <span class="n">train_neg_sentences</span> <span class="o">+</span> <span class="n">test_pos_sentences</span> <span class="o">+</span> <span class="n">test_neg_sentences</span> <span class="o">+</span> <span class="n">unsup_sentences</span>
+
+<span class="c1"># Set values for various parameters</span>
+<span class="n">num_features</span> <span class="o">=</span> <span class="mi">300</span>    <span class="c1"># Word vector dimensionality                      </span>
+<span class="n">min_word_count</span> <span class="o">=</span> <span class="mi">40</span>   <span class="c1"># Minimum word count                        </span>
+<span class="n">num_workers</span> <span class="o">=</span> <span class="mi">4</span>       <span class="c1"># Number of threads to run in parallel</span>
+<span class="n">context</span> <span class="o">=</span> <span class="mi">10</span>          <span class="c1"># Context window size                                                                                    </span>
+<span class="n">downsampling</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">3</span>   <span class="c1"># Downsample setting for frequent words</span>
+
+<span class="c1"># Initialize and train the model </span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">word2vec</span><span class="o">.</span><span class="n">Word2Vec</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">workers</span> <span class="o">=</span> <span class="n">num_workers</span><span class="p">,</span> \
+            <span class="n">size</span> <span class="o">=</span> <span class="n">num_features</span><span class="p">,</span> <span class="n">min_count</span> <span class="o">=</span> <span class="n">min_word_count</span><span class="p">,</span> \
+            <span class="n">window</span> <span class="o">=</span> <span class="n">context</span><span class="p">,</span> <span class="n">sample</span> <span class="o">=</span> <span class="n">downsampling</span><span class="p">)</span>
+
+<span class="c1"># If you don't plan to train the model any further, calling </span>
+<span class="c1"># init_sims will make the model much more memory-efficient.</span>
+<span class="n">model</span><span class="o">.</span><span class="n">init_sims</span><span class="p">(</span><span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
