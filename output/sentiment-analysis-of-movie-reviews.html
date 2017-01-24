@@ -1276,7 +1276,7 @@ h6:hover .anchor-link {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [1]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>                                <span class="c1"># accessing directory of files</span>
@@ -1292,6 +1292,7 @@ h6:hover .anchor-link {
 <span class="kn">import</span> <span class="nn">nltk.data</span>                         <span class="c1"># sentence splitting</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="k">import</span> <span class="n">Sequential</span>      <span class="c1"># deep learning (part 1)</span>
 <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="k">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span>  <span class="c1"># deep learning (part 2)</span>
+<span class="kn">from</span> <span class="nn">classes</span> <span class="k">import</span> <span class="n">Doc2VecUtility</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline                       
 
 <span class="c1"># If you are using Python 3, you will get an error.</span>
@@ -1318,13 +1319,13 @@ Using TensorFlow backend.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The dataset can be downloaded <a href="http://ai.stanford.edu/~amaas/data/sentiment/">here</a>.  We first write code to extract the reviews into Pandas dataframes.</p>
+<p>The dataset can be downloaded <a href="http://ai.stanford.edu/~amaas/data/sentiment/">here</a>.  We have written code to extract the reviews into Pandas dataframes.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [2]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">directory_name</span><span class="p">):</span>
@@ -1355,23 +1356,6 @@ Using TensorFlow backend.
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
- 12500 pos train reviews 
- 12500 neg train reviews 
- 12500 pos test reviews 
- 12500 neg test reviews 
- 50000 unsup reviews
-
- TOTAL: 100000 reviews
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -1383,30 +1367,20 @@ Using TensorFlow backend.
 <li><code>file</code> : name of file that contains review</li>
 <li><code>review</code> : the full text of the review</li>
 </ul>
-<p>We write a function <code>review_to_wordlist</code>, which processes each review as follows:</p>
+<p>All reviews will need to be cleaned and processed before engaging in sentiment analysis.</p>
+<p>We process each review as follows:</p>
 <ul>
-<li>Punctuation is made consistent through the use of regular expressions.</li>
+<li>Punctuation is made consistent through the use of regular expressions.  (This code appears below, in the <code>clean_str</code> method.)</li>
 <li>HTML tags are removed through the use of the Beautiful Soup library.</li>
 <li>All words are converted to lowercase.</li>
-<li>Each review is converted into a list of words.</li>
-</ul>
-<p>We note that there is still some room for improvement.  For instance,</p>
-<ul>
-<li>Strings like "Sgt. Cutter" currently are broken into two sentences.  We should instead determine how to differentiate between periods that signify the end of an abbreviation and periods that denote the end of a sentence.</li>
-<li>Some writers separate their sentences with commas or line breaks; the algorithm currently absorbs these multiple sentences into an individual sentence.</li>
-<li>Ellipses (...) are currently processed as multiple, empty sentences (which are then discarded).</li>
-</ul>
-<p>Before writing this post, I read the Kaggle tutorial <a href="https://www.kaggle.com/c/word2vec-nlp-tutorial/details/part-2-word-vectors">here</a>.  My current processing algorithm borrows from that page, but also adds some meaningful improvements, partially informed by the algorithm <a href="https://github.com/yoonkim/CNN_sentence/blob/master/process_data.py">here</a>.  For instance,</p>
-<ul>
-<li>We keep the punctuation that ends each sentence (i.e., period vs. exclamation point), whereas punctuation was discarded in the Kaggle tutorial.  </li>
-<li>We do smarter processing of contractions, in a way that understands that "should've" = "should" + "'ve".  In the Kaggle tutorial, "should've" is kept as a single word (contractions are not understood in terms of their composite parts).</li>
+<li>Each review is converted into either a list of words or to a list of lists of words.  In the latter, each list of lists corresponds to a sentence.</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [3]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">clean_str</span><span class="p">(</span> <span class="n">string</span> <span class="p">):</span>
@@ -1443,110 +1417,27 @@ Using TensorFlow backend.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Each cleaned review is fed into the <code>LabeledLineReview</code> class, written below.  These labeled reviews are fed into the Doc2Vec algorithm to obtain an embedding of each review.  We note that we use the full set of 100,000 reviews to learn the embedding, but our classification algorithm will be trained with the training set only.</p>
+<p>We note that there is still some room for improvement.  For instance,</p>
+<ul>
+<li>Strings like "Sgt. Cutter" currently are broken into two sentences.  We should instead determine how to differentiate between periods that signify the end of an abbreviation and periods that denote the end of a sentence.</li>
+<li>Some writers separate their sentences with commas or line breaks; the algorithm currently absorbs these multiple sentences into an individual sentence.</li>
+<li>Ellipses (...) are currently processed as multiple, empty sentences (which are then discarded).</li>
+</ul>
+<p>Before writing this post, I read the Kaggle tutorial <a href="https://www.kaggle.com/c/word2vec-nlp-tutorial/details/part-2-word-vectors">here</a>.  My current processing algorithm borrows from that page, but also adds some meaningful improvements, partially informed by the algorithm <a href="https://github.com/yoonkim/CNN_sentence/blob/master/process_data.py">here</a>.  For instance,</p>
+<ul>
+<li>We keep the punctuation that ends each sentence (i.e., period vs. exclamation point), whereas punctuation was discarded in the Kaggle tutorial.  </li>
+<li>We do smarter processing of contractions, in a way that understands that "should've" = "should" + "'ve".  In the Kaggle tutorial, "should've" is kept as a single word (contractions are not understood in terms of their composite parts).</li>
+</ul>
+<p>We can now see how well our Doc2Vec embedding performs.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [4]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Doc2VecUtility</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="nf">review_to_wordlist</span><span class="p">(</span> <span class="n">review</span> <span class="p">):</span>
-        <span class="c1">#</span>
-        <span class="c1"># Function to turn each review into a list of sentences, </span>
-        <span class="c1"># where each sentence is a list of words</span>
-        <span class="c1">#</span>
-        <span class="c1"># 1. Process punctuation, excessive periods, missing spaces </span>
-        <span class="n">review</span> <span class="o">=</span> <span class="n">clean_str</span><span class="p">(</span><span class="n">review</span><span class="p">)</span>
-        <span class="c1">#</span>
-        <span class="c1"># 2. Remove HTML tags </span>
-        <span class="n">review</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="s2">"lxml"</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
-        <span class="c1">#</span>
-        <span class="c1"># 3. remove white spaces</span>
-        <span class="n">review</span> <span class="o">=</span> <span class="n">review</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="c1">#</span>
-        <span class="c1"># 4. return lowercase collection of words</span>
-        <span class="n">wordlist</span> <span class="o">=</span> <span class="n">review</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-        <span class="c1">#</span>
-        <span class="c1"># 5. Return the list of words</span>
-        <span class="k">return</span> <span class="n">wordlist</span>
-
-    <span class="k">class</span> <span class="nc">LabeledLineReview</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dflist</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span> <span class="o">=</span> <span class="n">dflist</span>
-
-        <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
-                    <span class="k">yield</span> <span class="n">models</span><span class="o">.</span><span class="n">doc2vec</span><span class="o">.</span><span class="n">LabeledSentence</span><span class="p">(</span><span class="n">review_to_wordlist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'review'</span><span class="p">]),</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'file'</span><span class="p">]])</span>
-
-        <span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">doc2vec</span><span class="o">.</span><span class="n">LabeledSentence</span><span class="p">(</span><span class="n">review_to_wordlist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'review'</span><span class="p">]),</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'file'</span><span class="p">]]))</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span>
-
-        <span class="k">def</span> <span class="nf">reviews_perm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reviews</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reviews</span>
-    
-    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1">#</span>
-        <span class="c1"># Trains the doc2vec model</span>
-        <span class="c1">#</span>
-        <span class="c1"># 1. Get all reviews together</span>
-        <span class="n">reviews</span> <span class="o">=</span> <span class="n">LabeledLineReview</span><span class="p">([</span><span class="n">train_pos</span><span class="p">,</span> <span class="n">train_neg</span><span class="p">,</span> <span class="n">test_pos</span><span class="p">,</span> <span class="n">test_neg</span><span class="p">,</span> <span class="n">unsup</span><span class="p">])</span>
-        
-        <span class="c1"># 2. Set values for various parameters and define the model</span>
-        <span class="n">num_features</span> <span class="o">=</span> <span class="mi">100</span>    <span class="c1"># Word vector dimensionality                      </span>
-        <span class="n">min_word_count</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Minimum word count                        </span>
-        <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">8</span>       <span class="c1"># Number of threads to run in parallel</span>
-        <span class="n">context</span> <span class="o">=</span> <span class="mi">10</span>          <span class="c1"># Context window size                                                                                    </span>
-        <span class="n">downsampling</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span>   <span class="c1"># Downsample setting for frequent words</span>
-        <span class="c1">#</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Doc2Vec</span><span class="p">(</span><span class="n">workers</span> <span class="o">=</span> <span class="n">num_workers</span><span class="p">,</span> \
-                               <span class="n">size</span> <span class="o">=</span> <span class="n">num_features</span><span class="p">,</span> <span class="n">min_count</span> <span class="o">=</span> <span class="n">min_word_count</span><span class="p">,</span> \
-                               <span class="n">window</span> <span class="o">=</span> <span class="n">context</span><span class="p">,</span> <span class="n">sample</span> <span class="o">=</span> <span class="n">downsampling</span><span class="p">,</span> <span class="n">negative</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">build_vocab</span><span class="p">(</span><span class="n">reviews</span><span class="o">.</span><span class="n">to_array</span><span class="p">())</span>
-        <span class="c1">#</span>
-        <span class="c1"># 3. Train the model</span>
-        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
-            <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">reviews</span><span class="o">.</span><span class="n">reviews_perm</span><span class="p">())</span>
-        <span class="c1">#</span>
-        <span class="c1"># 4. Save the model</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">init_sims</span><span class="p">(</span><span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"models/d2v"</span><span class="p">)</span>
-                
-    <span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1">#</span>
-        <span class="c1"># Returns embedding and labels, training model if necessary</span>
-        <span class="c1">#</span>
-        <span class="c1"># 1. Load the saved model.</span>
-        <span class="c1">#   (If the model is not already saved, train the model)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">'models/d2v'</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Doc2Vec</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"models/d2v"</span><span class="p">)</span>
-        <span class="c1">#</span>
-        <span class="c1"># 2. Obtain train data embeddings and labels</span>
-        <span class="n">train_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">25000</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-        <span class="n">train_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">train_pos</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">train_neg</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">idx</span> <span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_tags</span><span class="p">):</span>
-            <span class="n">train_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">docvecs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
-        <span class="n">train_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12500</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">12500</span><span class="p">))</span>
-        <span class="c1">#</span>
-        <span class="c1"># 3. Obtain test data embeddings and labels</span>
-        <span class="n">test_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">25000</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-        <span class="n">test_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_pos</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_neg</span><span class="p">[</span><span class="s1">'file'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">idx</span> <span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_tags</span><span class="p">):</span>
-            <span class="n">test_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">docvecs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
-        <span class="n">test_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12500</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">12500</span><span class="p">))</span>
-        <span class="c1">#</span>
-        <span class="c1"># 4. Return embeddings and labels</span>
-        <span class="k">return</span> <span class="n">train_array</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_array</span><span class="p">,</span> <span class="n">test_labels</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">d2v_train</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">d2v_test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">]</span> <span class="o">=</span> <span class="n">Doc2VecUtility</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1554,33 +1445,13 @@ Using TensorFlow backend.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [5]:</div>
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">d2v_train</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">d2v_test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">]</span> <span class="o">=</span> <span class="n">Doc2VecUtility</span><span class="p">()</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [6]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
 <span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">d2v_train</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
 <span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">d2v_test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
-<div class="output_text output_subarea output_execute_result">
-<pre>0.8992</pre>
-</div>
 </div>
 </div>
 </div>
@@ -1596,7 +1467,7 @@ Using TensorFlow backend.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [7]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now, we try a multilayer perceptron (with one hidden layer) in Keras !</span>
@@ -1612,57 +1483,6 @@ Using TensorFlow backend.
 <span class="n">loss</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">keras_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d2v_test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch 1/20
-25000/25000 [==============================] - 2s - loss: 0.2903 - acc: 0.8821     
-Epoch 2/20
-25000/25000 [==============================] - 2s - loss: 0.2648 - acc: 0.8892     
-Epoch 3/20
-25000/25000 [==============================] - 2s - loss: 0.2583 - acc: 0.8943     
-Epoch 4/20
-25000/25000 [==============================] - 2s - loss: 0.2536 - acc: 0.8983     
-Epoch 5/20
-25000/25000 [==============================] - 2s - loss: 0.2480 - acc: 0.8996     
-Epoch 6/20
-25000/25000 [==============================] - 2s - loss: 0.2442 - acc: 0.9026     
-Epoch 7/20
-25000/25000 [==============================] - 2s - loss: 0.2400 - acc: 0.9063     
-Epoch 8/20
-25000/25000 [==============================] - 2s - loss: 0.2366 - acc: 0.9064     
-Epoch 9/20
-25000/25000 [==============================] - 2s - loss: 0.2327 - acc: 0.9104     
-Epoch 10/20
-25000/25000 [==============================] - 2s - loss: 0.2274 - acc: 0.9116     
-Epoch 11/20
-25000/25000 [==============================] - 2s - loss: 0.2251 - acc: 0.9159     
-Epoch 12/20
-25000/25000 [==============================] - 2s - loss: 0.2224 - acc: 0.9174     
-Epoch 13/20
-25000/25000 [==============================] - 2s - loss: 0.2180 - acc: 0.9181     
-Epoch 14/20
-25000/25000 [==============================] - 2s - loss: 0.2123 - acc: 0.9204     
-Epoch 15/20
-25000/25000 [==============================] - 2s - loss: 0.2122 - acc: 0.9228     
-Epoch 16/20
-25000/25000 [==============================] - 2s - loss: 0.2091 - acc: 0.9228     
-Epoch 17/20
-25000/25000 [==============================] - 2s - loss: 0.2035 - acc: 0.9238     
-Epoch 18/20
-25000/25000 [==============================] - 2s - loss: 0.2012 - acc: 0.9267     
-Epoch 19/20
-25000/25000 [==============================] - 2s - loss: 0.1999 - acc: 0.9281     
-Epoch 20/20
-25000/25000 [==============================] - 2s - loss: 0.1956 - acc: 0.9294     
-
- 0.90508
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -1685,10 +1505,10 @@ Epoch 20/20
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [74]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Word2VecUtility</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># class Word2VecUtility(object):</span>
     
     <span class="k">def</span> <span class="nf">getAvgFeatureVecs</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">num_features</span><span class="p">):</span>
         <span class="c1">#</span>
@@ -1847,7 +1667,7 @@ Epoch 20/20
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [75]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">w2v_train</span><span class="p">,</span> <span class="n">w2v_test</span> <span class="o">=</span> <span class="n">Word2VecUtility</span><span class="p">()</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
@@ -1855,38 +1675,16 @@ Epoch 20/20
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 12500/12500 [00:13<00:00, 899.14it/s]
-100%|██████████| 12500/12500 [00:13<00:00, 903.10it/s]
-100%|██████████| 12500/12500 [00:13<00:00, 959.36it/s]
-100%|██████████| 12500/12500 [00:12<00:00, 993.89it/s]
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [70]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
 <span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">w2v_train</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
 <span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">w2v_test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[70]:</div>
-<div class="output_text output_subarea output_execute_result">
-<pre>0.81228</pre>
-</div>
 </div>
 </div>
 </div>
@@ -1902,7 +1700,7 @@ Epoch 20/20
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [71]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now, we try a multilayer perceptron (with one hidden layer) in Keras !</span>
@@ -1921,57 +1719,6 @@ Epoch 20/20
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch 1/20
-25000/25000 [==============================] - 2s - loss: 0.5282 - acc: 0.7515     
-Epoch 2/20
-25000/25000 [==============================] - 2s - loss: 0.3917 - acc: 0.8305     
-Epoch 3/20
-25000/25000 [==============================] - 2s - loss: 0.3612 - acc: 0.8446     
-Epoch 4/20
-25000/25000 [==============================] - 2s - loss: 0.3487 - acc: 0.8525     
-Epoch 5/20
-25000/25000 [==============================] - 3s - loss: 0.3423 - acc: 0.8563     
-Epoch 6/20
-25000/25000 [==============================] - 3s - loss: 0.3362 - acc: 0.8576     
-Epoch 7/20
-25000/25000 [==============================] - 3s - loss: 0.3327 - acc: 0.8604     
-Epoch 8/20
-25000/25000 [==============================] - 3s - loss: 0.3304 - acc: 0.8615     
-Epoch 9/20
-25000/25000 [==============================] - 3s - loss: 0.3278 - acc: 0.8629     
-Epoch 10/20
-25000/25000 [==============================] - 3s - loss: 0.3264 - acc: 0.8615     
-Epoch 11/20
-25000/25000 [==============================] - 3s - loss: 0.3239 - acc: 0.8656     
-Epoch 12/20
-25000/25000 [==============================] - 3s - loss: 0.3234 - acc: 0.8646     
-Epoch 13/20
-25000/25000 [==============================] - 3s - loss: 0.3223 - acc: 0.8655     
-Epoch 14/20
-25000/25000 [==============================] - 3s - loss: 0.3210 - acc: 0.8664     
-Epoch 15/20
-25000/25000 [==============================] - 3s - loss: 0.3195 - acc: 0.8676     
-Epoch 16/20
-25000/25000 [==============================] - 3s - loss: 0.3197 - acc: 0.8672     
-Epoch 17/20
-25000/25000 [==============================] - 3s - loss: 0.3181 - acc: 0.8677     
-Epoch 18/20
-25000/25000 [==============================] - 3s - loss: 0.3183 - acc: 0.8666     
-Epoch 19/20
-25000/25000 [==============================] - 3s - loss: 0.3164 - acc: 0.8696     
-Epoch 20/20
-25000/25000 [==============================] - 3s - loss: 0.3158 - acc: 0.8692     
-
- 0.86204
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -1985,7 +1732,7 @@ However, combining the two embeddings should result in an increase in performanc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [79]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Combine Doc2Vec and Word2Vec features</span>
@@ -1998,22 +1745,13 @@ However, combining the two embeddings should result in an increase in performanc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [80]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
 <span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
 <span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
-<div class="output_text output_subarea output_execute_result">
-<pre>0.90007999999999999</pre>
-</div>
 </div>
 </div>
 </div>
@@ -2029,7 +1767,7 @@ However, combining the two embeddings should result in an increase in performanc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [82]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now, we try a multilayer perceptron (with one hidden layer) in Keras !</span>
@@ -2048,54 +1786,14 @@ However, combining the two embeddings should result in an increase in performanc
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch 1/20
-25000/25000 [==============================] - 2s - loss: 0.2897 - acc: 0.8848     
-Epoch 2/20
-25000/25000 [==============================] - 2s - loss: 0.2612 - acc: 0.8934     
-Epoch 3/20
-25000/25000 [==============================] - 2s - loss: 0.2538 - acc: 0.8955     
-Epoch 4/20
-25000/25000 [==============================] - 2s - loss: 0.2494 - acc: 0.9002     
-Epoch 5/20
-25000/25000 [==============================] - 2s - loss: 0.2452 - acc: 0.9019     
-Epoch 6/20
-25000/25000 [==============================] - 2s - loss: 0.2378 - acc: 0.9046     
-Epoch 7/20
-25000/25000 [==============================] - 2s - loss: 0.2354 - acc: 0.9088     
-Epoch 8/20
-25000/25000 [==============================] - 3s - loss: 0.2306 - acc: 0.9100     
-Epoch 9/20
-25000/25000 [==============================] - 3s - loss: 0.2248 - acc: 0.9128     
-Epoch 10/20
-25000/25000 [==============================] - 3s - loss: 0.2203 - acc: 0.9158     
-Epoch 11/20
-25000/25000 [==============================] - 3s - loss: 0.2163 - acc: 0.9176     
-Epoch 12/20
-25000/25000 [==============================] - 3s - loss: 0.2117 - acc: 0.9200     
-Epoch 13/20
-25000/25000 [==============================] - 3s - loss: 0.2091 - acc: 0.9228     
-Epoch 14/20
-25000/25000 [==============================] - 3s - loss: 0.2045 - acc: 0.9235     
-Epoch 15/20
-25000/25000 [==============================] - 3s - loss: 0.2006 - acc: 0.9258     
-Epoch 16/20
-25000/25000 [==============================] - 3s - loss: 0.1986 - acc: 0.9280     
-Epoch 17/20
-25000/25000 [==============================] - 4s - loss: 0.1953 - acc: 0.9302     
-Epoch 18/20
-25000/25000 [==============================] - 4s - loss: 0.1903 - acc: 0.9310     
-Epoch 19/20
-25000/25000 [==============================] - 4s - loss: 0.1882 - acc: 0.9330     
-Epoch 20/20
-25000/25000 [==============================] - 4s - loss: 0.1857 - acc: 0.9324     
-
- 0.9072
-</pre>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
 </div>
 </div>
 </div>
