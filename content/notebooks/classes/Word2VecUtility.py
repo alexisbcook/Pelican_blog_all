@@ -45,6 +45,9 @@ test_neg = load_data('test/neg/')
 # load unsupervised data
 unsup = load_data('train/unsup/')
 
+# load tokenizer
+tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+
 #######################
 #   Process Reviews   #
 #######################
@@ -147,7 +150,6 @@ def review_to_lists_of_lists( review, only_words = False ):
     #
     # 4. Use the NLTK tokenizer to split the review into list of sentences
     #   (getting rid of extra spaces at front/back)
-    tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
     raw_sentences = tokenizer.tokenize(review.strip())
     #
     # 5. Loop over each sentence to get list of list of lowercase words
@@ -168,7 +170,6 @@ def corpus_to_list( df, tokenizer ):
     # Turns dataframe of reviews into a list of sentences,
     # where each sentence is a list of words
     # and sentences are derived from *all reviews* in dataframe df
-    from tqdm import tqdm
     sentences = []
     for idx in tqdm(df.index):
         to_append = review_to_lists_of_lists(df.ix[idx, 'review'])
