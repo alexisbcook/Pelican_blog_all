@@ -93,24 +93,8 @@ def makeAvgFeatureVec( review, model, index2word_set, num_features ):
     #
     # Averages all of the word vectors in a given review
     #
-    # 1. Pre-initialize an empty numpy array (for speed)
-    featureVec = np.zeros((num_features,), dtype="float32")
-    #
-    # 2. Initialize number of words in review
-    nwords = 0.
-    # 
-    # 3. Loop over each word in the review 
-    #    If it is in the model's vocab, add its feature vector to the total
     words = review_to_wordlist(review)
-    for word in words:
-        if word in index2word_set: 
-            nwords = nwords + 1.
-            featureVec = np.add(featureVec, model[word])
-    # 
-    # 4. Divide the result by the number of words to get the average
-    featureVec = np.divide(featureVec, nwords)
-    # 5. Return the average word vector
-    return featureVec
+    return np.array([np.mean([model[w] for w in words if w in index2word_set], axis=0)])
 
 def review_to_wordlist( review, only_words = False ):
     #
@@ -214,12 +198,12 @@ def get_embedding():
     # 2. Obtain train data embeddings 
     pos_w2v_train = getAvgFeatureVecs(train_pos, model, num_features)
     neg_w2v_train = getAvgFeatureVecs(train_neg, model, num_features)
-    w2v_train = np.append(pos_w2v_train, neg_w2v_train, axis=0)
+    w2v_train = np.squeeze(np.append(pos_w2v_train, neg_w2v_train, axis=0))
     #
     # 3. Obtain test data embeddings
     pos_w2v_test = getAvgFeatureVecs(test_pos, model, num_features)
     neg_w2v_test = getAvgFeatureVecs(test_neg, model, num_features)
-    w2v_test = np.append(pos_w2v_test, neg_w2v_test, axis=0)
+    w2v_test = np.squeeze(np.append(pos_w2v_test, neg_w2v_test, axis=0))
     #
     # 4. Return all embeddings
     return w2v_train, w2v_test

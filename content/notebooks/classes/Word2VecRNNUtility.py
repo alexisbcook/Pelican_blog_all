@@ -9,17 +9,10 @@ from gensim import models                # doc2vec implementation
 from random import shuffle               # for shuffling reviews
 from sklearn.linear_model import LogisticRegression
 import nltk.data                         # sentence splitting
-
-
-##########################
-#   Doc2Vec Parameters   #
-##########################
-
-num_features = 300    # Word vector dimensionality                      
-min_word_count = 1    # Minimum word count                        
-num_workers = 8       # Number of threads to run in parallel
-context = 10          # Context window size                                                                                    
-downsampling = 1e-4   # Downsample setting for frequent words
+from keras.models import Sequential      # deep learning (part 1)
+from keras.layers import Dense, Dropout  # deep learning (part 2)
+from classes import Doc2VecUtility
+from classes import Word2VecUtility
 
 
 #####################
@@ -44,11 +37,6 @@ test_pos = load_data('test/pos/')
 test_neg = load_data('test/neg/')
 # load unsupervised data
 unsup = load_data('train/unsup/')
-
-
-#######################
-#   Process Reviews   #
-#######################
 
 def clean_str( string ):
     # Function that cleans text using regular expressions
@@ -94,79 +82,46 @@ def review_to_wordlist( review ):
     # 5. Return the list of words
     return wordlist
 
-class LabeledLineReview( object ):
-    def __init__(self, dflist):
-        self.dflist = dflist
+def makeReviewSequence( review, model, index2word_set, num_features ):
+    #
+    # Gets sequence of word2vec features for given review
+    #
+    # 1. get list of words in review
+    words = review_to_wordlist(review)
+    #
+    # 2. Loop over each word in the review 
+    #    If it is in the model's vocab, append its feature vector
+    return np.array([model[w] for w in words if w in index2word_set])
 
-    def __iter__(self):
-        for df in self.dflist:
-            for idx in tqdm(df.index):
-                yield models.doc2vec.LabeledSentence(review_to_wordlist(df.ix[idx, 'review']), [df.ix[idx, 'file']])
+def getReviewSequences( df, model, num_features ):
+    #
+    # Given a df of reviews, calculate sequence of word2vec features for each one 
+    # 
+    index2word_set = set(model.index2word)
+    reviewFeatureMats = []
+    for idx in tqdm(df.index):
+        to_append = makeReviewSequence(df.ix[idx, 'review'], model, index2word_set, num_features)
+        reviewFeatureMats.append(to_append)
+    return reviewFeatureMats
 
-    def to_array(self):
-        self.reviews = []
-        for df in self.dflist:
-            for idx in tqdm(df.index):
-                self.reviews.append(models.doc2vec.LabeledSentence(review_to_wordlist(df.ix[idx, 'review']), [df.ix[idx, 'file']]))
-        return self.reviews
+def get_embedding():
+    #
+    # 1. load the model
+    if not os.path.isfile('models/w2v'):
+        Word2VecUtility.get_embedding()
+    model = models.Doc2Vec.load("models/w2v")
+    #
+    # 2. Obtain train data embeddings 
+    num_features = 300
+    pos_w2vRNN_train = getReviewSequences(train_pos, model, num_features)
+    neg_w2vRNN_train = getReviewSequences(train_neg, model, num_features)
+    w2vRNN_train = np.append(pos_w2vRNN_train, neg_w2vRNN_train,axis=0)
+    #
+    # 3. Obtain test data embeddings
+    pos_w2vRNN_test = getReviewSequences(test_pos, model, num_features)
+    neg_w2vRNN_test = getReviewSequences(test_neg, model, num_features)
+    w2vRNN_test = np.append(pos_w2vRNN_test, neg_w2vRNN_test,axis=0)
 
-    def reviews_perm(self):
-        shuffle(self.reviews)
-        return self.reviews
+    return [w2vRNN_train, w2vRNN_test]
 
-
-#####################
-#   Train Doc2Vec   #
-#####################
-
-def train():
-    #
-    # Trains the doc2vec model
-    #
-    # 1. Get all reviews together
-    reviews = LabeledLineReview([train_pos, train_neg, test_pos, test_neg, unsup])
-    #
-    # 2. Define the model
-    model = models.Doc2Vec(workers = num_workers, \
-                           size = num_features, min_count = min_word_count, \
-                           window = context, sample = downsampling, negative = 5)
-    model.build_vocab(reviews.to_array())
-    #
-    # 3. Train the model
-    for epoch in tqdm(range(10)):
-        model.train(reviews.reviews_perm())
-    #
-    # 4. Save the model
-    model.init_sims(replace=True)
-    model.save("models/d2v")
-
-
-#####################
-#   Get Embedding   #
-#####################
-            
-def get_embedding():              
-    #
-    # Returns embedding and labels, training model if necessary
-    #
-    # 1. Load the saved model.
-    #   (If the model is not already saved, train the model)
-    # load training dataset
-    if not os.path.isfile('models/d2v'):
-        train()
-    model = models.Doc2Vec.load("models/d2v")
-    #
-    # 2. Obtain train data embeddings and labels
-    train_array = np.zeros((25000, num_features))
-    train_tags = list(train_pos['file'].values) + list(train_neg['file'].values)
-    for idx , val in enumerate(train_tags):
-        train_array[idx] = model.docvecs[val]
-    #
-    # 3. Obtain test data embeddings and labels
-    test_array = np.zeros((25000, num_features))
-    test_tags = list(test_pos['file'].values) + list(test_neg['file'].values)
-    for idx , val in enumerate(test_tags):
-        test_array[idx] = model.docvecs[val]
-    #
-    # 4. Return embeddings and labels
-    return train_array, test_array
+    
