@@ -82,12 +82,7 @@ def getAvgFeatureVecs( df, model, num_features ):
     # Given a df of reviews, calculate the average feature vector for each one 
     # 
     index2word_set = set(model.index2word)
-    reviewFeatureVecs = []
-    for idx in tqdm(df.index):
-        to_append = makeAvgFeatureVec(df.ix[idx, 'review'], model, index2word_set, num_features)
-        reviewFeatureVecs.append(to_append)
-    reviewFeatureVecs = np.array(reviewFeatureVecs)
-    return reviewFeatureVecs
+    return np.array([makeAvgFeatureVec(df.ix[idx, 'review'], model, index2word_set, num_features) for idx in tqdm(df.index)])
 
 def makeAvgFeatureVec( review, model, index2word_set, num_features ):
     #

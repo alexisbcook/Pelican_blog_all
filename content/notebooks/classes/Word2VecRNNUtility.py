@@ -97,12 +97,11 @@ def getReviewSequences( df, model, num_features ):
     #
     # Given a df of reviews, calculate sequence of word2vec features for each one 
     # 
+    # 1. get list of words in model
     index2word_set = set(model.index2word)
-    reviewFeatureMats = []
-    for idx in tqdm(df.index):
-        to_append = makeReviewSequence(df.ix[idx, 'review'], model, index2word_set, num_features)
-        reviewFeatureMats.append(to_append)
-    return reviewFeatureMats
+    #
+    # 2. Return array of RNN inputs for each review in df
+    return np.array([makeReviewSequence(df.ix[idx, 'review'], model, index2word_set, num_features) for idx in tqdm(df.index)])
 
 def get_embedding():
     #
@@ -115,12 +114,12 @@ def get_embedding():
     num_features = 300
     pos_w2vRNN_train = getReviewSequences(train_pos, model, num_features)
     neg_w2vRNN_train = getReviewSequences(train_neg, model, num_features)
-    w2vRNN_train = np.append(pos_w2vRNN_train, neg_w2vRNN_train,axis=0)
+    w2vRNN_train = list(np.append(pos_w2vRNN_train, neg_w2vRNN_train, axis=0))
     #
     # 3. Obtain test data embeddings
     pos_w2vRNN_test = getReviewSequences(test_pos, model, num_features)
     neg_w2vRNN_test = getReviewSequences(test_neg, model, num_features)
-    w2vRNN_test = np.append(pos_w2vRNN_test, neg_w2vRNN_test,axis=0)
+    w2vRNN_test = list(np.append(pos_w2vRNN_test, neg_w2vRNN_test, axis=0))
 
     return [w2vRNN_train, w2vRNN_test]
 
