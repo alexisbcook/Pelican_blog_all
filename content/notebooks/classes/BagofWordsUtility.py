@@ -11,8 +11,6 @@ from sklearn.linear_model import LogisticRegression
 import nltk.data                         # sentence splitting
 from keras.models import Sequential      # deep learning (part 1)
 from keras.layers import Dense, Dropout  # deep learning (part 2)
-from classes import Doc2VecUtility
-from classes import Word2VecUtility
 
 
 #####################
@@ -68,15 +66,15 @@ def clean_str( string ):
     string = re.sub(r'\/', ' / ', string)
     return string
 
-def review_to_wordlist( review ):
+def review_to_wordstring( review ):
     #
     # Function to turn each review into a list of words
     #
-    # 1. Process punctuation, excessive periods, missing spaces 
-    review = clean_str(review)
-    #
-    # 2. Remove HTML tags 
+    # 1. Remove HTML tags 
     review = BeautifulSoup(review, "lxml").get_text()
+    #
+    # 2. Process punctuation, excessive periods, missing spaces
+    review = clean_str(review) 
     #
     # 3. remove white spaces
     review = review.strip()
@@ -84,13 +82,12 @@ def review_to_wordlist( review ):
     # 4. return lowercase collection of words
     wordlist = review.lower().split()
     #
-    # 5. Return the list of words
-    return wordlist
+    # 5. Join the list of words back into one string, with words separated by space
+    return ( " ".join( wordlist ) )
 
 def corpus_to_list( df ):
     # Turns dataframe df of reviews into a list (each corresponding to a review) of lists of words
-    return [ review_to_wordlist(df.ix[idx, 'review']) for idx in tqdm(df.index) ]
-
+    return [ review_to_wordstring(df.ix[idx, 'review']) for idx in tqdm(df.index) ]
 
 #####################
 #   Get Embedding   #
@@ -98,16 +95,7 @@ def corpus_to_list( df ):
 
 def get_embedding():
     #
-    # 1. load the model
-    if not os.path.isfile('models/w2v'):
-        Word2VecUtility.get_embedding()
-    model = models.Word2Vec.load("models/w2v")
-    #
-    # 2. get embedding weights
-    embedding_weights = np.array([model[w] for w in model.index2word])
-    embedding_weights = np.append(np.zeros((1, embedding_weights.shape[1])), embedding_weights, axis=0)
-    # 
-    # 3. get sentences
+    # just return the reviews, yo!
     train_pos_sentences = corpus_to_list(train_pos)
     train_neg_sentences = corpus_to_list(train_neg)
     test_pos_sentences = corpus_to_list(test_pos)
@@ -115,13 +103,6 @@ def get_embedding():
     train_sentences = train_pos_sentences + train_neg_sentences
     test_sentences = test_pos_sentences + test_neg_sentences
     #
-    # 4. get dictionary with indices <-> words
-    vocab_dict = dict((v,k) for k,v in dict(enumerate(model.index2word)).items())
-    vocab_dict.update((x, y+1) for x, y in vocab_dict.items())
-    #
-    # 5. get dataset with word indices from reviews
-    w2vRNN_train = [[vocab_dict[k] for k in sentences if k in vocab_dict.keys()] for sentences in train_sentences]
-    w2vRNN_test = [[vocab_dict[k] for k in sentences if k in vocab_dict.keys()] for sentences in test_sentences]
-    return w2vRNN_train, w2vRNN_test, embedding_weights
+    return train_sentences, test_sentences
 
     

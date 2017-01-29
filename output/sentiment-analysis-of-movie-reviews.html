@@ -1284,26 +1284,30 @@ h6:hover .anchor-link {
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>                      <span class="c1"># storing the data</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>            <span class="c1"># removing HTML tags</span>
 <span class="kn">import</span> <span class="nn">re</span>                                <span class="c1"># text processing with regular expressions</span>
+<span class="kn">from</span> <span class="nn">gensim</span> <span class="k">import</span> <span class="n">models</span>                <span class="c1"># doc2vec implementation</span>
 <span class="kn">from</span> <span class="nn">gensim.models</span> <span class="k">import</span> <span class="n">word2vec</span>       <span class="c1"># embedding algorithm</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>                       <span class="c1"># arrays and other mathy structures     </span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>                    <span class="c1"># timing algorithms</span>
-<span class="kn">from</span> <span class="nn">gensim</span> <span class="k">import</span> <span class="n">models</span>                <span class="c1"># doc2vec implementation</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">shuffle</span>               <span class="c1"># for shuffling reviews</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LogisticRegression</span>  <span class="c1"># LR implementation</span>
-<span class="kn">import</span> <span class="nn">nltk.data</span>                         <span class="c1"># sentence splitting</span>
+<span class="kn">import</span> <span class="nn">nltk.data</span>                                     <span class="c1"># sentence splitting</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="k">import</span> <span class="n">Sequential</span><span class="p">,</span> <span class="n">load_model</span>      <span class="c1"># MLP, RNN implementation</span>
 <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="k">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">LSTM</span>        <span class="c1"># MLP, RNN implementation</span>
+<span class="kn">from</span> <span class="nn">keras.layers.embeddings</span> <span class="k">import</span> <span class="n">Embedding</span>        <span class="c1"># RNN implementation</span>
+<span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="k">import</span> <span class="n">sequence</span>             <span class="c1"># pre-process RNN data</span>
 <span class="kn">from</span> <span class="nn">classes</span> <span class="k">import</span> <span class="n">Doc2VecUtility</span>       <span class="c1"># training, loading Doc2Vec embeddings for LR, MLP</span>
 <span class="kn">from</span> <span class="nn">classes</span> <span class="k">import</span> <span class="n">Word2VecUtility</span>      <span class="c1"># training, loading Word2Vec embeddings</span>
 <span class="kn">from</span> <span class="nn">classes</span> <span class="k">import</span> <span class="n">Word2VecRNNUtility</span>   <span class="c1"># training, loading Word2Vec embeddings for RNN</span>
+<span class="kn">from</span> <span class="nn">classes</span> <span class="k">import</span> <span class="n">BagofWordsUtility</span>    <span class="c1"># loading data for NBSVM</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="k">import</span> <span class="n">CountVectorizer</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>          <span class="c1"># plotting</span>
 <span class="kn">import</span> <span class="nn">plotly.plotly</span> <span class="k">as</span> <span class="nn">py</span>               <span class="c1"># pretty plotting</span>
 <span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>           <span class="c1"># pretty plotting</span>
+<span class="kn">from</span> <span class="nn">plotly.tools</span> <span class="k">import</span> <span class="n">FigureFactory</span> <span class="k">as</span> <span class="n">FF</span>         <span class="c1"># for tables</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>                    <span class="c1"># pretty plotting</span>
 <span class="kn">import</span> <span class="nn">warnings</span>                          <span class="c1"># suppress (plotly) warnings</span>
 <span class="kn">import</span> <span class="nn">statistics</span>                        <span class="c1"># calculating median</span>
-<span class="kn">from</span> <span class="nn">keras.layers.embeddings</span> <span class="k">import</span> <span class="n">Embedding</span>    <span class="c1"># RNN implementation</span>
-<span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="k">import</span> <span class="n">sequence</span> <span class="c1"># pre-process RNN data</span>
+<span class="kn">from</span> <span class="nn">nbsvm</span> <span class="k">import</span> <span class="n">NBSVM</span>                  <span class="c1"># NBSVM</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline                       
 
 <span class="c1"># If you are using Python 3, you will get an error.</span>
@@ -1463,13 +1467,49 @@ Using TensorFlow backend.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Doc2Vec-+-(LR,-MLP)-Implementation">Doc2Vec + (LR, MLP) Implementation<a class="anchor-link" href="#Doc2Vec-+-(LR,-MLP)-Implementation">¶</a></h1><p>We can now see how well our Doc2Vec embedding performs.  To peek at the code under the hood, please look at the Python file <a href="https://github.com/alexisbcook/Pelican_blog_all/blob/master/content/notebooks/classes/Doc2VecUtility.py">here</a>.</p>
+<h1 id="TL;DR-~-Results">TL;DR ~ Results<a class="anchor-link" href="#TL;DR-~-Results">¶</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">''</span><span class="p">,</span> <span class="s1">'Word2Vec'</span><span class="p">,</span> <span class="s1">'Doc2Vec'</span><span class="p">,</span> <span class="s1">'CountVectorizer'</span><span class="p">,</span> <span class="s1">'TF-IDF'</span><span class="p">],</span>
+               <span class="p">[</span><span class="s1">'LR'</span><span class="p">,</span> <span class="s1">'81.396%'</span><span class="p">,</span> <span class="s1">'89.456%'</span><span class="p">,</span> <span class="s1">'89.903%'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">],</span>
+               <span class="p">[</span><span class="s1">'MLP'</span><span class="p">,</span> <span class="s1">'86.556%'</span><span class="p">,</span> <span class="s1">'90.496%'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">],</span>
+               <span class="p">[</span><span class="s1">'LSTM'</span><span class="p">,</span> <span class="s1">'86.468%'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">],</span>
+               <span class="p">[</span><span class="s1">'NBSVM'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'91.584%'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">]]</span>
+<span class="n">colorscale</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'#375fa9'</span><span class="p">],[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'#ffffff'</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'#ffffff'</span><span class="p">]]</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">FF</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">data_matrix</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorscale</span><span class="o">=</span><span class="n">colorscale</span><span class="p">)</span>
+<span class="n">py</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<iframe height="200px" id="igraph" scrolling="no" seamless="seamless" src="https://plot.ly/~alexisbcook/82.embed" style="border:none;" width="100%"></iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Doc2Vec-+-(LR,-MLP)-Implementation">Doc2Vec + (LR, MLP) Implementation<a class="anchor-link" href="#Doc2Vec-+-(LR,-MLP)-Implementation">¶</a></h1><p>We can now see how well our Doc2Vec embedding performs.  To peek at the code under the hood, please look at the Python file <a href="https://github.com/alexisbcook/Pelican_blog_all/blob/master/content/notebooks/classes/Doc2VecUtility.py">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">d2v_train</span><span class="p">,</span> <span class="n">d2v_test</span><span class="p">]</span> <span class="o">=</span> <span class="n">Doc2VecUtility</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
@@ -1480,7 +1520,7 @@ Using TensorFlow backend.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [5]:</div>
+<div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12500</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">12500</span><span class="p">))</span>
@@ -1492,7 +1532,7 @@ Using TensorFlow backend.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [6]:</div>
+<div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># train the model</span>
@@ -1507,7 +1547,7 @@ Using TensorFlow backend.
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>0.89456000000000002</pre>
 </div>
@@ -1526,7 +1566,7 @@ Using TensorFlow backend.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [7]:</div>
+<div class="prompt input_prompt">In [8]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># train the model</span>
@@ -1551,27 +1591,27 @@ Using TensorFlow backend.
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Epoch 1/10
-25000/25000 [==============================] - 2s - loss: 0.2981 - acc: 0.8782     
+25000/25000 [==============================] - 2s - loss: 0.2973 - acc: 0.8803     
 Epoch 2/10
-25000/25000 [==============================] - 2s - loss: 0.2626 - acc: 0.8920     
+25000/25000 [==============================] - 2s - loss: 0.2625 - acc: 0.8927     
 Epoch 3/10
-25000/25000 [==============================] - 2s - loss: 0.2509 - acc: 0.8964     
+25000/25000 [==============================] - 2s - loss: 0.2504 - acc: 0.8963     
 Epoch 4/10
-25000/25000 [==============================] - 2s - loss: 0.2402 - acc: 0.9020     
+25000/25000 [==============================] - 2s - loss: 0.2395 - acc: 0.9040     
 Epoch 5/10
-25000/25000 [==============================] - 2s - loss: 0.2277 - acc: 0.9101     
+25000/25000 [==============================] - 2s - loss: 0.2270 - acc: 0.9109     
 Epoch 6/10
-25000/25000 [==============================] - 2s - loss: 0.2138 - acc: 0.9179     
+25000/25000 [==============================] - 2s - loss: 0.2124 - acc: 0.9192     
 Epoch 7/10
-25000/25000 [==============================] - 3s - loss: 0.2000 - acc: 0.9255     
+25000/25000 [==============================] - 3s - loss: 0.1969 - acc: 0.9255     
 Epoch 8/10
-25000/25000 [==============================] - 3s - loss: 0.1838 - acc: 0.9319     
+25000/25000 [==============================] - 3s - loss: 0.1847 - acc: 0.9310     
 Epoch 9/10
-25000/25000 [==============================] - 3s - loss: 0.1688 - acc: 0.9385     
+25000/25000 [==============================] - 3s - loss: 0.1680 - acc: 0.9397     
 Epoch 10/10
-25000/25000 [==============================] - 3s - loss: 0.1567 - acc: 0.9431     
+25000/25000 [==============================] - 3s - loss: 0.1558 - acc: 0.9452     
 
- 0.90496
+ 0.9038
 </pre>
 </div>
 </div>
@@ -1604,7 +1644,7 @@ Epoch 10/10
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [8]:</div>
+<div class="prompt input_prompt">In [9]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">w2v_train</span><span class="p">,</span> <span class="n">w2v_test</span><span class="p">]</span> <span class="o">=</span> <span class="n">Word2VecUtility</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
@@ -1616,10 +1656,10 @@ Epoch 10/10
 <div class="output">
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 12500/12500 [00:12<00:00, 990.45it/s] 
-100%|██████████| 12500/12500 [00:14<00:00, 886.47it/s]
-100%|██████████| 12500/12500 [00:13<00:00, 914.76it/s]
-100%|██████████| 12500/12500 [00:13<00:00, 912.28it/s]
+<pre>100%|██████████| 12500/12500 [00:13<00:00, 916.37it/s]
+100%|██████████| 12500/12500 [00:14<00:00, 880.41it/s]
+100%|██████████| 12500/12500 [00:14<00:00, 892.61it/s]
+100%|██████████| 12500/12500 [00:14<00:00, 877.84it/s]
 </pre>
 </div>
 </div>
@@ -1628,7 +1668,7 @@ Epoch 10/10
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [9]:</div>
+<div class="prompt input_prompt">In [10]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># train the model</span>
@@ -1643,7 +1683,7 @@ Epoch 10/10
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>0.81396000000000002</pre>
 </div>
@@ -1653,7 +1693,7 @@ Epoch 10/10
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [10]:</div>
+<div class="prompt input_prompt">In [11]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># train the model</span>
@@ -1678,27 +1718,27 @@ Epoch 10/10
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Epoch 1/10
-25000/25000 [==============================] - 2s - loss: 0.5198 - acc: 0.7566     
+25000/25000 [==============================] - 3s - loss: 0.5212 - acc: 0.7581     
 Epoch 2/10
-25000/25000 [==============================] - 2s - loss: 0.3840 - acc: 0.8346     
+25000/25000 [==============================] - 3s - loss: 0.3877 - acc: 0.8321     
 Epoch 3/10
-25000/25000 [==============================] - 2s - loss: 0.3590 - acc: 0.8455     
+25000/25000 [==============================] - 3s - loss: 0.3591 - acc: 0.8464     
 Epoch 4/10
-25000/25000 [==============================] - 2s - loss: 0.3468 - acc: 0.8515     
+25000/25000 [==============================] - 3s - loss: 0.3461 - acc: 0.8532     
 Epoch 5/10
-25000/25000 [==============================] - 2s - loss: 0.3389 - acc: 0.8562     
+25000/25000 [==============================] - 3s - loss: 0.3413 - acc: 0.8552     
 Epoch 6/10
-25000/25000 [==============================] - 2s - loss: 0.3360 - acc: 0.8573     
+25000/25000 [==============================] - 3s - loss: 0.3363 - acc: 0.8582     
 Epoch 7/10
-25000/25000 [==============================] - 2s - loss: 0.3321 - acc: 0.8610     
+25000/25000 [==============================] - 3s - loss: 0.3324 - acc: 0.8598     
 Epoch 8/10
-25000/25000 [==============================] - 2s - loss: 0.3291 - acc: 0.8600     
+25000/25000 [==============================] - 3s - loss: 0.3284 - acc: 0.8614     
 Epoch 9/10
-25000/25000 [==============================] - 2s - loss: 0.3260 - acc: 0.8619     
+25000/25000 [==============================] - 3s - loss: 0.3274 - acc: 0.8612     
 Epoch 10/10
-25000/25000 [==============================] - 2s - loss: 0.3234 - acc: 0.8649     
+25000/25000 [==============================] - 3s - loss: 0.3241 - acc: 0.8637     
 
- 0.86556
+ 0.86336
 </pre>
 </div>
 </div>
@@ -1716,7 +1756,7 @@ Epoch 10/10
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [11]:</div>
+<div class="prompt input_prompt">In [12]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Combine Doc2Vec and Word2Vec features</span>
@@ -1729,7 +1769,7 @@ Epoch 10/10
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [12]:</div>
+<div class="prompt input_prompt">In [13]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># train the model</span>
@@ -1744,7 +1784,7 @@ Epoch 10/10
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>0.89576</pre>
 </div>
@@ -1754,7 +1794,7 @@ Epoch 10/10
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [13]:</div>
+<div class="prompt input_prompt">In [14]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># train the model</span>
@@ -1779,27 +1819,27 @@ Epoch 10/10
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Epoch 1/10
-25000/25000 [==============================] - 3s - loss: 0.2949 - acc: 0.8796     
+25000/25000 [==============================] - 3s - loss: 0.2954 - acc: 0.8792     
 Epoch 2/10
-25000/25000 [==============================] - 3s - loss: 0.2594 - acc: 0.8926     
+25000/25000 [==============================] - 3s - loss: 0.2597 - acc: 0.8925     
 Epoch 3/10
-25000/25000 [==============================] - 3s - loss: 0.2457 - acc: 0.9000     
+25000/25000 [==============================] - 3s - loss: 0.2472 - acc: 0.8996     
 Epoch 4/10
-25000/25000 [==============================] - 3s - loss: 0.2339 - acc: 0.9038     
+25000/25000 [==============================] - 3s - loss: 0.2342 - acc: 0.9056     
 Epoch 5/10
-25000/25000 [==============================] - 3s - loss: 0.2214 - acc: 0.9135     
+25000/25000 [==============================] - 3s - loss: 0.2224 - acc: 0.9108     
 Epoch 6/10
-25000/25000 [==============================] - 3s - loss: 0.2059 - acc: 0.9207     
+25000/25000 [==============================] - 3s - loss: 0.2080 - acc: 0.9194     
 Epoch 7/10
-25000/25000 [==============================] - 4s - loss: 0.1913 - acc: 0.9278     
+25000/25000 [==============================] - 3s - loss: 0.1939 - acc: 0.9273     
 Epoch 8/10
-25000/25000 [==============================] - 4s - loss: 0.1781 - acc: 0.9344     
+25000/25000 [==============================] - 3s - loss: 0.1791 - acc: 0.9334     
 Epoch 9/10
-25000/25000 [==============================] - 3s - loss: 0.1631 - acc: 0.9414     
+25000/25000 [==============================] - 3s - loss: 0.1665 - acc: 0.9398     
 Epoch 10/10
-25000/25000 [==============================] - 3s - loss: 0.1502 - acc: 0.9470     
+25000/25000 [==============================] - 3s - loss: 0.1542 - acc: 0.9456     
 
- 0.90576
+ 0.90672
 </pre>
 </div>
 </div>
@@ -1818,7 +1858,7 @@ Epoch 10/10
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [14]:</div>
+<div class="prompt input_prompt">In [15]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">w2vRNN_train</span><span class="p">,</span> <span class="n">w2vRNN_test</span><span class="p">,</span> <span class="n">embedding_weights</span><span class="p">]</span> <span class="o">=</span> <span class="n">Word2VecRNNUtility</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
@@ -1830,10 +1870,10 @@ Epoch 10/10
 <div class="output">
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 12500/12500 [00:07<00:00, 1712.08it/s]
-100%|██████████| 12500/12500 [00:07<00:00, 1648.58it/s]
-100%|██████████| 12500/12500 [00:06<00:00, 1792.91it/s]
-100%|██████████| 12500/12500 [00:07<00:00, 1717.65it/s]
+<pre>100%|██████████| 12500/12500 [00:06<00:00, 1856.46it/s]
+100%|██████████| 12500/12500 [00:06<00:00, 1794.36it/s]
+100%|██████████| 12500/12500 [00:06<00:00, 1835.14it/s]
+100%|██████████| 12500/12500 [00:06<00:00, 1785.94it/s]
 </pre>
 </div>
 </div>
@@ -1904,7 +1944,7 @@ Reviews of length >1000: 555 ( 1.11 % ),  <=1000: 49445
 </div>
 <div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
-<iframe height="525px" id="igraph" scrolling="no" seamless="seamless" src="https://plot.ly/~alexisbcook/54.embed" style="border:none;" width="100%"></iframe>
+<iframe height="525px" id="igraph" scrolling="no" seamless="seamless" src="https://plot.ly/~alexisbcook/84.embed" style="border:none;" width="100%"></iframe>
 </div>
 </div>
 </div>
@@ -1921,7 +1961,7 @@ Reviews of length >1000: 555 ( 1.11 % ),  <=1000: 49445
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [24]:</div>
+<div class="prompt input_prompt">In [17]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># process data </span>
@@ -1953,13 +1993,7 @@ Reviews of length >1000: 555 ( 1.11 % ),  <=1000: 49445
 <div class="output">
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch 1/3
-25000/25000 [==============================] - 1891s - loss: 0.4895 - acc: 0.7801  
-Epoch 2/3
-25000/25000 [==============================] - 1897s - loss: 0.3096 - acc: 0.8839  
-Epoch 3/3
-25000/25000 [==============================] - 5299s - loss: 0.2148 - acc: 0.9248  
-25000/25000 [==============================] - 161s   
+<pre>25000/25000 [==============================] - 159s   
 
  0.86468
 </pre>
@@ -1977,6 +2011,88 @@ Epoch 3/3
 <blockquote><p>The IMDB dataset is too small for LSTM to be of any advantage compared to simpler, much faster methods such as TF-IDF + LogReg.</p>
 <p>RNNs are tricky. The coice of batch size, loss function, and optimizer are critical. Some configurations won't converge.</p>
 </blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="NBSVM-Implementation">NBSVM Implementation<a class="anchor-link" href="#NBSVM-Implementation">¶</a></h1><p>To peek at the code under the hood, please look at the Python file <a href="https://github.com/alexisbcook/Pelican_blog_all/blob/master/content/notebooks/classes/BagofWordsUtility.py">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [18]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get the data</span>
+<span class="n">BOW_train</span><span class="p">,</span> <span class="n">BOW_test</span> <span class="o">=</span> <span class="n">BagofWordsUtility</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
+
+<span class="c1"># get the count embedding</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> \
+                             <span class="n">analyzer</span> <span class="o">=</span> <span class="s1">'word'</span><span class="p">,</span> \
+                             <span class="n">binary</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> \
+                             <span class="n">max_features</span> <span class="o">=</span> <span class="mi">2000000</span><span class="p">)</span>
+
+<span class="c1"># get train and test data</span>
+<span class="n">BOW_train_data</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">BOW_train</span><span class="p">)</span>
+<span class="n">BOW_test_data</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">BOW_test</span><span class="p">)</span>
+
+<span class="c1"># define and train the model</span>
+<span class="n">nbsvm_model</span> <span class="o">=</span> <span class="n">NBSVM</span><span class="p">()</span>
+<span class="n">nbsvm_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">BOW_train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+
+<span class="c1"># evaluate accuracy</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Test Accuracy: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">nbsvm_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">BOW_test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>100%|██████████| 12500/12500 [00:06<00:00, 1846.24it/s]
+100%|██████████| 12500/12500 [00:06<00:00, 1870.20it/s]
+100%|██████████| 12500/12500 [00:06<00:00, 1812.69it/s]
+100%|██████████| 12500/12500 [00:06<00:00, 1941.07it/s]
+</pre>
+</div>
+</div>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Test Accuracy: 0.91584
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [19]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># train the model</span>
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">BOW_train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+
+<span class="c1"># calculate accuracy</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">BOW_test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>0.89903999999999995</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
