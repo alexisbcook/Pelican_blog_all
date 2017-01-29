@@ -38,6 +38,11 @@ test_neg = load_data('test/neg/')
 # load unsupervised data
 unsup = load_data('train/unsup/')
 
+
+#######################
+#   Process Reviews   #
+#######################
+
 def clean_str( string ):
     # Function that cleans text using regular expressions
     string = re.sub(r' +', ' ', string)
@@ -82,45 +87,45 @@ def review_to_wordlist( review ):
     # 5. Return the list of words
     return wordlist
 
-def makeReviewSequence( review, model, index2word_set, num_features ):
-    #
-    # Gets sequence of word2vec features for given review
-    #
-    # 1. get list of words in review
-    words = review_to_wordlist(review)
-    #
-    # 2. Loop over each word in the review 
-    #    If it is in the model's vocab, append its feature vector
-    return np.array([model[w] for w in words if w in index2word_set])
+def corpus_to_list( df ):
+    # Turns dataframe df of reviews into a list (each corresponding to a review) of lists of words
+    sentences = []
+    for idx in tqdm(df.index):
+        to_append = review_to_wordlist(df.ix[idx, 'review'])
+        sentences.append(to_append)
+    return sentences
 
-def getReviewSequences( df, model, num_features ):
-    #
-    # Given a df of reviews, calculate sequence of word2vec features for each one 
-    # 
-    # 1. get list of words in model
-    index2word_set = set(model.index2word)
-    #
-    # 2. Return array of RNN inputs for each review in df
-    return np.array([makeReviewSequence(df.ix[idx, 'review'], model, index2word_set, num_features) for idx in tqdm(df.index)])
+
+#####################
+#   Get Embedding   #
+#####################
 
 def get_embedding():
     #
     # 1. load the model
     if not os.path.isfile('models/w2v'):
         Word2VecUtility.get_embedding()
-    model = models.Doc2Vec.load("models/w2v")
+    model = models.Word2Vec.load("models/w2v")
     #
-    # 2. Obtain train data embeddings 
-    num_features = 300
-    pos_w2vRNN_train = getReviewSequences(train_pos, model, num_features)
-    neg_w2vRNN_train = getReviewSequences(train_neg, model, num_features)
-    w2vRNN_train = list(np.append(pos_w2vRNN_train, neg_w2vRNN_train, axis=0))
+    # 2. get embedding weights
+    embedding_weights = np.array([model[w] for w in model.index2word])
+    embedding_weights = np.append(np.zeros((1, embedding_weights.shape[1])), embedding_weights, axis=0)
+    # 
+    # 3. get sentences
+    train_pos_sentences = corpus_to_list(train_pos)
+    train_neg_sentences = corpus_to_list(train_neg)
+    test_pos_sentences = corpus_to_list(test_pos)
+    test_neg_sentences = corpus_to_list(test_neg)
+    train_sentences = train_pos_sentences + train_neg_sentences
+    test_sentences = test_pos_sentences + test_neg_sentences
     #
-    # 3. Obtain test data embeddings
-    pos_w2vRNN_test = getReviewSequences(test_pos, model, num_features)
-    neg_w2vRNN_test = getReviewSequences(test_neg, model, num_features)
-    w2vRNN_test = list(np.append(pos_w2vRNN_test, neg_w2vRNN_test, axis=0))
-
-    return [w2vRNN_train, w2vRNN_test]
+    # 4. get dictionary with indices <-> words
+    vocab_dict = dict((v,k) for k,v in dict(enumerate(model.index2word)).items())
+    vocab_dict.update((x, y+1) for x, y in vocab_dict.items())
+    #
+    # 5. get dataset with word indices from reviews
+    w2vRNN_train = [[vocab_dict[k] for k in sentences if k in vocab_dict.keys()] for sentences in train_sentences]
+    w2vRNN_test = [[vocab_dict[k] for k in sentences if k in vocab_dict.keys()] for sentences in test_sentences]
+    return w2vRNN_train, w2vRNN_test, embedding_weights
 
     

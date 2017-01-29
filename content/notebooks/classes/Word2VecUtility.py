@@ -48,6 +48,7 @@ unsup = load_data('train/unsup/')
 # load tokenizer
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
+
 #######################
 #   Process Reviews   #
 #######################
@@ -155,6 +156,7 @@ def corpus_to_list( df, tokenizer ):
         sentences += to_append
     return sentences
 
+
 ######################
 #   Train Word2Vec   #
 ######################
@@ -179,6 +181,11 @@ def train():
     # 3. Save the model
     model.init_sims(replace=True)
     model.save("models/w2v")
+
+
+#####################
+#   Get Embedding   #
+#####################
         
 def get_embedding():
     #
@@ -188,7 +195,7 @@ def get_embedding():
     #   (If the model is not already saved, train the model)
     if not os.path.isfile('models/w2v'):
         train()
-    model = models.Doc2Vec.load("models/w2v")
+    model = models.Word2Vec.load("models/w2v")
     #
     # 2. Obtain train data embeddings 
     pos_w2v_train = getAvgFeatureVecs(train_pos, model, num_features)
