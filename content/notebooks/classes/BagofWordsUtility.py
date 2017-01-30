@@ -2,7 +2,6 @@ import os                                # accessing directory of files
 import pandas as pd                      # storing the data
 from bs4 import BeautifulSoup            # removing HTML tags
 import re                                # text processing with regular expressions
-from gensim.models import word2vec       # embedding algorithm
 import numpy as np                       # arrays and other mathy structures     
 from tqdm import tqdm                    # timing algorithms
 from gensim import models                # doc2vec implementation

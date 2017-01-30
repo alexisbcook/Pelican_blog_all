@@ -2,7 +2,6 @@ import os                                # accessing directory of files
 import pandas as pd                      # storing the data
 from bs4 import BeautifulSoup            # removing HTML tags
 import re                                # text processing with regular expressions
-from gensim.models import word2vec       # embedding algorithm
 import numpy as np                       # arrays and other mathy structures     
 from tqdm import tqdm                    # timing algorithms
 from gensim import models                # doc2vec implementation
@@ -174,7 +173,7 @@ def train():
     sentences = train_pos_sentences + train_neg_sentences + test_pos_sentences + test_neg_sentences + unsup_sentences
     #
     # 2. Initialize and train the model 
-    model = word2vec.Word2Vec(sentences, workers = num_workers, \
+    model = models.Word2Vec(sentences, workers = num_workers, \
                 size = num_features, min_count = min_word_count, \
                 window = context, sample = downsampling)
     #

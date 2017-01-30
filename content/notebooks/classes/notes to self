@@ -1,3 +1,4 @@
+COUNT vectorizer
 # ngram_range = (1,3)
 # 91.436 with 5168194 vocabulary + binary
 # 91.119 with 5168194 vocabulary + (FALSE binary)
@@ -11,3 +12,20 @@
 # 91.576 with 2500000 vocabulary + binary
 # 91.524 with 1500000 vocabulary + binary
 # 91.440 with 1000000 vocabulary + binary
+
+http://nlp.stanford.edu/pubs/sidaw12_simple_sentiment.pdf
+
+TFIDF
+# 88.34 89.52 (1,4), binary true,  no limit (10mil)
+# 88.97 90.11 (1,3), binary true,  no limit (10mil)
+# 89.48 90.60 (1,4), binary true,  2000000
+# 88.47 90.37 (1,4), binary false, 2000000
+# 88.90 90.00 (1,4), binary true,  6000000
+# 88.97 90.11 (1,3), binary true,  6000000
+# 89.47 90.59 (1,3), binary true,  2000000
+# 89.30 90.43 (1,3), binary true,  3000000
+# 89.71 90.79 (1,3), binary true,  1000000
+# 89.48 90.63 (1,2), binary true,  no limit
+# 89.76 90.93 (1,2), binary true,  500000
+# 90.02 90.60 (1,2), binary true,  100000
+# 90.08 90.33 (1,2), binary true,  50000

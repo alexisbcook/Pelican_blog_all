@@ -151,7 +151,6 @@ def get_embedding():
     #
     # 1. Load the saved model.
     #   (If the model is not already saved, train the model)
-    # load training dataset
     if not os.path.isfile('models/d2v'):
         train()
     model = models.Doc2Vec.load("models/d2v")
